@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>EasyRTC Demo: Audio Only</title>
+    <link rel="stylesheet" type="text/css" href="/audio/easyrtc/easyrtc.css" />
+ 
+    <!-- Assumes global locations for socket.io.js and easyrtc.js -->
+    <script src="/audio/socket.io/socket.io.js"></script>
+    <script type="text/javascript" src="/audio/easyrtc/easyrtc.js"></script>
+    <script type="text/javascript" src="/audio/demos/js/demo_audio_only.js"></script>
+    <script>
+      
+    </script>
+  </head>
+  <body>
+    <div id="container">
+        <div id="demoContainer">
+          <div id="connectControls">
+            <button id="connectButton" onclick="connect()">Connect</button>
+            <button id="hangupButton" disabled="disabled" onclick="hangup()">Hangup</button>
+            <div id="iam">Not yet connected...</div>
+            <br />
+            <strong>Connected users:</strong>
+            <div id="otherClients"></div>
+          </div>
+ 
+          <!-- Note... this demo should be updated to remove video references -->
+          <div id="videos">
+            <video id="callerAudio" autoplay="autoplay" playsinline="playsinline"></video>
+            <div id="acceptCallBox"> <!-- Should be initially hidden using CSS -->
+              <div id="acceptCallLabel"></div>
+              <button id="callAcceptButton" >Accept</button> <button id="callRejectButton">Reject</button>
+            </div>
+          </div>
+        </div>
+ 
+  </body>
+</html>
