@@ -1,4 +1,5 @@
 <?php
+require_once('../../fleo.at_1.0.0-config/connection.php');
 $filename = $_POST['fname'];
 if (isset($_POST["streamsNum"])) { $streamsNum = $_POST['streamsNum']; } else { $streamsNum = 1; }
 $inputText = "";

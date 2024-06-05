@@ -34,8 +34,8 @@ if (isset($_GET["client"])) {
 
 <div>
 <div>
-<div id="push2TalkRec" class="audioStationBuildControls" style="width:700px;height:200px;color:red;text-align:center;">Rec &#9673;</div>
-<div id="push2TalkRecUpload" class="audioStationBuildControls" style="width:700px;height:200px;text-align:center;color:white;text-shadow:none;background:red;display:none;">Stop & Upload</div>
+<div id="push2TalkRec" class="audioStationBuildControls" style="width:400px;height:200px;color:red;background:white;text-align:center;">Rec &#9673;</div>
+<div id="push2TalkRecUpload" class="audioStationBuildControls" style="width:360px;height:160px;text-align:center;color:red;text-shadow:none;background:white;border:20px solid red;display:none;">Stop & Upload</div>
 <!--<div id="push2Talk5s" class="audioStationBuildControls" style="width:50px;height:30px;color:black;float:left;margin-right:10px;">5s</div>
 <div id="push2Talk10s" class="audioStationBuildControls" style="width:50px;height:30px;color:black;float:left;margin-right:10px;">10s</div>-->
 <div id="push2TalkOwnMute" class="audioStationBuildControls" style="width:75px;height:30px;color:black;float:left;display:none;">mute</div>
@@ -44,9 +44,9 @@ if (isset($_GET["client"])) {
 </div>
 </div>
 
-<div style="float:left;width:700px;height:100px;">
+<div style="float:left;width:400px;height:200px;display:none;">
 <div id="audioRecTracks" style="float:left;">
-<div id="audioRecOthers" style="width:700px;height:100px;"></div>
+<div id="audioRecOthers" style="width:400px;height:100px;"></div>
 </div>
 </div>
 
@@ -55,7 +55,7 @@ if (isset($_GET["client"])) {
 <p><div class=""><label for="buildnameAS" class="form">Name </label><input type="text" class="form-control form" name="buildnameAS" id="buildnameAS" value="" style="max-width: 400px" readonly="readonly"></div></p>
 </div>
 
-<div style="width:700px;height:400px;">
+<div style="width:700px;height:400px;display:none;">
 <p><div><label for="buildhtml" class="form"></label>
 <textarea type="textarea" class="form-control form buildcode" name="buildhtml" id="buildhtmlAS"></textarea></div></p>
 </div>
