@@ -17,7 +17,7 @@ than you would configure "fleo.at-js/socketdata/index.js copy" database-settings
 
 than you would start index.js with "node index.js" and attempt to install it as a system service as can be found in fleo.at_1.0.0-extras/init
 
-certainly at some point you would configure the webserver as can be found in fleo.at_1.0.0-extras/server for the webserver nginx, for which you would create ssl-certificates, first
+certainly at some point you would configure the webserver as can be found in fleo.at_1.0.0-extras/server for the webserver nginx, for which you would create ssl-certificates
 
 you would configure the file fleo.at_1.0.0/fleo.at-audio/open-easyrtc/server_example/server.js and try it with "node server.js", maybe you would install something that is called turnserver as in coturn. Domains that are allowed to connect to the webrtc are to be adjusted.
 
