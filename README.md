@@ -3,6 +3,10 @@ Deepmonitor is bringing depth to the html
 
 Instructions will follow en details.
 
+I thought maybe a dozen of folks would like to work on that. You would want to make the floor straight
+
+![Screenshot fleo.at FelixLongolius-3D-Webseite](https://raw.githubusercontent.com/interbr/FelixLongolius-3D-Webseite/main/fleo.at_1.0.0/Screenshot_fleo.at_2023-08-07_112922.png)
+
 But first you would upload the files to a directory like /var/www/domain
 
 than you would configure template.configuration.php and remove the template --> to have configuration.php
