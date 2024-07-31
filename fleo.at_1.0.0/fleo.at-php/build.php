@@ -149,8 +149,8 @@ For questions or suggestions, please feel free to write to felix@t-cup.space .';
         $valid_extensions = array('jpeg', 'jpg', 'png'); // valid extensions
         $video_extensions = array('mp4', 'h264', 'avi', 'mkv', 'mpeg', 'mpg', 'mov', 'm4v', 'flv', '3gp', 'wmv', 'vob');
         $audio_extensions = array('mp3', 'aac', 'ac3', 'wav', 'wma', 'ogg', 'flac');
-        $path = $fleoPathAbs . '/fleo.at_1.0.0/fleo.at-medien/userImages/'; // upload directory
-        $savePath = '/var/www/uploadedFilesFleoat/'; // output directory
+        $path = $fleoPathAbs . '/fleo.at_1.0.0/fleo.at-medien/userImages/'; // output directory
+        $savePath = $fleoPathAbs . '/fleo.at_1.0.0/fleo.at-medien/uploadedFilesFleoat/'; // upload directory
         if($_FILES['userImage'])
         {
         
@@ -189,8 +189,8 @@ For questions or suggestions, please feel free to write to felix@t-cup.space .';
         $outWithPath = $path.$imageSaveTime.$imgFilename.$newFileNameBuild.'.'.$ext.'.webp';
         $outWithoutPath = $imageSaveTime.$imgFilename.$newFileNameBuild.'.'.$ext.'.webp';
     
-        exec($fleoPathAbs . 'fleo.at_1.0.0-extras/bin/cwebp -q 75 -alpha_q 10 '.$_FILES['userImage']['tmp_name'].' -o '.$outWithPath);
-
+        $cwebpResult = exec($fleoPathAbs . '/fleo.at_1.0.0-extras/bin/cwebp -q 75 -alpha_q 10 '.$_FILES['userImage']['tmp_name'].' -o '.$outWithPath.' 2>&1');
+          echo $cwebpResult;
         $buildhtml = '<img src="/fleo.at-medien/userImages/'.$outWithoutPath.'" alt="deepmonitor.image undescribed" />';
         $sendhtml=$buildhtml;
         $sendjavascript="";
@@ -227,7 +227,7 @@ For questions or suggestions, please feel free to write to felix@t-cup.space .';
         } else if ($ext == "gif") {
           $outWithPath = $path.$imageSaveTime.$imgFilename.$newFileNameBuild.'.'.$ext.'.webp';
           $outWithoutPath = $imageSaveTime.$imgFilename.$newFileNameBuild.'.'.$ext.'.webp';
-          exec($fleoPathAbs . 'fleo.at_1.0.0-extras/bin/gif2webp -q 50 '.$_FILES['userImage']['tmp_name'].' -o '.$outWithPath);
+          exec($fleoPathAbs . '/fleo.at_1.0.0-extras/bin/gif2webp -q 50 '.$_FILES['userImage']['tmp_name'].' -o '.$outWithPath);
           $buildhtml = '<img src="/fleo.at-medien/userImages/'.$outWithoutPath.'" alt="deepmonitor.gif undescribed" />';
           $sendhtml=$buildhtml;
           $sendjavascript="";

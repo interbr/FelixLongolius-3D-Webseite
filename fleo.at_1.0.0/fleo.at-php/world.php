@@ -39,7 +39,7 @@ $serverTime = time();
 
 $messageID = 1;
 
-echo "kitchen.fleo.at world", PHP_EOL;
+echo "popular.gb.fleo.at world", PHP_EOL;
 echo PHP_EOL;
 
 $allFragiles = array();

@@ -9,7 +9,7 @@ $headers = [
     'Content-Type: application/json', 
 ];
 if ($audioStationUrl !== "no audioStationUrl") {
-  $message = json_encode(array("audioStationUrl" => "https://kitchen.fleo.at" . $audioStationUrl));
+  $message = json_encode(array("audioStationUrl" => "https://popular.gb.fleo.at" . $audioStationUrl));
 
   $ch = curl_init();
   curl_setopt($ch, CURLOPT_URL, 'https://gb.weltfernsehsender.de/audio-receive/uploadSimpleRemote.php');

@@ -62,7 +62,7 @@ $root_path = '/var/www/fleo/usercontent';
 $root_url = 'usercontent';
 
 // Server hostname. Can set manually if wrong
-$http_host = 'worldwideweb.mr.kitchen.fleo.at';
+$http_host = 'worldwideweb.mr.popular.gb.fleo.at';
 
 // user specific directories
 // array('Username' => 'Directory path', 'Username2' => 'Directory path', ...)

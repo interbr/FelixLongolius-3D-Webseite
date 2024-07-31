@@ -49,7 +49,7 @@ $set_person = $fleo_pdo->prepare("SELECT `number`, `name`, `color`, `room`, `uW`
 $set_person_info = $fleo_pdo->prepare("SELECT `number`, `name`, `color`, `room`, `uW`, `uH`, `uD`, `turn`, `turnX`, `turnZ`, `conn`, `extra`, `extraContent`, `videoSize`, `audioSes`, `timestamp`, `TA`, `online`, `isAdmin`, `kindOfGuy` FROM `present` WHERE `active` = '1' AND `number` = '$self' AND (`online`=1 OR `online`=2) ORDER BY id ASC;");
 $set_active_fleo = $fleo_pdo->prepare("SELECT DISTINCT fleoNum FROM thefleos WHERE `online`=1");
 
-echo "kitchen.fleo.at presenceSystem", PHP_EOL;
+echo "popular.gb.fleo.at presenceSystem", PHP_EOL;
 echo PHP_EOL;
 
 $person_latest_old = 0;
