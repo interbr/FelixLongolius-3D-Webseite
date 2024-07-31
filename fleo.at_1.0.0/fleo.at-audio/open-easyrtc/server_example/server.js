@@ -29,8 +29,9 @@ var socketServer = socketIo.listen(webServer, {"log level":1});
 socketServer.origins(function(origin, callback) {
     if (origin && ![
     'https://audio.t-cup.space',
-	'https://kitchen.fleo.at',
+    'https://kitchen.fleo.at',
     'https://fleo.at',
+    'https://popular.gb.fleo.at',
         '*'
     ].includes(origin)) {
         return callback('origin not allowed', false);
