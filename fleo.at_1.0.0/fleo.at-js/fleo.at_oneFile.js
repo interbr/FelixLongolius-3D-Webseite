@@ -2,6 +2,8 @@
 
 var mainDomain = "popular.gb.fleo.at"
 var easyrtcWebsocketUrl = "https://homeaudio.fleo.at";
+var mainDomain = "in.fleo.at";
+var easyrtcWebsocketUrl = "https://audio.interlectual.org";
 
 var gTagId = "G-LGT8Q5VKEZ";
 var gTagWhatever = "AW-1013883561/cH7gCK-y84UYEKnFuuMD";
@@ -604,6 +606,7 @@ sendStuffWS = function(otherEasyrtcid) {
     easyrtc.initMediaSource(
         function(){
             easyrtc.setUsername((myNumber[0] + myNumber[2]).replace("#", ""));
+            easyrtc.setSocketUrl(easyrtcWebsocketUrl);
             easyrtc.setSocketUrl(easyrtcWebsocketUrl);
             easyrtc.connect("tCupSpace", loginSuccess, loginFailure);
         },
@@ -1269,6 +1272,7 @@ $("body").append('<div id="imprint" style="color:black;"><h1 style="background:#
 
 // $("#turnOnAdsByGoogle").click(function(){ $.getScript("https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3949661379670569"); $("#turnOnAdsByGoogle").css("background","lightgreen"); });
 
+if (gTagId !== "empty") {
 if (gTagId !== "empty") {
 
 $("#turnOnAnalytics").click(function(){
@@ -3195,7 +3199,7 @@ worldSrc.addEventListener('genesis', function (e) {
     $(".floor").remove();
 }
 
-    if (!$('[data-attr=' + worldNews.id + ']').length) {
+
 
         world2GeneratePortionAmount++;        
         if (worldNews.whatIsThis.includes("audStat")) {
@@ -3212,7 +3216,6 @@ worldSrc.addEventListener('genesis', function (e) {
         }
         world2GeneratePortionCountUp++
         oldDirectionMoveW[worldNews.id] == "x";
-    }
 
     $("#flash").removeClass("ff");
 }
@@ -3252,16 +3255,8 @@ worldSrc.addEventListener('genesis-complete', function (e) {
 
                 $("#flash").addClass("fff");
                 $("body").append('<div id="startUpMessages" style="position:fixed;height:100%;width:100%;background:#00800000;color:blue;font-weight:bold;font-size:30px;bottom:0;left:0;z-index:9999999;perspective-origin:top right;perspective:460px;"><div style="transform-origin:center;transform:scale(1) rotateX(-3deg) rotateY(-1.55deg);position:absolute;text-align:center;height:auto;padding:30px;width:320px;top:120px;right:0;cursor:pointer;background:#ffffff8f;border:20px solid blue;">Let\'s collect and manage memories.<br />We need one click to start sounds.<br />When someone calls you, the browser will first ask for mic and cam. You do not have to accept anything.<br />Willkommen!</div></div>');
-                    $("#startUpMessages").click(function(){ 
-                        $("#startUpMessages").fadeOut(500);
-                        setTimeout(function(){ haltEverything = 0; }, 500);
-                        if (!$("#maennikenBag-" + (myNumber[0] + myNumber[2]).replace("#", "")).find(".medal2").length) { 
-                            // console.log("here");
-        
-                            $("#goBuild").click();
-                        }  });
 
-                        for (var aaa = 0; aaa < iii.length; aaa++) {
+                /*        for (var aaa = 0; aaa < iii.length; aaa++) {
                             that = iii.item(aaa);
                             scaleNow = parseInt($(that).attr("distance"));
                             scaleNowNumber = scaleNow;
@@ -3270,7 +3265,7 @@ worldSrc.addEventListener('genesis-complete', function (e) {
                             $(that).find(".tree").animate({
                                 "left": "+=" + parseInt(historyCoords)
                             }, 0);
-                        }
+                        } */
                         
                 setTimeout(function(){ haltEverything = 0; }, 500);
 
