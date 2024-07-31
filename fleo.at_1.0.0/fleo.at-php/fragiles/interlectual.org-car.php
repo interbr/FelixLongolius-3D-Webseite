@@ -7,13 +7,13 @@ $meIam = random_int(1000000,2000000);
 $i = 0;
 $goBaby = 1;
 
-$get_fragile = $fleo_pdo->prepare("SELECT `whatIsThis`, `onOff`, `coordsW`, `coordsH`, `coordsD`, `isRobot`, `go`, `program`, `isOnline` FROM `room-home` WHERE `whatIsThis` = '1721482856imagepngff843c5d6d60677d6cb733a70e607aa5.png.webp';"); 
+$get_fragile = $fleo_pdo->prepare("SELECT `whatIsThis`, `onOff`, `coordsW`, `coordsH`, `coordsD`, `isRobot`, `go`, `program`, `isOnline` FROM `room-home` WHERE `whatIsThis` = '1721482274imagepng038fd5aeb362075ee5a6bdc8b304beb9.png.webp';"); 
 
 $get_fragile->execute(); 
 $row = $get_fragile->fetch();
 
 if ($row["isOnline"] == 1) {
-    $fleo_pdo->exec("UPDATE `room-home` SET `isOnline` = 3, `program` = '$meIam' WHERE `whatIsThis` = '1721482856imagepngff843c5d6d60677d6cb733a70e607aa5.png.webp';");
+    $fleo_pdo->exec("UPDATE `room-home` SET `isOnline` = 3, `program` = '$meIam' WHERE `whatIsThis` = '1721482274imagepng038fd5aeb362075ee5a6bdc8b304beb9.png.webp';");
 }
 
 sleep(5);
@@ -21,7 +21,7 @@ sleep(5);
 if (isset($_GET["carNewCoordsW"]) && isset($_GET["carNewCoordsD"])) {
     $carNewCoordsW = intval($_GET["carNewCoordsW"]);
     $carNewCoordsD = intval($_GET["carNewCoordsD"]);
-    $fleo_pdo->exec("UPDATE `room-home` SET `isOnline` = 1, `program` = '$meIam', `coordsW` = '$carNewCoordsW', `coordsD` =  '$carNewCoordsD' WHERE `whatIsThis` = '1721482856imagepngff843c5d6d60677d6cb733a70e607aa5.png.webp';");
+    $fleo_pdo->exec("UPDATE `room-home` SET `isOnline` = 1, `program` = '$meIam', `coordsW` = '$carNewCoordsW', `coordsD` =  '$carNewCoordsD' WHERE `whatIsThis` = '1721482274imagepng038fd5aeb362075ee5a6bdc8b304beb9.png.webp';");
 
 
 
@@ -38,7 +38,7 @@ if (isset($_GET["carNewCoordsW"]) && isset($_GET["carNewCoordsD"])) {
     
     while ($goBaby == 1) {
     
-    $get_fragile = $fleo_pdo->prepare("SELECT `whatIsThis`, `onOff`, `coordsW`, `coordsH`, `coordsD`, `isRobot`, `program`, `isOnline`, `minusPlusW` FROM `room-home` WHERE `whatIsThis` = '1721482856imagepngff843c5d6d60677d6cb733a70e607aa5.png.webp';"); 
+    $get_fragile = $fleo_pdo->prepare("SELECT `whatIsThis`, `onOff`, `coordsW`, `coordsH`, `coordsD`, `isRobot`, `program`, `isOnline`, `minusPlusW` FROM `room-home` WHERE `whatIsThis` = '1721482274imagepng038fd5aeb362075ee5a6bdc8b304beb9.png.webp';"); 
     $get_fragile->execute(); 
     $row = $get_fragile->fetch();
     $mpMoveW = $row["minusPlusW"];
@@ -77,13 +77,13 @@ if (isset($_GET["carNewCoordsW"]) && isset($_GET["carNewCoordsD"])) {
     
     if ($row["program"] == $meIam) {
 
-        $set_fragile_while = "UPDATE `room-home` SET `coordsW` = `coordsW` + '$moveFragileW', `coordsD` = `coordsD` + '$moveFragileD', `coordsH` = 0, `tick` = `tick` + 1, `minusPlusW` = '$mpMoveW', `mpChange` = '$mpChange' WHERE `whatIsThis` = '1721482856imagepngff843c5d6d60677d6cb733a70e607aa5.png.webp';"; 
+        $set_fragile_while = "UPDATE `room-home` SET `coordsW` = `coordsW` + '$moveFragileW', `coordsD` = `coordsD` + '$moveFragileD', `coordsH` = 0, `tick` = `tick` + 1, `minusPlusW` = '$mpMoveW', `mpChange` = '$mpChange' WHERE `whatIsThis` = '1721482274imagepng038fd5aeb362075ee5a6bdc8b304beb9.png.webp';"; 
      
         }
         /*    if ($FragileH > 20000 || $FragileH < -20000) { 
-                $set_fragile_while = "UPDATE $room SET `coordsW` = `coordsW` + '$moveFragileW', `coordsD` = `coordsD` + '$moveFragileD', `coordsH` = 10000, `tick` = `tick` + 1, `minusPlusW` = '$mpMoveW', `mpChange` = 0 WHERE `whatIsThis` = '1721482856imagepngff843c5d6d60677d6cb733a70e607aa5.png.webp' AND `program` = '$meIam';"; }
+                $set_fragile_while = "UPDATE $room SET `coordsW` = `coordsW` + '$moveFragileW', `coordsD` = `coordsD` + '$moveFragileD', `coordsH` = 10000, `tick` = `tick` + 1, `minusPlusW` = '$mpMoveW', `mpChange` = 0 WHERE `whatIsThis` = '1721482274imagepng038fd5aeb362075ee5a6bdc8b304beb9.png.webp' AND `program` = '$meIam';"; }
             if ($FragileD > 60 || $FragileD < -60) {
-                $set_fragile_while = "UPDATE $room SET `coordsW` = `coordsW` + '$moveFragileW', `coordsD` = 0, `coordsH` = `coordsH` + '$moveFragileH', `tick` = `tick` + 1, `minusPlusW` = '$mpMoveW', `mpChange` = 0 WHERE `whatIsThis` = '1721482856imagepngff843c5d6d60677d6cb733a70e607aa5.png.webp' AND `program` = '$meIam';"; }
+                $set_fragile_while = "UPDATE $room SET `coordsW` = `coordsW` + '$moveFragileW', `coordsD` = 0, `coordsH` = `coordsH` + '$moveFragileH', `tick` = `tick` + 1, `minusPlusW` = '$mpMoveW', `mpChange` = 0 WHERE `whatIsThis` = '1721482274imagepng038fd5aeb362075ee5a6bdc8b304beb9.png.webp' AND `program` = '$meIam';"; }
         */
         if (!$fleo_pdo->exec($set_fragile_while)) { echo "database error 1";  }
         

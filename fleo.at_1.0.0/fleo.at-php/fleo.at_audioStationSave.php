@@ -92,7 +92,7 @@ TIME: ' . $msg . '
 
 Felix Longolius
 
-For questions or suggestions, please feel free to write to felix@kitchen.fleo.at .';
+For questions or suggestions, please feel free to write to felix@popular.gb.fleo.at .';
 
 //Send the message, check for errors
 if(!$mail->Send()) {
