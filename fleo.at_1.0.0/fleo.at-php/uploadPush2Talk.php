@@ -16,7 +16,7 @@ for ($i = 0; $i < $streamsNum; $i++) {
     }
     $weights = "1";
     for ($i = 0; $i < ($streamsNum); $i++) { $weights .= " 1"; }
-    $output2 = shell_exec('/usr/bin/ffmpeg '.$inputText.' -filter_complex amix=inputs='.$streamsNum.':duration=longest:dropout_transition=0:weights="'.$weights.'":normalize=0 -vn -ar 48000 -ac 2 -b:a 192k ' . $fleoPathAbs . '/fleo.at_1.0.0/fleo.at-medien/audioStations/'.$filename.'.mp3');  //   2>&1
+    $output2 = shell_exec('/usr/bin/ffmpeg '.$inputText.' -filter_complex amix=inputs='.$streamsNum.':duration=longest:dropout_transition=0:weights="'.$weights.'" -vn -ar 48000 -ac 2 -b:a 192k ' . $fleoPathAbs . '/fleo.at_1.0.0/fleo.at-medien/audioStations/'.$filename.'.mp3');  //   2>&1
     // echo $output2;
     $lastAudio = '/fleo.at-medien/audioStations/'.$filename.'.mp3';
     echo $lastAudio;

@@ -1,7 +1,7 @@
 ///// fleo.at_variables.js
 
-var mainDomain = "kitchen.fleo.at"
-var easyrtcWebsocketUrl = "https://homeaudio.fleo.at";
+var mainDomain = "in.fleo.at";
+var easyrtcWebsocketUrl = "https://audio.interlectual.org";
 
 var gTagId = "G-LGT8Q5VKEZ";
 var gTagWhatever = "AW-1013883561/cH7gCK-y84UYEKnFuuMD";
@@ -604,7 +604,7 @@ sendStuffWS = function(otherEasyrtcid) {
     easyrtc.initMediaSource(
         function(){
             easyrtc.setUsername((myNumber[0] + myNumber[2]).replace("#", ""));
-            easyrtc.setSocketUrl(easyrtcSocketUrl);
+            easyrtc.setSocketUrl(easyrtcWebsocketUrl);
             easyrtc.connect("tCupSpace", loginSuccess, loginFailure);
         },
         function(errorCode, errmesg){
@@ -1269,7 +1269,7 @@ $("body").append('<div id="imprint" style="color:black;"><h1 style="background:#
 
 // $("#turnOnAdsByGoogle").click(function(){ $.getScript("https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3949661379670569"); $("#turnOnAdsByGoogle").css("background","lightgreen"); });
 
-if (googleAnalytics !== "empty") {
+if (gTagId !== "empty") {
 
 $("#turnOnAnalytics").click(function(){
     $.getScript("https://www.googletagmanager.com/gtag/js?id=" + gTagId, function(){
