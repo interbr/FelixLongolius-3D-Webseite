@@ -4,6 +4,7 @@ Deepmonitor is bringing depth to the html
 Maybe calm it down a little. It feels like I comment my software as such.
 
 You can stand with your smartphone in a virtual 2 x 180° space, and that makes a lot of sense, because this flattens it everything.
+But I did not mean to suck the smartphones into the space, it is propably more a desktop (or tablet) thing, currently. Maybe people offer anything for smartphone-users, soon, though I meant, I see a future for smartphones and a 2 x 180° space.
 
 Yes'n, images would follow with the front side the view as one next step, as I could script the persons to turn around, did not I?
 
