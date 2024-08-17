@@ -3,7 +3,7 @@ Deepmonitor is bringing depth to the html
 
 Maybe calm it down a little. It feels like I comment my software as such.
 
-Than: You are commonly not criminals. You might be lost sheep but this is dedicated to be supportive. Any spotlight on your activity will bring you back on track or alike.
+You might be lost sheep but this is dedicated to be supportive. Any spotlight on your activity will bring you back on track or alike.
 
 You can stand with your smartphone in a virtual 2 x 180° space, and that makes a lot of sense, because this flattens it everything.
 But I did not mean to suck the smartphones into the space, it is propably more a desktop (or tablet) thing, currently. Maybe people offer anything for smartphone-users, soon, though I meant, I see a future for smartphones and a 2 x 180° space.
@@ -34,6 +34,6 @@ the same with the init-script like for "socketdata". You have to adjust the init
 
 the "php-fpm"-version needs to be adjusted in the webserver-script. Maybe you have php8.1 or php8.3?
 
-at least two directoried need write permission. I would need "chmod 775 fleo.at-medien/audioStations fleo.at-medien/userImages" at least.
+at least two directories need write permission. I would need "chmod 775 fleo.at-medien/audioStations fleo.at-medien/userImages" at least.
 
 [popular.gb.fleo.at]
