@@ -1,6 +1,14 @@
 # FelixLongolius-3D-Webseite
 Deepmonitor is bringing depth to the html
 
+Maybe calm it down a little. It feels like I comment my software as such.
+
+You can stand with your smartphone in a virtual 2 x 180° space, and that makes a lot of sense, because this flattens it everything.
+
+Yes'n, images would follow with the front side the view as one next step, as I could script the persons to turn around, did not I?
+
+This approach is really easy, maybe you can make a standard from coords and doords, maybe ... coords and doords? What is y-axis than? I also bring up coords doords, I do not know, they are really not named hoords currently and the up and down movement is not much implemented. A little, only. Recently I came up with some kind of legs, that grow, if a person scrolls up on the own monitor.
+
 Instructions will follow en details.
 
 I thought maybe a dozen of folks would like to work on that. You would want to make the floor straight
