@@ -14,7 +14,7 @@ Instructions will follow en details.
 
 I thought maybe a dozen of folks would like to work on that. You would want to make the floor straight
 
-![Screenshot fleo.at FelixLongolius-3D-Webseite](https://raw.githubusercontent.com/interbr/FelixLongolius-3D-Webseite/main/fleo.at_1.0.0/Screenshot_fleo.at_2023-08-07_112922.png)
+![Screenshot fleo.at FelixLongolius-3D-Webseite](https://popular.gb.fleo.at/Screenshot_fleo.at_2023-08-07_112922.png)
 
 But first you would upload the files to a directory like /var/www/domain
 
@@ -36,4 +36,4 @@ the "php-fpm"-version needs to be adjusted in the webserver-script. Maybe you ha
 
 at least two directories need write permission. I would need "chmod 775 fleo.at-medien/audioStations fleo.at-medien/userImages" at least.
 
-[popular.gb.fleo.at]
+[popular.gb.fleo.at](https://popular.gb.fleo.at)
