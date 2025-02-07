@@ -178,21 +178,21 @@ For questions or suggestions, please feel free to write to felix@t-cup.space .';
         $allowedfileExtensions = array('jpeg', 'jpg', 'png', 'gif', 'mp4', 'h264', 'avi', 'mkv', 'mpeg', 'mpg', 'mov', 'm4v', 'flv', '3gp', 'wmv', 'vob', 'mp3', 'aac', 'ac3', 'wav', 'wma', 'ogg', 'flac', 'pdf','glb');
         if (in_array($fileExtension, $allowedfileExtensions)) {
           $dest_path = $savePath . $newFileName;
-          /* if(move_uploaded_file($_FILES['userImage']['tmp_name'], $dest_path))
+          if(move_uploaded_file($_FILES['userImage']['tmp_name'], $dest_path))
           {
             $message = 'File is successfully uploaded.';
           }
           else
           {
             $message = 'There was some error moving the file to upload directory.';
-          }*/
+          }
         }
         if (in_array($ext, $valid_extensions)) {
 
         $outWithPath = $path.$imageSaveTime.$imgFilename.$newFileNameBuild.'.'.$ext.'.webp';
         $outWithoutPath = $imageSaveTime.$imgFilename.$newFileNameBuild.'.'.$ext.'.webp';
     
-        $cwebpResult = exec($fleoPathAbs . '/fleo.at_1.0.0-extras/bin/cwebp -q 75 -alpha_q 10 '.$_FILES['userImage']['tmp_name'].' -o '.$outWithPath.' 2>&1');
+        $cwebpResult = exec($fleoPathAbs . '/fleo.at_1.0.0-extras/bin/cwebp -q 75 -alpha_q 10 '.$dest_path.' -o '.$outWithPath.' 2>&1');
           echo $cwebpResult;
         $buildhtml = '<img src="/fleo.at-medien/userImages/'.$outWithoutPath.'" alt="deepmonitor.image undescribed" />';
         $sendhtml=$buildhtml;
@@ -212,7 +212,7 @@ For questions or suggestions, please feel free to write to felix@t-cup.space .';
           $outWithoutPath = $imageSaveTime.$imgFilename.$newFileNameBuild.'.'.$ext.'.mp4';
           $outWithName = $imageSaveTime.$imgFilename;
 
-          $outputABC = shell_exec('/usr/bin/ffmpeg -i '.$_FILES['userImage']['tmp_name'].' -vcodec h264 -acodec aac -strict -2 '.$outWithPath); // .' 2>&1'
+          $outputABC = shell_exec('/usr/bin/ffmpeg -i '.$dest_path.' -vcodec h264 -acodec aac -strict -2 '.$outWithPath); // .' 2>&1'
           // echo $outputABC;
           $buildhtml = '<video class="audioStation" id="audStat-'.$imageSaveTime.$imgFilename.'" src="/fleo.at-medien/userImages/'.$outWithoutPath.'" style="position:absolute;left:230px;bottom:0;width:calc(100% - 230px);height:auto;pointer-events:auto;"></video><div id="audioStationAudioDiv-audStat-'.$imageSaveTime.$imgFilename.'" class="audioStationAudioDiv-audStat-'.$imageSaveTime.$imgFilename.'" style="width:140px;height:140px;border:16px solid #ffffff00;text-align:center;position:absolute;bottom:350px;left:24px;pointer-events:auto;"><div class="audioStationAudioPlay-audStat-'.$imageSaveTime.$imgFilename.'" style="cursor:pointer;"><img src="/fleo.at-js/push2Talk/fleoPlay.webp" style="position:absolute;top:0;left:0;width:100%;height:100%;" alt="fleo.Controls Play" /></div><div class="audioStationAudioStop-audStat-'.$imageSaveTime.$imgFilename.'" style="display:none;cursor:pointer;"><img src="/fleo.at-js/push2Talk/fleoStop.webp" style="position:absolute;top:0;left:0;width:100%;height:100%;" alt="fleo.Controls Stop" /></div></div><div id="audioStationText-audStat-'.$imageSaveTime.$imgFilename.'" style="font-weight:bold;pointer-events:auto;" contenteditable="true"></div><div id="letterCoinMillAudioStationTextLettercoin-1-audStat-'.$imageSaveTime.$imgFilename.'" style="position:absolute;margin:auto;display:flex;align-items:center;justify-content:center;bottom:0;height:56px;left:18px;width:56px;border:2px solid gray;border-radius:30px;overflow:hidden;padding:0px;font-size:56px;text-align:center;font-family:Courier,monospace;color:yellow;"></div><div id="letterCoinMillAudioStationTextLettercoin-2-audStat-'.$imageSaveTime.$imgFilename.'" style="position:absolute;margin:auto;display:flex;align-items:center;justify-content:center;bottom:0;height:56px;left:138px;width:56px;border:2px solid gray;border-radius:30px;overflow:hidden;padding:0px;font-size:56px;text-align:center;font-family:Courier,monospace;color:yellow;"></div><img src="/fleo.at-medien/audioStation_I.webp" style="width:216px;height:704px;pointer-events:none;" alt="audioStation" />';
           $sendhtml=$buildhtml;
@@ -230,7 +230,7 @@ For questions or suggestions, please feel free to write to felix@t-cup.space .';
         } else if ($ext == "gif") {
           $outWithPath = $path.$imageSaveTime.$imgFilename.$newFileNameBuild.'.'.$ext.'.webp';
           $outWithoutPath = $imageSaveTime.$imgFilename.$newFileNameBuild.'.'.$ext.'.webp';
-          exec($fleoPathAbs . '/fleo.at_1.0.0-extras/bin/gif2webp -q 50 '.$_FILES['userImage']['tmp_name'].' -o '.$outWithPath);
+          exec($fleoPathAbs . '/fleo.at_1.0.0-extras/bin/gif2webp -q 50 '.$dest_path.' -o '.$outWithPath);
           $buildhtml = '<img src="/fleo.at-medien/userImages/'.$outWithoutPath.'" alt="deepmonitor.gif undescribed" />';
           $sendhtml=$buildhtml;
           $sendjavascript="";
@@ -249,7 +249,7 @@ For questions or suggestions, please feel free to write to felix@t-cup.space .';
         } else if ($ext == "pdf") {
           $outWithPath = $path.$imageSaveTime.$imgFilename.$newFileNameBuild.'.pdf';
           $outWithoutPath = $imageSaveTime.$imgFilename.$newFileNameBuild.'.pdf';
-          exec('gs -sDEVICE=pdfwrite -dCompatibilityLevel=1.4 -dPDFSETTINGS=/ebook -dNOPAUSE -dQUIET -dBATCH -sOutputFile='.$outWithPath.' '.$_FILES['userImage']['tmp_name']);
+          exec('gs -sDEVICE=pdfwrite -dCompatibilityLevel=1.4 -dPDFSETTINGS=/ebook -dNOPAUSE -dQUIET -dBATCH -sOutputFile='.$outWithPath.' '.$dest_path);
           $buildhtml = '<object width="1400" height="2000" type="application/pdf" data="/fleo.at-medien/userImages/'.$outWithoutPath.'?#zoom=100&scrollbar=1&toolbar=0&navpanes=0"><p>Here we want to display a pdf what seemingly does not work with this browser.</p></object>';
           $sendhtml=$buildhtml;
           $sendjavascript="";
@@ -267,7 +267,7 @@ For questions or suggestions, please feel free to write to felix@t-cup.space .';
           $outWithPath = $path.$imageSaveTime.$imgFilename.'.'.$ext.'.mp4';
           $outWithoutPath = $imageSaveTime.$imgFilename.'.'.$ext.'.mp4';
           $outWithName = $imageSaveTime.$imgFilename;
-          $outputABC = shell_exec('/usr/bin/ffmpeg -i '.$_FILES['userImage']['tmp_name'].' -vcodec h264 -acodec aac -strict -2 '.$outWithPath); // .' 2>&1'
+          $outputABC = shell_exec('/usr/bin/ffmpeg -i '.$dest_path.' -vcodec h264 -acodec aac -strict -2 '.$outWithPath); // .' 2>&1'
           // echo $outputABC;
           $buildhtml = '<audio class="audioStation" id="audStat-'.$imageSaveTime.$imgFilename.'" src="/fleo.at-medien/userImages/'.$outWithoutPath.'"></audio><div id="audioStationAudioDiv-audStat-'.$imageSaveTime.$imgFilename.'" class="audioStationAudioDiv-audStat-'.$imageSaveTime.$imgFilename.'" style="width:140px;height:140px;border:16px solid #ffffff00;text-align:center;position:absolute;bottom:350px;left:24px;pointer-events:auto;"><div class="audioStationAudioPlay-audStat-'.$imageSaveTime.$imgFilename.'" style="cursor:pointer;"><img src="/fleo.at-js/push2Talk/fleoPlay.webp" style="position:absolute;top:0;left:0;width:100%;height:100%;" alt="fleo.Controls Play" /></div><div class="audioStationAudioStop-audStat-'.$imageSaveTime.$imgFilename.'" style="display:none;cursor:pointer;"><img src="/fleo.at-js/push2Talk/fleoStop.webp" style="position:absolute;top:0;left:0;width:100%;height:100%;" alt="fleo.Controls Stop" /></div></div><div id="audioStationText-audStat-'.$imageSaveTime.$imgFilename.'" style="font-weight:bold;pointer-events:auto;" contenteditable="true"></div><div id="letterCoinMillAudioStationTextLettercoin-1-audStat-'.$imageSaveTime.$imgFilename.'" style="position:absolute;margin:auto;display:flex;align-items:center;justify-content:center;bottom:0;height:56px;left:18px;width:56px;border:2px solid gray;border-radius:30px;overflow:hidden;padding:0px;font-size:56px;text-align:center;font-family:Courier,monospace;color:yellow;"></div><div id="letterCoinMillAudioStationTextLettercoin-2-audStat-'.$imageSaveTime.$imgFilename.'" style="position:absolute;margin:auto;display:flex;align-items:center;justify-content:center;bottom:0;height:56px;left:138px;width:56px;border:2px solid gray;border-radius:30px;overflow:hidden;padding:0px;font-size:56px;text-align:center;font-family:Courier,monospace;color:yellow;"></div><img src="/fleo.at-medien/audioStation_I.webp" style="width:216px;height:704px;pointer-events:none;" alt="audioStation" />';
           $sendhtml=$buildhtml;
