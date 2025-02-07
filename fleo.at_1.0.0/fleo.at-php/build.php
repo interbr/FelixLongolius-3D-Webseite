@@ -131,24 +131,24 @@ For questions or suggestions, please feel free to write to felix@t-cup.space .';
 
         if (isset($_POST['coordsW'])) { 
           $buildcoords = (intval($_POST["coordsW"]) * -1) + 500; } else { $buildcoords = '0'; }
-        if (intval($_POST["coordsW"]) > 0 && intval($_POST["coordsW"]) < 10000 && intval($_POST["coordsD"]) > -4500 && intval($_POST["coordsD"]) < 4500 && $room == "room-home") {
-          $buildcoords = -3950;
-        } 
+        // if (intval($_POST["coordsW"]) > 0 && intval($_POST["coordsW"]) < 10000 && intval($_POST["coordsD"]) > -4500 && intval($_POST["coordsD"]) < 4500 && $room == "room-home") {
+        //  $buildcoords = -3950;
+        //} 
 
 
         if (isset($_POST['coordsD'])) { 
           
           $builddoords = (intval($_POST["coordsD"]) * -1) + 3000; } else { $builddoords = '0'; } 
-          if (intval($_POST["coordsW"]) > 0 && intval($_POST["coordsW"]) < 10000 && intval($_POST["coordsD"]) > -4500 && intval($_POST["coordsD"]) < 4500 && $room == "room-home") {
-            $builddoords = 100;
-            $goGabelstapler = 1;
-          } 
+        //  if (intval($_POST["coordsW"]) > 0 && intval($_POST["coordsW"]) < 10000 && intval($_POST["coordsD"]) > -4500 && intval($_POST["coordsD"]) < 4500 && $room == "room-home") {
+         //    $builddoords = 100;
+          //   $goGabelstapler = 1;
+          // } 
 
         if (isset($_POST['fleoNum'])) { $buildauthor = $_POST["fleoNum"]; } else { $buildauthor = 'anonymous'; }
 
         ////////////////////////////
         ////////////////////////////
-        $valid_extensions = array('jpeg', 'jpg', 'png'); // valid extensions
+        $valid_extensions = array('jpeg', 'jpg', 'png', 'tiff'); // valid extensions
         $video_extensions = array('mp4', 'h264', 'avi', 'mkv', 'mpeg', 'mpg', 'mov', 'm4v', 'flv', '3gp', 'wmv', 'vob');
         $audio_extensions = array('mp3', 'aac', 'ac3', 'wav', 'wma', 'ogg', 'flac');
         $threeDModel = array('glb');

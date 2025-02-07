@@ -2756,10 +2756,10 @@ const updatePosition = (currentX, currentY) => {
     const deltaY = (currentY - centerY);
     deltaXStore += deltaX;
     deltaYStore += deltaY;
-    if (deltaXStore >= 85) { deltaXStore = 85; };
-    if (deltaXStore <= -85) { deltaXStore = -85; };
-    if (deltaYStore >= 85) { deltaYStore = 85; };
-    if (deltaYStore <= -85) { deltaYStore = -85; };    
+    if (deltaXStore >= 120) { deltaXStore = 120; };
+    if (deltaXStore <= -120) { deltaXStore = -120; };
+    if (deltaYStore >= 120) { deltaYStore = 120; };
+    if (deltaYStore <= -120) { deltaYStore = -120; };    
 
     trackingDiv.style.left = `${currentX - trackingDivContainer.getBoundingClientRect().left}px`;
     trackingDiv.style.top = `${currentY - trackingDivContainer.getBoundingClientRect().top}px`;

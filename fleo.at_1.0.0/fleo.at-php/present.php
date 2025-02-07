@@ -13,6 +13,23 @@ require('../../fleo.at_1.0.0-config/connection.php');
 $fleoip = $_SERVER['REMOTE_ADDR'];
 $domain = $_SERVER['HTTP_REFERER'];
 
+require('../../fleo.at_1.0.0-extras/worldmap/autoload.php');
+use GeoIp2\Database\Reader;
+$reader = new Reader("../../fleo.at_1.0.0-extras/worldmap/GeoLite2-City.mmdb");
+
+if (isset($_GET['mobile'])) { $presenceRate = 250000; } else { $presenceRate = 125000; }
+
+$ip = $fleoip;
+if(isset($_SERVER['HTTP_REFERER'])) { $entryPoint = $_SERVER['HTTP_REFERER']; } else { $entryPoint = "direct (no referrer)"; }
+$record = $reader->city($ip);
+$country = $record->country->name;
+$state = $record->mostSpecificSubdivision->name;
+$city = $record->city->name;
+$la = $record->location->latitude;
+$lo = $record->location->longitude;
+$hostname = gethostbyaddr($ip);
+
+
 function hexToRgb($hex, $alpha = false)
   {
     $hex      = str_replace('#', '', $hex);
@@ -81,6 +98,7 @@ NAME: ' .  $name . ' with NUMBER: ' . $number . '
 Coords: ' . $startW . ' || Doords: ' . $startD / 3 . '
 Domain: ' . $domain . ' || IP: ' . $fleoip . ' (' . gethostbyaddr($fleoip) . ') 
 Browser: ' . $_SERVER['HTTP_USER_AGENT'] . '
+Country etc.: '.$country.' | '.$state.' | '.$city.' | '.$la.' | '.$lo.' | '.$entryPoint.' | '.date('l jS \of F Y H:i:s') . '
 went LOGIN
 
 TIME: ' . $msg . '
@@ -143,6 +161,7 @@ NAME: ' .  $name . ' with NUMBER: ' . $number . '
 Coords: ' . $startW . ' || Doords: ' . $startD / 3 . '
 Domain: ' . $domain . ' || IP: ' . $fleoip . ' (' . gethostbyaddr($fleoip) . ') 
 Browser: ' . $_SERVER['HTTP_USER_AGENT'] . '
+Country etc.: '.$country.' | '.$state.' | '.$city.' | '.$la.' | '.$lo.' | '.$entryPoint.' | '.date('l jS \of F Y H:i:s') . '
 changed NAME
 
 TIME: ' . $msg . '
@@ -212,6 +231,7 @@ NAME: ' .  $name . ' with NUMBER: ' . $number . '
 Coords: ' . $startW . ' || Doords: ' . $startD / 3 . '
 Domain: ' . $domain . ' || IP: ' . $fleoip . ' (' . gethostbyaddr($fleoip) . ') 
 Browser: ' . $_SERVER['HTTP_USER_AGENT'] . '
+Country etc.: '.$country.' | '.$state.' | '.$city.' | '.$la.' | '.$lo.' | '.$entryPoint.' | '.date('l jS \of F Y H:i:s') . '
 went REVOIR
 
 TIME: ' . $msg . '
