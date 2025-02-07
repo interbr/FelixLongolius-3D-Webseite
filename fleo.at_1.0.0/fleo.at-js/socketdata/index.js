@@ -17,7 +17,7 @@ var con = mysql.createConnection({
   var setPerson, setActiveFleo;
   personDataTimestamp = [];
   personDataActiveTimestamp = [];
-  clientID = [];
+  var clientID = [];
   
   wss.on('connection', (ws, req) => {
   clientID[ws] = "empty";
@@ -58,10 +58,7 @@ var con = mysql.createConnection({
   
   function startInterval(){
   
-    setPerson = "SELECT `number`, `name`, `color`, `room`, `uW`, `uH`, `uD`, `turn`, `turnX`, `turnZ`, `QuatX`, `QuatY`, `QuatZ`, `QuatW`, `duration`, `conn`, `extra`, `extraContent`, `videoSize`, `audioSes`, `timestamp`, `TA`, `online`, `isAdmin`, `kindOfGuy` FROM `present` WHERE `active` = '1' AND (`online`=1 OR `online`=2) ORDER BY id ASC;";
-    
-    
-setTimeout(function(){
+    setPerson = "SELECT `number`, `name`, `color`, `room`, `uW`, `uH`, `uD`, `turn`, `duration`, `conn`, `extra`, `extraContent`, `videoSize`, `audioSes`, `timestamp`, `TA`, `online`, `isAdmin`, `kindOfGuy` FROM `present` WHERE `active` = '1' AND (`online`=1 OR `online`=2) ORDER BY id ASC;";
 
 con.query(setPerson, function(err, results){
 if (err) throw err;
@@ -72,8 +69,6 @@ client.send(JSON.stringify({type:"person_moves", data: results[i]}));
 });
 }
 });
-
-}, 5000);
 
   setInterval(() => {
   

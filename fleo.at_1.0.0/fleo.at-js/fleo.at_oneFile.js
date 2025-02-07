@@ -775,24 +775,6 @@ setTimeout(function(){ getThingsStraight(); }, 2000);
 var mySpotterMapLatitude, mySpotterMapLongitude, mySpotterMapLocationX, mySpotterMapLocationY, mapIsWorld = 0;
 var hp = 0;
 
-setTimeout(function () {
-    $("#mapForLocator").append('<div id="maennikenSpotter-Own" class="maennikenSpotter" style="pointer-events:none;background:' + myNumber[2] + ';width:6px;height:6px;border:2px solid black;"></div>');
-    // $("#mapForLocatorEurope").append('<div id="maennikenSpotterEurope-Own" class="maennikenSpotterEurope" style="pointer-events:none;background:' + myNumber[2] + ';width:2px;height:2px;border:1px solid black;"></div>');
-    $("#mapForLocator").show();
-    // $("#mapForLocatorEurope").show();
-    if (Device_Type() !== "Mobile" && Device_Type() !== "Tablet") {
-        $("#mapBody2").css("transform", "rotateX(34deg) scale(1)");
-        $("#mapBody").css({
-            "transform": "scale(1);"
-        });
-    } else {
-        $("#mapBody2").css("transform", "rotateX(34deg) scale(1)");
-        $("#mapBody").css({
-            "transform": "scale(1);"
-        });
-    }
-}, 500);
-
 function changeVolumeMeMoving(otherPersonCode){
         if ($(".maennikenConferenceHangup-" + otherPersonCode).is(":visible")) {
             if (Math.abs(parseInt($("#personCode-" + otherPersonCode).find(".tree").css("left")) - 800) > Math.abs(parseInt($("#personCode-" + otherPersonCode).attr("distance")))) {
@@ -985,10 +967,10 @@ $("body").append('<div id="mapBody"><div id="mapBody2"></div></div><div id="hand
 // Start Timeout
 
 setTimeout(function(){
-    $(".handleCloseMap").click();
+    // $(".handleCloseMap").click();
     $("#menuOnOff").click();
     $("#switchControl").click();
-}, 5500);
+}, 2500);
 
 $("#mapBody2").append('<div id="mapForLocator" style="width:720px;height:360px;overflow:visible;position:fixed;z-index:7050;pointer-events:none;display:none;"><div id="mapForLocatorClickDivs" class="locClickHover" style="width:720px;height:360px;position:absolute;z-index:0;pointer-events:auto;"></div><img src="/fleo.at-medien/layout/cockpit/mapForLocator.png" style="position:absolute;opacity:.35;pointer-evnts:none;z-index:-1;" alt="deepmonitor.image locator.Map" /></div>');
 
@@ -2756,8 +2738,8 @@ const updatePosition = (currentX, currentY) => {
     const deltaY = (currentY - centerY);
     deltaXStore += deltaX;
     deltaYStore += deltaY;
-    if (deltaXStore >= 120) { deltaXStore = 150; };
-    if (deltaXStore <= -120) { deltaXStore = -150; };
+    if (deltaXStore >= 120) { deltaXStore = 200; };
+    if (deltaXStore <= -120) { deltaXStore = -200; };
     if (deltaYStore >= 120) { deltaYStore = 150; };
     if (deltaYStore <= -120) { deltaYStore = -150; };    
 
@@ -4484,6 +4466,26 @@ var locateHorizontal, locateVertical, bottomLocate, leftLocate;
             )
             spacebarText = 0; 
             myNumber[3] = "known";
+                $("#mapForLocator").append('<div id="maennikenSpotter-Own" class="maennikenSpotter" style="pointer-events:none;background:' + myNumber[2] + ';width:6px;height:6px;border:2px solid black;"></div>');
+                // $("#mapForLocatorEurope").append('<div id="maennikenSpotterEurope-Own" class="maennikenSpotterEurope" style="pointer-events:none;background:' + myNumber[2] + ';width:2px;height:2px;border:1px solid black;"></div>');
+                $("#mapForLocator").show();
+                // $("#mapForLocatorEurope").show();
+                if (Device_Type() !== "Mobile" && Device_Type() !== "Tablet") {
+                    $("#mapBody2").css("transform", "rotateX(34deg) scale(1)");
+                    $("#mapBody").css({
+                        "transform": "scale(1);"
+                    });
+                } else {
+                    $("#mapBody2").css("transform", "rotateX(34deg) scale(1)");
+                    $("#mapBody").css({
+                        "transform": "scale(1);"
+                    });
+                }
+                mySpotterMapLatitude = Math.trunc(parseInt(historyCoords) / 1000) * -1;
+                mySpotterMapLongitude = (parseInt(sMMssM) * -1) / 300;
+                mySpotterMapLocationX = ((mySpotterMapLatitude / 360) + 0.5) * 720;
+                mySpotterMapLocationY = (1 - ((mySpotterMapLongitude / 180) + 0.5)) * 360;
+                $("#maennikenSpotter-Own").css({"top": mySpotterMapLocationY - 5 + "px", "left": mySpotterMapLocationX - 5 + "px"});
             $("#flash").removeClass("f");
             connectWorld();
             socketDataConnect();
@@ -5729,29 +5731,6 @@ function postMovement(action) {
         });
 }, 1500); */
 
-$("#wrapper").arrive("[data-attr='209']", function(){
-doLettercoinPayments(209, "audStat1010789611");
-});
-
-var onScreenObserver = [];
-let observerOptions = {
-    root: document.querySelector('#wrapper'),
-    rootMargin: '0px',
-    threshold: 0
-  }
-  
-function setMedalsCorrect(person) {
-        $("#maennikenBag-" + person).css({"left": 82 - parseInt(($("#maennikenBag-" + person).width() / 2)) + "px","bottom": 90 - parseInt(($("#maennikenBag-" + person).height() / 2)) + "px"});
-}
-
-$("#wrapper").arrive(".person", function(){
-
-let toObserve = $(this).find(".tree").attr("id").replace("personTree-","");
-onScreenObserver[toObserve] = new IntersectionObserver(function(){ setMedalsCorrect(toObserve) }, observerOptions);
-onScreenObserver[toObserve].observe($("#personTree-" + toObserve)[0]);
-
-});
-
 const canWakeLock = () => 'wakeLock' in navigator;
 
 let wakelock;
@@ -5769,10 +5748,139 @@ async function lockWakeState() {
 }
 lockWakeState();
 
+var onScreenObserver = [];
+let observerOptions = {
+    root: document.querySelector('#wrapper'),
+    rootMargin: '0px',
+    threshold: 0
+  }
+  
+function setMedalsCorrect(person) {
+        $("#maennikenBag-" + person).css({"left": 82 - parseInt(($("#maennikenBag-" + person).width() / 2)) + "px","bottom": 90 - parseInt(($("#maennikenBag-" + person).height() / 2)) + "px"});
+}
 
 var personDataComplete, personData;
 
+function createMaenniken(personData) {
+        
+        persConn[personData.number] = 0;
+        distanceSentOnce[personData.number] = 0;
+        kindOfGuyOld[personData.number] = 0;
+        kindfOfGuyFunctionBuilt[personData.number] = 0;
+        personDataNameOld[personData.number] = 0;
+        
+        if (fleoPersonsTotal.indexOf(personData.number) === -1) { 
+            fleoPersonsTotal.push(personData.number);
+            fleoPersonsDistance[personData.number] = 0; }
+
+        if (am == "f") {
+            
+             $("#wrapper").append('<div id="personCode-' + personData.number + '" class="move person scale' + personData.uD + '" distance="' + personData.uD + '" room="' + personData.room + '">' +
+                '<div class="tree" style="pointer-events:none;width:180px;height:373px;bottom:0px;left:' + personData.uW + 'px;" id="personTree-' + personData.number + '">' +
+                '<div id="maennikenRutsch-' + personData.number + '" style="width:180px;height:303px;position:absolute;pointer-events:auto;"><div id="maennikenConferenceOffline-' + personData.number + '" class="maennikenConferenceOffline-' + personData.number + '" style="width:84px;height:84px;border-radius:42px;background:gray;position:absolute;top:-84px;left:48px;pointer-events:auto;cursor:pointer;color:white;text-align:center;font-size:54px;">&#9742;</div>' +
+                '<div id="maennikenConferenceCall-' + personData.number + '" class="maennikenConferenceCall-' + personData.number + '" style="width:84px;height:84px;border-radius:42px;background:green;position:absolute;top:-84px;left:48px;pointer-events:auto;cursor:pointer;display:none;color:white;text-align:center;font-size:54px;">&#9742;</div>' +
+                '<div id="maennikenConferenceHangup-' + personData.number + '" class="maennikenConferenceHangup-' + personData.number + '" style="width:84px;height:84px;border-radius:42px;background:red;position:absolute;top:-84px;left:48px;pointer-events:auto;cursor:pointer;display:none;color:white;text-align:center;font-size:54px;">&#9742;</div>' +
+                '<div id="maennikenText-' + personData.number +
+                '" style="font-weight:bold;pointer-events:auto;cursor:pointer;" class="maennikenTextWorld">' + personData.name + '</div>' +
+                '<img src="/fleo.at-medien/persons/maenniken_III.webp" style="width:180px;height:373px;pointer-events:none;" id="maennikenImg-' + personData.number + '" alt="Person" /><div id="maennikenLegs-' + personData.number + '" style="background:gray;width:80px;left:50px;position:absolute;bottom:0;height:0;"><div style="background:black;width:4px;position:relative;left:38px;bottom:0;height:100%;"></div></div></div>' +
+                '<div class="videoMaenniken" id="videoMaenniken-' + personData.number + '"   style="pointer-events:auto;position:absolute;bottom:0px;left:0;width:auto;height:auto;"><img style="width:auto;min-width:320px;height:auto;position:absolute;bottom:0;left:180px;" class="heyImVisitorVideoImg-' + personData.number + '" id="heyImVisitorVideoImg-' + personData.number + '" src="/fleo.at-medien/userImages/1673454489grafikpn292287266111.png.webp" /></div>' + 
+                '</div>');
+                $("#personCode-" + personData.number).animate({"left": turn + "px"},0);
+        }
+        if (am == "b") {
+            $("#wrapper").append('<div id="personCode-' + personData.number + '" class="move person scale' + personData.uD + '" distance="' + personData.uD + '" room="' + personData.room + '">' +
+                '<div class="tree" style="pointer-events:none;width:180px;height:373px;bottom:0px;left:' + personData.uW + 'px;perspective:9000px;transform:rotateY(' + personData.turn + 180 + 'deg);" id="personTree-' + personData.number + '">' +
+                '<div id="maennikenRutsch-' + personData.number + '" style="width:180px;height:303px;position:absolute;pointer-events:auto;"><div id="maennikenConferenceOffline-' + personData.number + '" class="maennikenConferenceOffline-' + personData.number + '" style="width:84px;height:84px;border-radius:42px;background:gray;position:absolute;top:-84px;left:48px;pointer-events:auto;cursor:pointer;color:white;text-align:center;font-size:54px;">&#9742;</div>' +
+                '<div id="maennikenConferenceCall-' + personData.number + '" class="maennikenConferenceCall-' + personData.number + '" style="width:84px;height:84px;border-radius:42px;background:green;position:absolute;top:-84px;left:48px;pointer-events:auto;cursor:pointer;display:none;color:white;text-align:center;font-size:54px;">&#9742;</div>' +
+                '<div id="maennikenConferenceHangup-' + personData.number + '" class="maennikenConferenceHangup-' + personData.number + '" style="width:84px;height:84px;border-radius:42px;background:red;position:absolute;top:-84px;left:48px;pointer-events:auto;cursor:pointer;display:none;color:white;text-align:center;font-size:54px;">&#9742;</div>' +
+                '<div id="maennikenText-' + personData.number +
+                '" style="font-weight:bold;pointer-events:auto;cursor:pointer;" class="maennikenTextWorld">' + personData.name + '</div>' +
+                '<img src="/fleo.at-medien/persons/maenniken_III.webp" style="width:180px;height:373px;pointer-events:none;" id="maennikenImg-' + personData.number + '" alt="Person" /><div id="maennikenLegs-' + personData.number + '" style="background:gray;width:80px;left:50px;position:absolute;bottom:0;height:0;"><div style="background:black;width:4px;position:relative;left:38px;bottom:0;height:100%;"></div></div></div>' +
+                '<div class="videoMaenniken" id="videoMaenniken-' + personData.number + '"   style="pointer-events:auto;position:absolute;bottom:0px;left:0;width:auto;height:auto;"><img style="width:auto;min-width:320px;height:auto;position:absolute;bottom:0;left:180px;" class="heyImVisitorVideoImg-' + personData.number + '" id="heyImVisitorVideoImg-' + personData.number + '" src="/fleo.at-medien/userImages/1673454489grafikpn292287266111.png.webp" /></div></div>');
+                $("#personCode-" + personData.number).animate({"left": turn + "px"},0);
+        }
+        setTimeout(function(){
+        scaleNow = $("#personCode-" + personData.number).attr("distance");
+        scaleNowNumber = scaleNow - sMMssM;
+        $("#personCode-" + personData.number).toggleClass("scale" + scaleNow).toggleClass("scale" + scaleNowNumber);
+        $("#personCode-" + personData.number).attr("distance", scaleNowNumber);
+        $("#personCode-" + personData.number).find(".tree").animate({
+            "left": "-=" + historyCoords
+        }, 800);
+        }, 500);
+
+        $("#maennikenWall").append('<div class="videoWallMan videoWallMan-' + personData.number + ' videoWallManSmall" id="videoWallMan-' + personData.number + '" style="max-width:240px;float:left;height:auto;pointer-events:auto;display:inline-block;" room="' + personData.room + '">' +
+        '<div class="maennikenConferenceOffline-' + personData.number + '" style="width:100%;height:84px;border-radius:0px;background:gray;color:white;position:relative;pointer-events:auto;cursor:pointer;z-index:50000;text-align:center;font-size:54px;">&#9742;</div>' +
+        '<div class="maennikenConferenceCall-' + personData.number + '" style="width:100%;height:84px;border-radius:0px;background:green;color:white;position:relative;pointer-events:auto;cursor:pointer;display:none;z-index:50000;text-align:center;font-size:54px;">&#9742;</div>' +
+        '<div class="maennikenConferenceVolume-' + personData.number + '" style="width:100%;height:84px;border-radius:0px;position:relative;pointer-events:auto;cursor:pointer;display:none;z-index:50000;"></div>' +
+        '<div class="maennikenConferenceHangup-' + personData.number + ' endCallHangUp" style="width:100%;height:84px;border-radius:0px;background:red;color:white;position:relative;pointer-events:auto;cursor:pointer;display:none;z-index:50000;text-align:center;font-size:54px;">&#9742;</div>' +
+        '<div id="maennikenTextWall-' + personData.number + '" class="maennikenTextWall maennikenTextWall-' + personData.number + '" style="font-weight:bold;cursor:pointer;background:white;width:100%;">' + personData.name + '</div><div class="videoMaenniken" style="position:relative;"><div class="heyImVisitor-' + personData.number + ' videoScaleMaenniken" style="position:relative;pointer-events:auto;cursor:pointer;"><img style="width:100%;height:auto;pointer-events:auto;cursor:pointer;" class="heyImVisitorVideoImg-' + personData.number + '" id="heyImVisitorVideoImgWall-' + personData.number + '" src="/fleo.at-medien/userImages/1673454489grafikpn292287266111.png.webp" alt="' + personData.number + '-wallVideo"></div></div>');
+    
+
+        $(document).on("click", "#maennikenText-" + personData.number, function(){ 
+            if ($(".videoWallMan-" + personData.number).is("[data-audioses]") && audioConferenceConnected == 1) { 
+                openChat($(".videoWallMan-" + personData.number).attr("data-audioses")); 
+            } else if (!$(".videoWallMan-" + personData.number).is("[data-audioses]")) { 
+                $("#walkAroundWithVideo").click();
+                $.post("/fleo.at-php/fleo.at_setOfflineOnline.php", { doing: 1, fleoNumOwn: (myNumber[0] + myNumber[2]).replace("#", ""), fleoNumDistant: personData.number }); 
+                let checkChat = setInterval(function (){ 
+                    if ($(".videoWallMan-" + personData.number).is("[data-audioses]") && audioConferenceConnected == 1) { clearInterval(checkChat); openChat($(".videoWallMan-" + personData.number).attr("data-audioses")); } 
+                }, 2000); 
+            } else { alert("Person not connected to A/V"); }
+            fleoNumDistant = personData.number;
+            });
+        
+        $(document).on("click", "#maennikenTextWall-" + personData.number, function(){ 
+            if ($(".videoWallMan-" + personData.number).is("[data-audioses]") && audioConferenceConnected == 1) { 
+                openChat($(".videoWallMan-" + personData.number).attr("data-audioses")); 
+            } else if (!$(".videoWallMan-" + personData.number).is("[data-audioses]")) { 
+                $("#walkAroundWithVideo").click();
+                $.post("/fleo.at-php/fleo.at_setOfflineOnline.php", { doing: 1, fleoNumOwn: (myNumber[0] + myNumber[2]).replace("#", ""), fleoNumDistant: personData.number }); 
+                let checkChat = setInterval(function (){ 
+                    if ($(".videoWallMan-" + personData.number).is("[data-audioses]") && audioConferenceConnected == 1) { clearInterval(checkChat); openChat($(".videoWallMan-" + personData.number).attr("data-audioses")); } 
+                }, 2000); 
+            } else { alert("Person not connected to A/V"); }
+            fleoNumDistant = personData.number;
+            });
+
+        $(document).on("click", ".maennikenConferenceOffline-" + personData.number, function(){
+                if (audioConferenceConnected !== 1) { $("#walkAroundWithVideo").click(); }
+                $.post("/fleo.at-php/fleo.at_setOfflineOnline.php", { doing: 1, fleoNumOwn: (myNumber[0] + myNumber[2]).replace("#", ""), fleoNumDistant: personData.number }); 
+                let checkCall = setInterval(function (){ 
+                    if ($(".videoWallMan-" + personData.number).is("[data-audioses]") && audioConferenceConnected == 1) { clearInterval(checkCall); callRoom(personData.number);
+                    } 
+                }, 2000); 
+            });
+
+        $(document).on("click", ".maennikenConferenceCall-" + personData.number, function(){ 
+            if ($(".videoWallMan-" + personData.number).is("[data-audioses]")) { 
+            if (audioConferenceConnected == 1) { callRoom(personData.number);
+            } else { 
+                $("#walkAroundWithVideo").click();
+                let checkCall = setInterval(function (){ 
+                    if (audioConferenceConnected == 1) { clearInterval(checkCall); callRoom(personData.number); 
+                    } 
+                }, 2000); 
+             }} else { alert("Person not connected to A/V"); }});
+        $(document).on("click", ".maennikenConferenceHangup-" + personData.number, function(){ easyrtc.hangup($(".videoWallMan-" + personData.number).attr("data-audioses")); });
+
+                $("#mapForLocator").append('<div id="maennikenSpotter-' + personData.number + '" class="maennikenSpotter" style="pointer-events:auto;background:' + personData.color + ';transform-origin:center;" title="' + personData.name + '"></div>');
+                $("#maennikenSpotter-" + personData.number).transition({ perspective: '200px', transform: 'scale(2)', duration: 250 }).transition({ perspective: '200px', transform: 'scale(1)', duration: 700 }); 
+             
+
+                $(document).on("click", ".heyImVisitor-" + personData.number, function(){ $("#videoWallMan-" + personData.number).toggleClass("videoWallManSmall"); });            
+
+                setTimeout(function(){ $("#wrapper").arrive(".person", function(){
+
+                let toObserve = $(this).find(".tree").attr("id").replace("personTree-","");
+                onScreenObserver[toObserve] = new IntersectionObserver(function(){ setMedalsCorrect(toObserve) }, observerOptions);
+                onScreenObserver[toObserve].observe($("#personTree-" + toObserve)[0]);
+
+                }); }, 200);
+    }
+
 ws.onopen = function() { console.log("Socketdata connected"); wsOk = 1;
+loadVideoSystem();
 var t = setInterval(function(){
 if (ws.readyState != 1) { wsOk = 0;
 clearInterval(t);
@@ -5780,18 +5888,19 @@ return;
 }
 ws.send(JSON.stringify({type:"ping"}));
 }, 50000);
-ws.send(JSON.stringify({type:"present",fleoNum:(myNumber[0] + myNumber[2]).replace("#", "")}));
+ws.send(JSON.stringify({ type:"present", fleoNum: (myNumber[0] + myNumber[2]).replace("#", "") }));
 ws.onmessage = function(e) {
-
-    loadVideoSystem();
 
     personDataComplete = JSON.parse(e.data);
     personData = personDataComplete.data;
 
     if (personDataComplete.type == "person_moves") {
-
+           
             // console.log(personData);
             if (personData.number !== (myNumber[0] + myNumber[2]).replace("#", "")) {
+
+                if ($("#personCode-" + personData.number).length < 1 || $(".videoWallMan-" + personData.number).length < 1) { createMaenniken(personData); }         
+
             if (personData.online == 2) {
                 if ($("#personCode-" + personData.number).length) {
                 $("#personCode-" + personData.number).remove();
@@ -5801,152 +5910,27 @@ ws.onmessage = function(e) {
                 // $("#maennikenSpotterEurope-" + personData.number).remove();
                 fleoPersonsTotal.filter(fleoPerson => fleoPerson !== personData.number);
                 delete fleoPersonsDistance[personData.number];
-                ws.send(JSON.stringify({type:"distance",whoC:(myNumber[0] + myNumber[2]).replace("#", ""),othDistance:JSON.stringify(fleoPersonsDistance)}));
+                // ws.send(JSON.stringify({type:"distance",whoC:(myNumber[0] + myNumber[2]).replace("#", ""),othDistance:JSON.stringify(fleoPersonsDistance)}));
             } 
             }
             if (personData.online == 1) {
         
             let personCode1 = "personCode-" + personData.number;
-            let personCode2 = personData.number;
+            // let personCode2 = personData.number;
     
             persVidSize[personCode1] = 320;
-    
-            if (fleoPersonsTotal.indexOf(personCode2) === -1) { 
-            fleoPersonsTotal.push(personCode2);
-            fleoPersonsDistance[personData.number] = 0; }
-            if (!$("#maennikenText-" + personCode2).length) {
-                
-                persConn[personData.number] = 0;
-                distanceSentOnce[personData.number] = 0;
-                kindOfGuyOld[personData.number] = 0;
-                kindfOfGuyFunctionBuilt[personData.number] = 0;
-                personDataNameOld[personData.number] = 0;
-    
-                if (am == "f") {
-                    let uScale = (parseInt(personData.uD) - sMMssM) * -1;
-                    let uWCoords = parseInt(personData.uW) - historyCoords;
-                    $("#wrapper").append('<div id="' + personCode1 + '" class="move person scale' +
-                        uScale + '" distance="' + uScale + '" room="' + personData.room + '">' +
-                        '<div class="tree" style="pointer-events:none;width:180px;height:373px;bottom:0px;left:' +
-                        (uWCoords) + 'px;" id="personTree-' + personData.number + '">' +
-                        '<div id="maennikenRutsch-' + personData.number + '" style="width:180px;height:303px;position:absolute;pointer-events:auto;"><div id="maennikenConferenceOffline-' + personData.number + '" class="maennikenConferenceOffline-' + personData.number + '" style="width:84px;height:84px;border-radius:42px;background:gray;position:absolute;top:-84px;left:48px;pointer-events:auto;cursor:pointer;color:white;text-align:center;font-size:54px;">&#9742;</div>' +
-                        '<div id="maennikenConferenceCall-' + personData.number + '" class="maennikenConferenceCall-' + personData.number + '" style="width:84px;height:84px;border-radius:42px;background:green;position:absolute;top:-84px;left:48px;pointer-events:auto;cursor:pointer;display:none;color:white;text-align:center;font-size:54px;">&#9742;</div>' +
-                        '<div id="maennikenConferenceHangup-' + personData.number + '" class="maennikenConferenceHangup-' + personData.number + '" style="width:84px;height:84px;border-radius:42px;background:red;position:absolute;top:-84px;left:48px;pointer-events:auto;cursor:pointer;display:none;color:white;text-align:center;font-size:54px;">&#9742;</div>' +
-                        '<div id="maennikenText-' + personData.number +
-                        '" style="font-weight:bold;pointer-events:auto;cursor:pointer;" class="maennikenTextWorld">' + personData.name + '</div>' +
-                        '<img src="/fleo.at-medien/persons/maenniken_III.webp" style="width:180px;height:373px;pointer-events:none;" id="maennikenImg-' + personData.number + '" alt="Person" /><div id="maennikenLegs-' + personData.number + '" style="background:gray;width:80px;left:50px;position:absolute;bottom:0;height:0;"><div style="background:black;width:4px;position:relative;left:38px;bottom:0;height:100%;"></div></div></div>' +
-                        '<div class="videoMaenniken" id="videoMaenniken-' + personData.number + '"   style="pointer-events:auto;position:absolute;bottom:0px;left:0;width:auto;height:auto;"><img style="width:auto;min-width:320px;height:auto;position:absolute;bottom:0;left:180px;" class="heyImVisitorVideoImg-' + personData.number + '" id="heyImVisitorVideoImg-' + personData.number + '" src="/fleo.at-medien/userImages/1673454489grafikpn292287266111.png.webp" /></div>' + 
-                        '</div>');
-                        $("#" + personCode1).animate({"left": turn + "px"},0);
-                }
-                if (am == "b") {
-                    let uScale = ((parseInt(personData.uD) - sMMssM) * 1) + (went * 2);
-                    let uWCoords = parseInt(personData.uW) + historyCoords;
-                    $("#wrapper").append('<div id="' + personCode1 + '" class="move person scale' +
-                        uScale + '" distance="' + uScale + '" room="' + personData.room + '">' +
-                        '<div class="tree" style="pointer-events:none;width:180px;height:373px;bottom:0px;left:' +
-                        (uWCoords) + 'px;perspective:9000px;transform:rotateY(' + personData.turn + 180 + 'deg);" id="personTree-' + personData.number + '">' +
-                        '<div id="maennikenRutsch-' + personData.number + '" style="width:180px;height:303px;position:absolute;pointer-events:auto;"><div id="maennikenConferenceOffline-' + personData.number + '" class="maennikenConferenceOffline-' + personData.number + '" style="width:84px;height:84px;border-radius:42px;background:gray;position:absolute;top:-84px;left:48px;pointer-events:auto;cursor:pointer;color:white;text-align:center;font-size:54px;">&#9742;</div>' +
-                        '<div id="maennikenConferenceCall-' + personData.number + '" class="maennikenConferenceCall-' + personData.number + '" style="width:84px;height:84px;border-radius:42px;background:green;position:absolute;top:-84px;left:48px;pointer-events:auto;cursor:pointer;display:none;color:white;text-align:center;font-size:54px;">&#9742;</div>' +
-                        '<div id="maennikenConferenceHangup-' + personData.number + '" class="maennikenConferenceHangup-' + personData.number + '" style="width:84px;height:84px;border-radius:42px;background:red;position:absolute;top:-84px;left:48px;pointer-events:auto;cursor:pointer;display:none;color:white;text-align:center;font-size:54px;">&#9742;</div>' +
-                        '<div id="maennikenText-' + personData.number +
-                        '" style="font-weight:bold;pointer-events:auto;cursor:pointer;" class="maennikenTextWorld">' + personData.name + '</div>' +
-                        '<img src="/fleo.at-medien/persons/maenniken_III.webp" style="width:180px;height:373px;pointer-events:none;" id="maennikenImg-' + personData.number + '" alt="Person" /><div id="maennikenLegs-' + personData.number + '" style="background:gray;width:80px;left:50px;position:absolute;bottom:0;height:0;"><div style="background:black;width:4px;position:relative;left:38px;bottom:0;height:100%;"></div></div></div>' +
-                        '<div class="videoMaenniken" id="videoMaenniken-' + personData.number + '"   style="pointer-events:auto;position:absolute;bottom:0px;left:0;width:auto;height:auto;"><img style="width:auto;min-width:320px;height:auto;position:absolute;bottom:0;left:180px;" class="heyImVisitorVideoImg-' + personData.number + '" id="heyImVisitorVideoImg-' + personData.number + '" src="/fleo.at-medien/userImages/1673454489grafikpn292287266111.png.webp" /></div></div>');
-                        $("#" + personCode1).animate({"left": turn + "px"},0);
-                }
-                if ($(".videoWallMan-" + personData.number).length < 1) { 
-                $("#maennikenWall").append('<div class="videoWallMan videoWallMan-' + personData.number + ' videoWallManSmall" id="videoWallMan-' + personData.number + '" style="max-width:240px;float:left;height:auto;pointer-events:auto;display:inline-block;" room="' + personData.room + '">' +
-                '<div class="maennikenConferenceOffline-' + personData.number + '" style="width:100%;height:84px;border-radius:0px;background:gray;color:white;position:relative;pointer-events:auto;cursor:pointer;z-index:50000;text-align:center;font-size:54px;">&#9742;</div>' +
-                '<div class="maennikenConferenceCall-' + personData.number + '" style="width:100%;height:84px;border-radius:0px;background:green;color:white;position:relative;pointer-events:auto;cursor:pointer;display:none;z-index:50000;text-align:center;font-size:54px;">&#9742;</div>' +
-                '<div class="maennikenConferenceVolume-' + personData.number + '" style="width:100%;height:84px;border-radius:0px;position:relative;pointer-events:auto;cursor:pointer;display:none;z-index:50000;"></div>' +
-                '<div class="maennikenConferenceHangup-' + personData.number + ' endCallHangUp" style="width:100%;height:84px;border-radius:0px;background:red;color:white;position:relative;pointer-events:auto;cursor:pointer;display:none;z-index:50000;text-align:center;font-size:54px;">&#9742;</div>' +
-                '<div id="maennikenTextWall-' + personData.number + '" class="maennikenTextWall maennikenTextWall-' + personData.number + '" style="font-weight:bold;cursor:pointer;background:white;width:100%;">' + personData.name + '</div><div class="videoMaenniken" style="position:relative;"><div class="heyImVisitor-' + personData.number + ' videoScaleMaenniken" style="position:relative;pointer-events:auto;cursor:pointer;"><img style="width:100%;height:auto;pointer-events:auto;cursor:pointer;" class="heyImVisitorVideoImg-' + personData.number + '" id="heyImVisitorVideoImgWall-' + personData.number + '" src="/fleo.at-medien/userImages/1673454489grafikpn292287266111.png.webp" alt="' + personData.number + '-wallVideo"></div></div>');
-                }
-    
-                $(document).on("click", "#maennikenText-" + personData.number, function(){ 
-                    if ($(".videoWallMan-" + personData.number).is("[data-audioses]") && audioConferenceConnected == 1) { 
-                        openChat($(".videoWallMan-" + personData.number).attr("data-audioses")); 
-                    } else if (!$(".videoWallMan-" + personData.number).is("[data-audioses]")) { 
-                        $("#walkAroundWithVideo").click();
-                        $.post("/fleo.at-php/fleo.at_setOfflineOnline.php", { doing: 1, fleoNumOwn: (myNumber[0] + myNumber[2]).replace("#", ""), fleoNumDistant: personData.number }); 
-                        let checkChat = setInterval(function (){ 
-                            if ($(".videoWallMan-" + personData.number).is("[data-audioses]") && audioConferenceConnected == 1) { clearInterval(checkChat); openChat($(".videoWallMan-" + personData.number).attr("data-audioses")); } 
-                        }, 2000); 
-                    } else { alert("Person not connected to A/V"); }
-                    fleoNumDistant = personData.number;
-                    });
-                
-                $(document).on("click", "#maennikenTextWall-" + personData.number, function(){ 
-                    if ($(".videoWallMan-" + personData.number).is("[data-audioses]") && audioConferenceConnected == 1) { 
-                        openChat($(".videoWallMan-" + personData.number).attr("data-audioses")); 
-                    } else if (!$(".videoWallMan-" + personData.number).is("[data-audioses]")) { 
-                        $("#walkAroundWithVideo").click();
-                        $.post("/fleo.at-php/fleo.at_setOfflineOnline.php", { doing: 1, fleoNumOwn: (myNumber[0] + myNumber[2]).replace("#", ""), fleoNumDistant: personData.number }); 
-                        let checkChat = setInterval(function (){ 
-                            if ($(".videoWallMan-" + personData.number).is("[data-audioses]") && audioConferenceConnected == 1) { clearInterval(checkChat); openChat($(".videoWallMan-" + personData.number).attr("data-audioses")); } 
-                        }, 2000); 
-                    } else { alert("Person not connected to A/V"); }
-                    fleoNumDistant = personData.number;
-                    });
-    
-                $(document).on("click", ".maennikenConferenceOffline-" + personData.number, function(){
-                        if (audioConferenceConnected !== 1) { $("#walkAroundWithVideo").click(); }
-                        $.post("/fleo.at-php/fleo.at_setOfflineOnline.php", { doing: 1, fleoNumOwn: (myNumber[0] + myNumber[2]).replace("#", ""), fleoNumDistant: personData.number }); 
-                        let checkCall = setInterval(function (){ 
-                            if ($(".videoWallMan-" + personData.number).is("[data-audioses]") && audioConferenceConnected == 1) { clearInterval(checkCall); callRoom(personData.number);
-                            } 
-                        }, 2000); 
-                    });
-    
-                $(document).on("click", ".maennikenConferenceCall-" + personData.number, function(){ 
-                    if ($(".videoWallMan-" + personData.number).is("[data-audioses]")) { 
-                    if (audioConferenceConnected == 1) { callRoom(personData.number);
-                    } else { 
-                        $("#walkAroundWithVideo").click();
-                        let checkCall = setInterval(function (){ 
-                            if (audioConferenceConnected == 1) { clearInterval(checkCall); callRoom(personData.number); 
-                            } 
-                        }, 2000); 
-                     }} else { alert("Person not connected to A/V"); }});
-                $(document).on("click", ".maennikenConferenceHangup-" + personData.number, function(){ easyrtc.hangup($(".videoWallMan-" + personData.number).attr("data-audioses")); });
-    
-                    /*    for (let z = 0; z < 90; z++) {
-                        threeFleo = document.createElement("div");
-                        threeFleo.id = "heyImVideo-" + personData.number + "_row_"+z;
-                        threeFleo.setAttribute("class", "RoXeL");
-                        $("#heyImVisitorLetters-" + personData.number).append(threeFleo);
-                        } */
-    
-                        // $("#radar").append('<div id="maennikenLocator-' + personData.number + '" class="maennikenLocator" style="display:none;"></div>');
-    
-                        $("#mapForLocator").append('<div id="maennikenSpotter-' + personData.number + '" class="maennikenSpotter" style="pointer-events:auto;background:' + personData.color + ';" title="' + personData.name + '"></div>');
-                        // $("#mapForLocatorEurope").append('<div id="maennikenSpotterEurope-' + personData.number + '" class="maennikenSpotterEurope" style="pointer-events:none;background:' + personData.color + ';"></div>');
-    
-                        /* $("#maennikenRutsch-" + personData.number).mouseenter(function(){  
-                            $(this).append('<div style="position:absolute;top:0;left:-200px;width:200px;height:auto;background:#ffffff2f;color:#ffffff;text-shadow: -1px -1px 0px #000, 1px -1px 0px #000, -1px 1px 0px #000, 1px 1px 0px #000;font-size:80px;text-align:center;cursor:pointer;pointer-events:auto;" id="sendMaenniken-' + personData.number + '">&#x21F1;</div>');
-                            $("#sendMaenniken-" + personData.number).click(function(){ $("#videoWallMan-" + personData.number).toggle(); });
-                        });
-    
-                        $("#maennikenRutsch-" + personData.number).mouseleave(function(){  
-                            $(this).find("#sendMaenniken-" + personData.number).remove();
-                        }); */
-    
-                        $(document).on("click", ".heyImVisitor-" + personData.number, function(){ $("#videoWallMan-" + personData.number).toggleClass("videoWallManSmall"); });            
-    
-            }
-            
+
             let oldD = parseInt($("#" + personCode1).attr("distance"));
     
             // if ($("#maennikenLocator-" + personData.number).attr("room") == myRoom) { $("#maennikenLocator-" + personData.number).show(); } else { $("#maennikenLocator-" + personData.number).hide(); }
 
             // Legs
-if  ($("#maennikenLegs-" + personData.number).length) {
+            if  ($("#maennikenLegs-" + personData.number).length) {
             $("#maennikenLegs-" + personData.number).animate({
                 "height": (personData.uH * -1) * 0.4,
                 "bottom": (personData.uH * 0.4) - 83
             }, personData.duration);
-        }
+            }
 
             if (am == "f") {
     
