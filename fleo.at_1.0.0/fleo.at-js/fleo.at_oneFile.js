@@ -1709,26 +1709,26 @@ function moveWithSocket(coordsTr,doordsTr,duration,height,turn) {
                 $("[class*='scale']").css({"left": turn + "px"});
                 $("#haeuserf, #waldf").css({"left": turn + "px"});
                 $("#bgbgbsterne").css({"left": turn * 1.2 + "px"});
-                $("#mapForLocator").css({"transform-origin": mySpotterMapLocationX + "px " + mySpotterMapLocationY + "px"}).transition({perspective: '100px',rotate: (turn / 9000) * 90 + 'deg'}, {duration: duration}); } 
+                $("#mapForLocator").css({"transform-origin": mySpotterMapLocationX + "px " + mySpotterMapLocationY + "px"}).transition({perspective: '100px',rotate: (turn / 9000) * 90 + 'deg'}, {duration: 0}); } 
                 else if (turn >= 7400 || turn <= -7800) {
                     $("#infot").click();
                     $("[class*='scale']").css({"left": turn + "px"});
                     $("#haeuserf, #waldf").css({"left": turn + "px"});
                     $("#bgbgbsterne").css({"left": turn * 1.2 + "px"});
-                    $("#mapForLocator").css({"transform-origin": mySpotterMapLocationX + "px " + mySpotterMapLocationY + "px"}).transition({perspective: '100px',rotate: (turn / 9000) * 90 + 'deg'}, {duration: duration});    
+                    $("#mapForLocator").css({"transform-origin": mySpotterMapLocationX + "px " + mySpotterMapLocationY + "px"}).transition({perspective: '100px',rotate: (turn / 9000) * 90 + 'deg'}, {duration: 0});    
                 }
             } else {
                     if (turn < 7400 && turn > -7800) {
                         $("[class*='scale']").css({"left": turn + "px"});
                         $("#haeuserf, #waldf").css({"left": turn + "px"});
                         $("#bgbgbsterne").css({"left": turn * 1.2 + "px"});
-                        $("#mapForLocator").css({"transform-origin": mySpotterMapLocationX + "px " + mySpotterMapLocationY + "px"}).transition({perspective: '100px', rotate: (turn / 9000) * -90 + 180 + 'deg'}, {duration: duration}); }
+                        $("#mapForLocator").css({"transform-origin": mySpotterMapLocationX + "px " + mySpotterMapLocationY + "px"}).transition({perspective: '100px', rotate: (turn / 9000) * -90 + 180 + 'deg'}, {duration: 0}); }
                         else if (turn >= 7800 || turn <= -7400) { 
                             $("#infot").click();
                             $("[class*='scale']").css({"left": turn + "px"});
                             $("#haeuserf, #waldf").css({"left": turn + "px"});
                             $("#bgbgbsterne").css({"left": turn * 1.2 + "px"});
-                            $("#mapForLocator").css({"transform-origin": mySpotterMapLocationX + "px " + mySpotterMapLocationY + "px"}).transition({perspective: '100px',rotate: (turn / 9000) * -90 + 180 + 'deg'}, {duration: duration});
+                            $("#mapForLocator").css({"transform-origin": mySpotterMapLocationX + "px " + mySpotterMapLocationY + "px"}).transition({perspective: '100px',rotate: (turn / 9000) * -90 + 180 + 'deg'}, {duration: 0});
                         }
                     }
 
@@ -2756,10 +2756,10 @@ const updatePosition = (currentX, currentY) => {
     const deltaY = (currentY - centerY);
     deltaXStore += deltaX;
     deltaYStore += deltaY;
-    if (deltaXStore >= 120) { deltaXStore = 120; };
-    if (deltaXStore <= -120) { deltaXStore = -120; };
-    if (deltaYStore >= 120) { deltaYStore = 120; };
-    if (deltaYStore <= -120) { deltaYStore = -120; };    
+    if (deltaXStore >= 120) { deltaXStore = 150; };
+    if (deltaXStore <= -120) { deltaXStore = -150; };
+    if (deltaYStore >= 120) { deltaYStore = 150; };
+    if (deltaYStore <= -120) { deltaYStore = -150; };    
 
     trackingDiv.style.left = `${currentX - trackingDivContainer.getBoundingClientRect().left}px`;
     trackingDiv.style.top = `${currentY - trackingDivContainer.getBoundingClientRect().top}px`;
@@ -3775,8 +3775,6 @@ $(".audioStationAudioStop-" + audioStationToAssign).click(function(){
 function socketDataConnect() {            
 ///// fleo.at socketdata connection 
 
-// $.post("https://" + mainDomain + "/fleo.at-php/present.php", { personally: "yes" });
-              
 // $("#goReal").click();
 $.post("/fleo.at-php/fleo.at_sensorsStart.php", { doing: 1, fleoNum: (myNumber[0] + myNumber[2]).replace("#", "") });
 
@@ -4469,7 +4467,7 @@ var locateHorizontal, locateVertical, bottomLocate, leftLocate;
                 number: (myNumber[0] + myNumber[2]).replace("#", ""),
                 name: myNumber[1],
                 cD: sMMssM,
-                cH: 0,
+                cH: relationToBackground,
                 cW: historyCoords,
                 color: myNumber[2],
                 room: myRoom,
@@ -4523,7 +4521,7 @@ $.post("/fleo.at-php/fleo.at_videoSizer.php", {
                 number: (myNumber[0] + myNumber[2]).replace("#", ""),
                 name: myNumber[1],
                 cD: sMMssM,
-                cH: 0,
+                cH: relationToBackground,
                 cW: historyCoords,
                 color: myNumber[2],
                 room: myRoom,
@@ -4588,7 +4586,7 @@ $.post("/fleo.at-php/fleo.at_videoSizer.php", {
                     number: (myNumber[0] + myNumber[2]).replace("#", ""),
                     name: myNumber[1],
                     cD: sMMssM,
-                    cH: 0,
+                    cH: relationToBackground,
                     cW: historyCoords,
                     color: myNumber[2],
                     will: will

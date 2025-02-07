@@ -17,7 +17,7 @@ require('../../fleo.at_1.0.0-extras/worldmap/autoload.php');
 use GeoIp2\Database\Reader;
 $reader = new Reader("../../fleo.at_1.0.0-extras/worldmap/GeoLite2-City.mmdb");
 
-if (isset($_GET['mobile'])) { $presenceRate = 250000; } else { $presenceRate = 125000; }
+// if (isset($_GET['mobile'])) { $presenceRate = 250000; } else { $presenceRate = 125000; }
 
 $ip = $fleoip;
 if(isset($_SERVER['HTTP_REFERER'])) { $entryPoint = $_SERVER['HTTP_REFERER']; } else { $entryPoint = "direct (no referrer)"; }
@@ -258,8 +258,8 @@ if ($_POST['doing'] == 8) {
     $startColor = $get_user_color_data;
     $rgbstartColor = hexToRgb($startColor);
     $fleo_pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    $write_present_query = "INSERT INTO `present` (`number`, `name`, `color`, `img`, `uW`, `uH`, `uD`, `ip`, `active`) VALUES ('$number','$name','$startColor', '$img', '$startW','$startH','$startD','$fleoip', '1') ON DUPLICATE KEY UPDATE `name` = '$name', `uW` = '$startW', `uH` = '$startH', `uD` = '$startD', `ip` = '$fleoip', `active` = '1'";
-    $write_present_h_query = "INSERT INTO `present_history` (`number`, `name`, `color`, `uW`, `uH`, `uD`, `ip`, `active`) VALUES ('$number','$name','$startColor', '$startW','$startH','$startD','$fleoip', '1')";
+    $write_present_query = "INSERT INTO `present` (`number`, `name`, `color`, `img`, `uW`, `uH`, `uD`, `ip`, `active`, `online`) VALUES ('$number','$name','$startColor', '$img', '$startW','$startH','$startD','$fleoip', 1, 1) ON DUPLICATE KEY UPDATE `name` = '$name', `uW` = '$startW', `uH` = '$startH', `uD` = '$startD', `ip` = '$fleoip', `active` = '1', `online` = 1";
+    $write_present_h_query = "INSERT INTO `present_history` (`number`, `name`, `color`, `uW`, `uH`, `uD`, `ip`, `active`, `online`) VALUES ('$number','$name','$startColor', '$startW','$startH','$startD','$fleoip', 1, 1)";
     $fleo_pdo->exec($write_present_query);
     $fleo_pdo->exec($write_present_h_query);
 //    setcookie("spacenumber", $number, [ 'expires' => strtotime( '+730 days' ), 'path' => '/', 'samesite' => 'None', 'secure' => true,]);

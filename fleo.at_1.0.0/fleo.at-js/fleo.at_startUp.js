@@ -9,7 +9,8 @@ $("#fleoAtStartUpOuter").transition({ "transform":"translate(-50%,-50%) scale(1.
 $("#fleoAtStartUpInner-2").transition({ "transform":"translate(-50%,-50%) scale(1.1" + animInner2 + ")" }, animInner2, function(){ $("#fleoAtStartUpInner-2").transition({ "transform":"translate(-50%,-50%) scale(1)" }, animInner2); });
 $("#fleoAtStartUpInner-1").transition({ "transform":"translate(-50%,-50%) scale(1.1" + animInner1 + ")" }, animInner1, function(){ $("#fleoAtStartUpInner-1").transition({ "transform":"translate(-50%,-50%) scale(1)" }, animInner1); });
 $("#fleoAtStartUpInner-0").transition({ "transform":"translate(-50%,-50%) scale(1.1" + animInner0 + ")" }, animInner0, function(){ $("#fleoAtStartUpInner-0").transition({ "transform":"translate(-50%,-50%) scale(1)" }, animInner0); });
-if (ready == 1) { clearInterval(startUpAnimation); $("#startUpAnimation").animate({"opacity":0},900, function() { $("#startUpAnimation").remove(); }); }
+if (ready == 1) { clearInterval(startUpAnimation); $("#startUpAnimation").animate({"opacity":0},900, function() { $("#startUpAnimation").remove();     
+    $.post("https://" + mainDomain + "/fleo.at-php/present.php", { doing: 8, number: (myNumber[0] + myNumber[2]).replace("#", ""), name: myNumber[1], color: myNumber[2], cD: sMMssM, cH: relationToBackground, cW: historyCoords });  }); }
 }
 var startUpAnimation = setInterval(function(){
 startUpAnimationDo();

@@ -18,7 +18,7 @@ date_default_timezone_set('Europe/Berlin');
 require_once ('../../../fleo.at_1.0.0-config/mailer.php');
 $mail = new PHPMailer();
 $mail->IsSendmail();
-$mail->SetFrom('felix@popular.gb.fleo.at','Felix X Longolius');
+$mail->SetFrom('felix@popular.gb.fleo.at','Felix K Longolius');
 $mail->AddAddress('f@fleo.at');
 $mail->Subject = 'popular.gb.fleo.at ' . $country;
 $mail->IsHTML(false);
