@@ -1,7 +1,7 @@
 const WebSocket = require('ws')
-const wss = new WebSocket.Server({ port: 8096 })
+const wss = new WebSocket.Server({ port: 8098 })
 var mysql = require('mysql')
-require('./configuration.js')
+const { nodeDb_host, nodeDb_user, nodeDb_password, nodeDb_database } = require('./configuration.js')
 var con = mysql.createConnection({
     host: nodeDb_host,
     user: nodeDb_user,

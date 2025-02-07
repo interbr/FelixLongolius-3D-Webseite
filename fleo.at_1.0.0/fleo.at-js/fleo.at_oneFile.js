@@ -582,7 +582,7 @@ sendStuffWS = function(otherEasyrtcid) {
     if(text.replace(/\s/g, "").length === 0) {
         return;
     }
-    if (typeof $("#maennikenTextWall-" + chatPartner).html() == "undefined") { text = "Konnte nicht senden. EmpfÃ¤nger scheint fort."; }
+    if (typeof $("#maennikenTextWall-" + chatPartner).html() == "undefined") { text = "Konnte nicht senden. Empfänger scheint fort."; }
     easyrtc.sendDataWS(otherEasyrtcid, "message",  text);
     text = text.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
     text = text.replace(/\n/g, '<br />');
@@ -972,7 +972,7 @@ $("body").append('<div id="thisBox" style="display:none;width:calc(80% - 160px);
 
 // $("body").append('<div id="infoU" class="cockpit" style="position:fixed;bottom:0;right:0;z-index:7001;width:auto;font-size:20px;height:30px;border-top: 1px solid black;border-left:1px solid black;padding: 5px 5px 0 5px;background:rgb(214, 214, 195);"><div class="info2U" style="position:relative;height:30px;background:rgb(214, 214, 195);"><div id="nameNumber" style="z-index:120;white-space:nowrap;width:auto;background:rgb(214, 214, 195);"></div><div id="changeNameFormDiv" style="position:absolute;bottom:30px;right:60px;display:none;padding:5px;z-index:100;background:rgb(214, 214, 195);"><form id="changeNameForm"><input type="text" id="chnNam" maxlength="76"></input><button type="submit" style="display: inline-block; cursor:pointer; margin-left: 20px;">Submit</button></form></div></div></div>');
 
-// $("body").append('<div id="nameBox" style="position:fixed;top:180px;right:0;z-index:7001;border-top:1px solid black;max-width:180px;overflow:visible;"><div class="menuItem" onclick="changeName();" style="clear:both;">Namen Ã¤ndern</div>');
+// $("body").append('<div id="nameBox" style="position:fixed;top:180px;right:0;z-index:7001;border-top:1px solid black;max-width:180px;overflow:visible;"><div class="menuItem" onclick="changeName();" style="clear:both;">Namen ändern</div>');
 
 $("body").append('<div id="nameNumberContainer" style="position:fixed;top:180px;right:0;z-index:7001;"><div id="nameNumber" style="position:absolute;top:0;right:0;z-index:100;border:1px solid black;border-right:none;white-space:nowrap;width:auto;background:rgb(214, 214, 195);" class="menuItem"></div><form style="position:absolute;top:0;right:0;z-index:101;border:1px solid black;border-right:none;display:none;width:260px;" id="changeNameForm" class="menuItem" ><input type="text" id="chnNam" maxlength="76"></input><button type="submit" style="display: inline-block; cursor:pointer; margin-left: 20px;">Submit</button></form></div>')
 
@@ -1181,7 +1181,7 @@ var manualBuilt = 0;
 $("#manual").click(function(){ 
     if (manualBuilt == 0) {
     manualBuilt = 1;
-    $("body").append('<div id="manualAnleitung" style="color:black;"><h1 style="background:#ffffff8f;">Anleitung</h1><h2 style="background:#ffffff8f;">Es ist eigentlich alles ganz einfach.</h2><p style="background:#ffffff8f;">Sie sind Visitor und Bauarbeiter.<br />Mit fÃ¼nf plus zehn sind Sie Chef. <input id="mathQuestion" minlength="1" maxlength="2" size="2"> <span id="mathQuestionResult"><button id="sendMathQuestion">Senden</button></span></p><p style="background:#ffffff8f;">Ziehen Sie Bilder, Videos und Audio einfach in die Welt.<p><p style="background:#ffffff8f;">Sie kÃ¶nnen auch die GrÃ¶ÃŸe verÃ¤ndern.</p><p style="background:#ffffff8f;">Die Audioverbindungen finden direkt zwischen Ihnen und Ihren GesprÃ¤chspartnern statt. Ihre Webcamvideos werden vom Server verbreitet.</p><p style="background:#ffffff8f;">Es gibt AbkÃ¼rzungen fÃ¼r die Tastatur:<ul><li>D is to drive.</li><li>T for turnaround.</li><li>Build audio-station is A.</li><li>Start your video image with i.</li><li>Spacebar for the rainbow-control</li><li>Open the menu with M.</li></ul></p>');
+    $("body").append('<div id="manualAnleitung" style="color:black;"><h1 style="background:#ffffff8f;">Anleitung</h1><h2 style="background:#ffffff8f;">Es ist eigentlich alles ganz einfach.</h2><p style="background:#ffffff8f;">Sie sind Visitor und Bauarbeiter.<br />Mit fünf plus zehn sind Sie Chef. <input id="mathQuestion" minlength="1" maxlength="2" size="2"> <span id="mathQuestionResult"><button id="sendMathQuestion">Senden</button></span></p><p style="background:#ffffff8f;">Ziehen Sie Bilder, Videos und Audio einfach in die Welt.<p><p style="background:#ffffff8f;">Sie können auch die Größe verändern.</p><p style="background:#ffffff8f;">Die Audioverbindungen finden direkt zwischen Ihnen und Ihren Gesprächspartnern statt. Ihre Webcamvideos werden vom Server verbreitet.</p><p style="background:#ffffff8f;">Es gibt Abkürzungen für die Tastatur:<ul><li>D is to drive.</li><li>T for turnaround.</li><li>Build audio-station is A.</li><li>Start your video image with i.</li><li>Spacebar for the rainbow-control</li><li>Open the menu with M.</li></ul></p>');
     $("#sendMathQuestion").click(function(){
         $.post("/fleo.at-php/fleo.at_bag.php", { doing: 9, iam: (myNumber[0] + myNumber[2]).replace("#", ""), result: $("#mathQuestion").val() }).done(function(result){ if (result == "Wrong result!") {
             $("#sendMathQuestion").html(result);
@@ -1196,7 +1196,7 @@ $("#manual").click(function(){
         minWidth: 600,
         modal: true,
         buttons: {
-        "SchlieÃŸen": function() {
+        "Schließen": function() {
             $(this).dialog("close");      
         }
       } 
@@ -1311,7 +1311,7 @@ $("#imprint").dialog({
     minWidth: 400,
     modal: true,
     buttons: {
-    "SchlieÃŸen": function() {
+    "Schließen": function() {
         $(this).dialog("close");      
     }
   } 
@@ -1319,7 +1319,7 @@ $("#imprint").dialog({
 
 $("#imprintButton").click(function(){ $("#imprint").dialog("open"); });
 
-$("body").append('<div id="startUp" style="padding:8px;"><h1>Start-up</h1><h2>MÃ¶chten Sie gern audio/video vorbereiten?</h2><p>Dann kÃ¶nnen Sie auch chatten.</p>');
+$("body").append('<div id="startUp" style="padding:8px;"><h1>Start-up</h1><h2>Möchten Sie gern audio/video vorbereiten?</h2><p>Dann können Sie auch chatten.</p>');
 
 $("#startUp").dialog({
     title: "Start-up",
@@ -2978,9 +2978,9 @@ trackingDiv.addEventListener('touchstart', startDrag);
 var currenturl = window.location.hostname;
 var currentpath = window.location.pathname;
 var currentaddress = currenturl + currentpath;
-var mapLatitude, mapLongitude, mapLocationX, mapLocationY; // <span id="goTrainstation" style="float:right;cursor:pointer;display:block;">Go Trainstation<span style="font-size:32px;">ðŸš†</span></span>
-$("body").append('<div id="fixedLocation" style="color:white; font-size:24px;z-index:9050;background:gray; "><div id="TrainWOMapDiv"><div><span id="goMap" style="float:right;cursor:pointer;display:block;">Go map<span style="font-size:32px;">ðŸ—º</span></span>So, do you want to go:</div><br /><div class="goNothingLink" style="cursor:pointer;border: 10px solid purple; padding:10px;">Just hide this, looked good. X</div><br />or<br /><div id="goReal" style="cursor:pointer;border: 10px solid purple; padding:10px;">To my real location in ' + currenturl + ' (by IP-address)</div><br />or<br /><div id="goDowntown" style="cursor:pointer;border: 10px solid purple; padding:10px;">Downtown</div></div><div id="mapDiv" style="display:none;"><canvas id="mapForTrain" width="720" height="360" style="width:720px;height:360px;float:left;margin: 0 30px 0 0;"></canvas><span>Taxi:</span><p><input id="taxi-coords" class="selectReset" type="text" placeholder="' + historyCoords + '" size="20"></p><p><input id="taxi-doords" class="selectReset" type="text" placeholder="' + sMMssM + '" size="20"></p><p><button id="taxi-send">Go Taxi!</button></p><p><span class="goNothingLink" style="cursor:pointer;">Cancel</span></p></div></div>');
-$("body").append('<div id="fixedLocationOpen" style="display:none;position:fixed;top: 200px; right: 0px; width:90px; height: 90px;color:white; font-size:24px;z-index:7000;background:gray;border:5px solid purple;border-radius: 50px; transform: translateX(50px);cursor:pointer;"><br />ðŸš†</div>');
+var mapLatitude, mapLongitude, mapLocationX, mapLocationY; // <span id="goTrainstation" style="float:right;cursor:pointer;display:block;">Go Trainstation<span style="font-size:32px;">🚆</span></span>
+$("body").append('<div id="fixedLocation" style="color:white; font-size:24px;z-index:9050;background:gray; "><div id="TrainWOMapDiv"><div><span id="goMap" style="float:right;cursor:pointer;display:block;">Go map<span style="font-size:32px;">🗺</span></span>So, do you want to go:</div><br /><div class="goNothingLink" style="cursor:pointer;border: 10px solid purple; padding:10px;">Just hide this, looked good. X</div><br />or<br /><div id="goReal" style="cursor:pointer;border: 10px solid purple; padding:10px;">To my real location in ' + currenturl + ' (by IP-address)</div><br />or<br /><div id="goDowntown" style="cursor:pointer;border: 10px solid purple; padding:10px;">Downtown</div></div><div id="mapDiv" style="display:none;"><canvas id="mapForTrain" width="720" height="360" style="width:720px;height:360px;float:left;margin: 0 30px 0 0;"></canvas><span>Taxi:</span><p><input id="taxi-coords" class="selectReset" type="text" placeholder="' + historyCoords + '" size="20"></p><p><input id="taxi-doords" class="selectReset" type="text" placeholder="' + sMMssM + '" size="20"></p><p><button id="taxi-send">Go Taxi!</button></p><p><span class="goNothingLink" style="cursor:pointer;">Cancel</span></p></div></div>');
+$("body").append('<div id="fixedLocationOpen" style="display:none;position:fixed;top: 200px; right: 0px; width:90px; height: 90px;color:white; font-size:24px;z-index:7000;background:gray;border:5px solid purple;border-radius: 50px; transform: translateX(50px);cursor:pointer;"><br />🚆</div>');
 
 $("#fixedLocation").dialog({
     title: "Move far",
@@ -3848,7 +3848,7 @@ $("#startSensors").click(function(){
 
 function sensorsWall() {
 setTimeout(function(){
-$("body").append('<div id="sensorsWall" style="pointer-events:none;position:fixed;width:300px;height:420px;bottom:0;right:0;background:#ffffff4f;color:#ffffff7f;display:none;"></div>'); // ja, was soll ich sagen: Die Frage ruhte hier fÃ¼r drei Wochen. War wohl ein Systemfehler, die sensorsWall zu blocken.
+$("body").append('<div id="sensorsWall" style="pointer-events:none;position:fixed;width:300px;height:420px;bottom:0;right:0;background:#ffffff4f;color:#ffffff7f;display:none;"></div>'); // ja, was soll ich sagen: Die Frage ruhte hier für drei Wochen. War wohl ein Systemfehler, die sensorsWall zu blocken.
 
 $("#sensorsWall").append('<span>Lat</span><div id="sensorsLat">empty</div><span>Lon</span><div id="sensorsLon">empty</div><span>Heading</span><div id="sensorsHeading">empty</div>');
 
@@ -4830,7 +4830,7 @@ $("#savebtnAudioStation").click(function(){
 				$("#thisBox").hide();
 				edith = 0;
 				spacebarText = 0; 
-                toastr.success('Audio-Station hinzugefÃ¼gt  ...');
+                toastr.success('Audio-Station hinzugefügt  ...');
 			}
 		});
 return false;
@@ -6269,7 +6269,7 @@ if  ($("#maennikenLegs-" + personData.number).length) {
                             kindfOfGuyFunctionBuilt[personData.number] = 1;
                     $("#maennikenBag-" + personData.number).click(function(){
                         $.post("/fleo.at-php/fleo.at_bag.php", { doing: 1, iam: (myNumber[0] + myNumber[2]).replace("#", ""), them: personData.number }).done(function(bagresponse){
-                            $("body").append('<div class="openBag" id="closeMaennikenBag-' + personData.number + '" style="position:fixed;top:0;left:0;width:100%;height:100%;z-index:1999;"></div><div class="openBag" id="maennikenBagOpen-' + personData.number + '" style="position:fixed;height:300px;width:300px;top:calc(50% - 260px);left:calc(50% - 170px);z-index:2000;background:yellow;border:20px solid brown;color:orange;font-size:20px;"></div><div class="openBag" style="position:fixed;height:140px;width:280px;top:calc(50% + 80px);left:calc(50% - 170px);z-index:2000;background:yellow;padding:10px;border:20px solid brown;border-top:none;color:brown;font-size:20px;text-align:center;">Markiere grÃ¼n Deine Medaillen um sie zu kopieren, markiere grau die Medaillen die nicht mehr sollen.</div>');
+                            $("body").append('<div class="openBag" id="closeMaennikenBag-' + personData.number + '" style="position:fixed;top:0;left:0;width:100%;height:100%;z-index:1999;"></div><div class="openBag" id="maennikenBagOpen-' + personData.number + '" style="position:fixed;height:300px;width:300px;top:calc(50% - 260px);left:calc(50% - 170px);z-index:2000;background:yellow;border:20px solid brown;color:orange;font-size:20px;"></div><div class="openBag" style="position:fixed;height:140px;width:280px;top:calc(50% + 80px);left:calc(50% - 170px);z-index:2000;background:yellow;padding:10px;border:20px solid brown;border-top:none;color:brown;font-size:20px;text-align:center;">Markiere grün Deine Medaillen um sie zu kopieren, markiere grau die Medaillen die nicht mehr sollen.</div>');
                             if (bagresponse.includes("guy")) {
                                 let myNewKindOfGuy = bagresponse;
                                 let makeAdmin = 0;
