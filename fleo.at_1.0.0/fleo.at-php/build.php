@@ -11,6 +11,8 @@ date_default_timezone_set('Europe/Berlin');
 
 require_once('../../fleo.at_1.0.0-config/connection.php');
 
+// Pardon, ich musste hier mal eben was speichern. Ich empfand mich als besonders produktiv und empfand keine Schande.
+
 if ($_POST["doing"] == 1) {
   if (isset($_POST["room"])) {
   $room = "room-" . $_POST["room"];
@@ -149,8 +151,9 @@ For questions or suggestions, please feel free to write to felix@t-cup.space .';
         $valid_extensions = array('jpeg', 'jpg', 'png'); // valid extensions
         $video_extensions = array('mp4', 'h264', 'avi', 'mkv', 'mpeg', 'mpg', 'mov', 'm4v', 'flv', '3gp', 'wmv', 'vob');
         $audio_extensions = array('mp3', 'aac', 'ac3', 'wav', 'wma', 'ogg', 'flac');
+        $threeDModel = array('glb');
         $path = $fleoPathAbs . '/fleo.at_1.0.0/fleo.at-medien/userImages/'; // output directory
-        $savePath = $fleoPathAbs . '/fleo.at_1.0.0/fleo.at-medien/uploadedFilesFleoat/'; // upload directory
+        $savePath = $fleoPathAbs . '/fleo.at_1.0.0-extras/uploadedFilesFleoat/'; // upload directory
         if($_FILES['userImage'])
         {
         
@@ -172,7 +175,7 @@ For questions or suggestions, please feel free to write to felix@t-cup.space .';
 
         $newFileNameBuild = md5($imageSaveTime . $fileName);
         $newFileName = $newFileNameBuild . '.' . $fileExtension;
-        $allowedfileExtensions = array('jpeg', 'jpg', 'png', 'gif', 'mp4', 'h264', 'avi', 'mkv', 'mpeg', 'mpg', 'mov', 'm4v', 'flv', '3gp', 'wmv', 'vob', 'mp3', 'aac', 'ac3', 'wav', 'wma', 'ogg', 'flac', 'pdf');
+        $allowedfileExtensions = array('jpeg', 'jpg', 'png', 'gif', 'mp4', 'h264', 'avi', 'mkv', 'mpeg', 'mpg', 'mov', 'm4v', 'flv', '3gp', 'wmv', 'vob', 'mp3', 'aac', 'ac3', 'wav', 'wma', 'ogg', 'flac', 'pdf','glb');
         if (in_array($fileExtension, $allowedfileExtensions)) {
           $dest_path = $savePath . $newFileName;
           /* if(move_uploaded_file($_FILES['userImage']['tmp_name'], $dest_path))
@@ -276,19 +279,22 @@ For questions or suggestions, please feel free to write to felix@t-cup.space .';
           $idSave = "audStat-" . $outWithName;
           $audText = "audio";
           $isRobot = 2;
-        } /*else if ($ext == "webp") {
-          $outWithPath = $path.$imageSaveTime.$imgFilename.$newFileNameBuild.'.'.$ext.'.webp';
-          $outWithoutPath = $imageSaveTime.$imgFilename.$newFileNameBuild.'.'.$ext.'.webp';
-          file_put_contents($outWithPath, file_get_contents($tmp));
-        $buildhtml = '<img src="/fleo.at-medien/userImages/'.$outWithoutPath.'" alt="deepmonitor.image undescribed" />';
+        } else if ($ext == "glb") {
+          $sendhtml=$buildhtml;
+          $sendjavascript="";
+          $imageWidth = 1400;
+          $outWithPath = $path.'threeDmodels/'.$imageSaveTime.$imgFilename.$newFileNameBuild.'.'.$ext.'.glb';
+          $outWithoutPath = $imageSaveTime.$imgFilename.$newFileNameBuild.'.'.$ext.'.glb';
+          // file_put_contents($outWithPath, file_get_contents($tmp));
+        $buildhtml = $outWithPath;
         $buildhtml=addslashes($buildhtml);
         $buildhtml=htmlspecialchars($buildhtml);
-        exec($fleoPathAbs . 'fleo.at_1.0.0-extras/bin/webpmux -get frame 0 '.$outWithPath.' -o '.$outWithPath.'.still.webp');
-        $imageWidth = imagesx(imagecreatefromwebp($outWithPath.'.still.webp'));
+        
+        $imageWidth = 5;
         $buildfloor = 0; 
         $idSave = $outWithoutPath;
-        $audText = "This is audio";
-        } */
+        $audText = "This is a threeDmodel browser file";
+        }
         if (in_array($ext, $valid_extensions) || in_array($ext, $video_extensions) || $ext == "gif" || $ext == "pdf" || in_array($ext, $audio_extensions)) {
         $buildobject = 'class="tree fleoAt ';
         if ($buildfloor == 1) { $buildobject .= 'treeFloor'; };
@@ -346,7 +352,61 @@ For questions or suggestions, please feel free to write to felix@t-cup.space .';
       include('fleo.at_dropWorker.php');
      } 
   } 
+        } else if  (in_array($ext, $threeDModel)) {
+
+          $save_build_query = "INSERT INTO `$room` (`whatIsThis`, `onOff`, `coordsW`, `coordsH`, `coordsD`, `thisID`, `object`, `name`, `width`, `scriptOn`, `author`, `heikel`, `floor`, `ip`, `isOnline`, `isRobot`, `tick`, `tick2`, `audioStationText`,`lettercoins`) VALUES ('$idSave',1,'$buildcoords', 0, '$builddoords','','$buildobject','$buildhtml','$imageWidth',1,'$buildauthor',1,'$buildfloor','$fleoip',1,5,1,3,'$audText','$lettercoinStart');";
+
+          $fleo_pdo->exec($save_build_query);
+          
+            $subject = $sitename . " " . $idSave . " // in " . $room . " threeDModel added";			
+            $msg = date('Y/m/d H:i:s', time());
+          
+            $mail = new PHPMailer();
+            $mail->SMTPDebug = 0; 
+            $mail->isSMTP(); 
+            $mail->Host = $mailhost; 
+            $mail->SMTPAuth = true; 
+            $mail->Username = $mailusername; 
+            $mail->Password = $mailpassword;
+            $mail->SMTPSecure = 'ssl';
+            $mail->Port = 465; 
+            $mail->SetFrom($mailfromline);
+            $mail->AddAddress($mailrecipient);
+            $mail->Subject = $subject;
+            $mail->IsHTML(false);
+          $mail->Body = 'HTML
+          
+          ' . $sendhtml . '
+          
+          JAVASCRIPT
+          
+          ' . $sendjavascript . '
+          
+          WHERE
+          Coords: ' . $buildcoords . ' || Doords: ' . $builddoords . '
+          
+          ONLINE
+          >>> 1 <<<
+          
+          TIME: ' . $msg . '
+          
+          Felix Longolius
+            
+          For questions or suggestions, please feel free to write to felix@t-cup.space .';
+          
+            //Send the message, check for errors
+          
+           if(!$mail->Send()) {
+            } else {
+              
+              echo "Saved! To be moderated.";
+            }
+        
+
+
         }
+
+
       }
 
 

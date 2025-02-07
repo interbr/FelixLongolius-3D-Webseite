@@ -1,21 +1,13 @@
 ///// fleo.at_variables.js
 
-var mainDomain = "popular.gb.fleo.at"
-var easyrtcWebsocketUrl = "https://homeaudio.fleo.at";
-
-var gTagId = "G-LGT8Q5VKEZ";
-var gTagWhatever = "AW-1013883561/cH7gCK-y84UYEKnFuuMD";
-var clarityTag = "7ek75aq7zj";
-
-
-
 var turn = 0;
 
-var spacebarText = 0;
+var spacebarText = 0; 
 var wsOk = 0;
 var ws = new ReconnectingWebSocket("wss://" + mainDomain + "/socketdata");
 
-$("#bgbgsterneVideo").attr("src","/fleo.at-medien/repertoire/space_front_320_PIxEL.mp4");
+// if (Device_Type() !== "Mobile" && Device_Type() !== "Tablet") { $("#bgbgsterneVideo").attr("src","/fleo.at-medien/repertoire/space_front_320_PIxEL.mp4"); }
+$("body").append('<audio id="maeaek" src="/fleo.at-js/push2Talk/recordings/2910_audio_recording_1651946993329.mp3"></audio>');
 
 var am = "f";
 var will = "b";
@@ -131,9 +123,11 @@ var audioSystemJustLoaded = 0;
 var recordingReset = 0;
 
 var recordingIntervalStartLoop = 0;
-var insideWeltpolizei = 0;
 var relationToBackground = 0;
 var levelScroll = 0;
+var legacyMovement = 1;
+
+var typeTimeout;
 
 medals[0] = '<div class="medal medal0 medalAdmin" medalcode="0" style="width:26px;height:26px;border:2px solid black;border-radius:15px;background:white;font-size:30px;line-height:30px;text-align:center;color:orange;font-weight:bold;" title="Administrator">A</div>';
 medals[1] = '<div class="medal medal1 medalVisitor" medalcode="1" style="width:30px;height:30px;border-radius:15px;background:blue;font-size:30px;line-height:32px;text-align:center;" title="Visitor">V</div>';
@@ -312,6 +306,7 @@ function loginSuccess(easyrtcid) {
             $(".volumecallerAudio-Own").css("height", ((10 / 24) * VspotY) + "%");
             $(".volumeReccallerAudio-Own").css("width", ((1 / 4) * (VspotY * 5)) + "px");
         });
+        
     });
 }
 
@@ -565,7 +560,7 @@ callSingle = function(personRoom) {
 //////////////////// Chat ////////////////////
 
 openChat = function(receiver) {
-    spacebarText = 1;
+    spacebarText = 1; 
     chatKeysOn = 1;
     var chatPartner = easyrtc.idToName(receiver);
     $("#writeChat").attr("receiver", receiver);
@@ -587,13 +582,13 @@ sendStuffWS = function(otherEasyrtcid) {
     if(text.replace(/\s/g, "").length === 0) {
         return;
     }
-    if (typeof $("#maennikenTextWall-" + chatPartner).html() == "undefined") { text = "Konnte nicht senden. Empfänger scheint fort."; }
+    if (typeof $("#maennikenTextWall-" + chatPartner).html() == "undefined") { text = "Konnte nicht senden. EmpfÃ¤nger scheint fort."; }
     easyrtc.sendDataWS(otherEasyrtcid, "message",  text);
     text = text.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
     text = text.replace(/\n/g, '<br />');
     showMesg("Me to " + $("#maennikenTextWall-" + chatPartner).html() + ":<br />" + text);
     document.getElementById('sendMessageText').value = "";
-    spacebarText = 0;
+    spacebarText = 0; 
     chatKeysOn = 0;
     $("#writeChat").hide();
 }
@@ -620,7 +615,6 @@ sendStuffWS = function(otherEasyrtcid) {
 	
 			// START
 
-			var ready = 0;
 			var placeToOpen = 0;
 			var placeToOpenOnlyNumbers = 0;
 			var iii = document.getElementsByClassName("move");
@@ -679,6 +673,7 @@ sendStuffWS = function(otherEasyrtcid) {
 						historyCoords = placeToOpenWN;
 						sMMssM = placeToOpenDN;
 						ready = 1;
+                        // console.log("ready called");
 					} else {
 						setTimeout(waitForWorlds, 250);
 					}
@@ -833,8 +828,8 @@ parseInt(Number(value)) == value &&
 function whereAmI(hiCo, sMMs, level, duration, turn, whoC, colorC) {
 
 if (ws.readyState === WebSocket.OPEN) {
+    $("#flash").addClass("ffff");
     moveWithSocket(hiCo, sMMs, duration, level, turn);
-    // $("#flash").addClass("ffff");
     if (!isInt(turn)) { turn = 0; }
     ws.send(JSON.stringify({doing:9,hiCo:hiCo,sMMs:sMMs,level:level,duration:duration,turn:parseInt(turn),turnX:0,turnZ:0,whoC:whoC}));
  //   if (hp%1==0) { history.replaceState("", "", "?doords="+(parseInt(sMMssM / 3))+"&coords="+(parseInt(historyCoords))); }; hp++;
@@ -843,6 +838,7 @@ if (ws.readyState === WebSocket.OPEN) {
     // setTimeout(function(){ $("#flash").removeClass("ffff"); }, 50);
 
 } else {
+    moveWithSocket(hiCo, sMMs, duration, level, turn);
     $.ajax({
         beforeSend: function () {
             $("#flash").addClass("ffff");
@@ -957,7 +953,7 @@ function Device_Type()
     return Return_Device;
 }
 
-$("body").append('<div class="nineedge" class="cockpit" style="color:red;text-shadow:0 0 10px green;font-weight:bold;cursor:pointer;width:181px;height:180px;position:fixed;top:0;right:0;z-index:14000;pointer-events:none;"><div style="width:80px;"><div class="chtop" style="pointer-events:auto;font-weight:bold;cursor:pointer;width:40px;height:80px;z-index:14000;border-left:1px solid black;border-bottom:1px solid black;">&uarr;</div><div class="chbottom" style="pointer-events:auto;font-weight:bold;cursor:pointer;width:40px;height:80px;z-index:14000;border-left:1px solid black;border-bottom:1px solid black;">&darr;</div></div><div class="chcentercenter" style="pointer-events:auto;font-weight:bold;cursor:pointer;width:100px;height:99px;z-index:14000;border-left:1px solid black;border-bottom:1px solid black;"><div style="pointer-events:none;"><span style="text-align:center;">Turn<br />(scroll here)</span></div></div><div style="width:80px;float:right;"><div class="chleft" style="float:right;pointer-events:auto;font-weight:bold;cursor:pointer;width:39px;height:80px;z-index:14000;border-left:1px solid black;border-bottom:1px solid black;">&larr;</div><div class="chright" style="float:right;pointer-events:auto;font-weight:bold;cursor:pointer;width:39px;height:80px;z-index:14000;border-left:1px solid black;border-bottom:1px solid black;">&rarr;</div></div></div><div id="square"><svg style="width:100%;height:100%;" viewBox="0 0 100 100" preserveAspectRatio="none"><polygon points="33,33 50,50 33,67" id="navLef" /><polygon points="18,0 33,0 33,67 18,82" id="navLefStrong" /><polygon points="9,0 18,0 18,82 9,91" id="navLefStrongVery" class="stepL chleft" /><polygon points="0,0 9,0 9,91 0,100" id="navLookLef" class="lookL chtopleft" /><polygon points="0,100 18,82 50,82 50,100" id="navBacStrongVery" class="straightB chbottom" /><text class="explanation" x="0" y="90" fill="white"><tspan x="9" dy="1.2em">Step Backwards</tspan></text><polygon points="50,100 50,82 82,82 100,100" id="navForStrongVery" class="straightF chtop" /><text class="explanation" x="0" y="90" fill="white"><tspan x="69" dy="1.2em">Step Forward</tspan></text><polygon points="50,50 67,33 67,67" id="navRig" /><polygon points="67,33 82,18 82,82 67,67" id="navRigStrong" /><polygon points="82,0 91,0 91,91 82,82" id="navRigStrongVery" class="stepR chright" /><polygon points="91,0 100,0 100,100 91,91" id="navLookRig" class="lookR chtopright" /><text class="explanation" x="0" y="74" fill="white"><tspan x="42" dy="1.2em">and scroll</tspan><tspan x="42" dy="1.2em">the colors</tspan></text><text class="explanation" x="0" y="94" fill="white"><tspan x="46" dy="1.2em">Map</tspan></text><text id="hideExplanation" class="explanation" x="0" y="74" fill="white"><tspan x="65" dy="1.2em">X hide (ok)</tspan></text><text class="explanation" x="0" y="30" fill="white"><tspan x="1" dy="1.2em">Look</tspan><tspan x="1" dy="1.2em">Left</tspan></text><text class="explanation" x="10" y="30" fill="white"><tspan x="10" dy="1.2em">Step</tspan><tspan x="10" dy="1.2em">Left</tspan></text></svg></div>');
+$("body").append('<div class="nineedge" class="cockpit" style="color:red;text-shadow:0 0 10px green;font-weight:bold;cursor:pointer;width:182px;height:182px;position:fixed;top:0;right:0;z-index:14000;pointer-events:none;"><div style="width:80px;"><div class="chtop" style="pointer-events:auto;font-weight:bold;cursor:pointer;width:40px;height:80px;z-index:14000;border-left:1px solid black;border-bottom:1px solid black;">&uarr;</div><div class="chbottom" style="pointer-events:auto;font-weight:bold;cursor:pointer;width:40px;height:80px;z-index:14000;border-left:1px solid black;border-bottom:1px solid black;">&darr;</div></div><div class="chcentercenter" style="position:relative;pointer-events:auto;font-weight:bold;cursor:pointer;width:100px;height:99px;z-index:14000;border-left:1px solid black;border-bottom:1px solid black;"><div style="pointer-events:none;"><span style="text-align:center;">Turn<br />(scroll here)</span></div></div><div style="width:80px;float:right;"><div class="chleft" style="float:right;pointer-events:auto;font-weight:bold;cursor:pointer;width:39px;height:80px;z-index:14000;border-left:1px solid black;border-bottom:1px solid black;">&larr;</div><div class="chright" style="float:right;pointer-events:auto;font-weight:bold;cursor:pointer;width:39px;height:80px;z-index:14000;border-left:1px solid black;border-bottom:1px solid black;">&rarr;</div></div><div id="superSteeringWheelContainer" style="position:fixed;z-index:15000;top:80px;right:80px;width:32px;height:32px;background:white;border:4px solid white;border-radius:100%;"><div id="superSteeringWheel" style="position:absolute;width:12px;height:12px;border:14px solid #d6d6c3;background:red;top:50%;left:50%;transform:translate(-50%,-50%);border-radius:50%;cursor:grab;pointer-events:auto;z-index:2;"></div></div></div><div id="square"><svg style="width:100%;height:100%;" viewBox="0 0 100 100" preserveAspectRatio="none"><polygon points="33,33 50,50 33,67" id="navLef" /><polygon points="18,0 33,0 33,67 18,82" id="navLefStrong" /><polygon points="9,0 18,0 18,82 9,91" id="navLefStrongVery" class="stepL chleft" /><polygon points="0,0 9,0 9,91 0,100" id="navLookLef" class="lookL chtopleft" /><polygon points="0,100 18,82 50,82 50,100" id="navBacStrongVery" class="straightB chbottom" /><text class="explanation" x="0" y="90" fill="white"><tspan x="9" dy="1.2em">Step Backwards</tspan></text><polygon points="50,100 50,82 82,82 100,100" id="navForStrongVery" class="straightF chtop" /><text class="explanation" x="0" y="90" fill="white"><tspan x="69" dy="1.2em">Step Forward</tspan></text><polygon points="50,50 67,33 67,67" id="navRig" /><polygon points="67,33 82,18 82,82 67,67" id="navRigStrong" /><polygon points="82,0 91,0 91,91 82,82" id="navRigStrongVery" class="stepR chright" /><polygon points="91,0 100,0 100,100 91,91" id="navLookRig" class="lookR chtopright" /><text class="explanation" x="0" y="74" fill="white"><tspan x="42" dy="1.2em">and scroll</tspan><tspan x="42" dy="1.2em">the colors</tspan></text><text class="explanation" x="0" y="94" fill="white"><tspan x="46" dy="1.2em">Map</tspan></text><text id="hideExplanation" class="explanation" x="0" y="74" fill="white"><tspan x="65" dy="1.2em">X hide (ok)</tspan></text><text class="explanation" x="0" y="30" fill="white"><tspan x="1" dy="1.2em">Look</tspan><tspan x="1" dy="1.2em">Left</tspan></text><text class="explanation" x="10" y="30" fill="white"><tspan x="10" dy="1.2em">Step</tspan><tspan x="10" dy="1.2em">Left</tspan></text></svg></div><style>#superSteeringWheel:before { content: \'\';position: absolute;top: -20px;left: -20px;right: -20px;bottom: -20px; border: 2px solid white;border-radius:100%;z-index: -1;}</style>');
 
 $("body").append('<div id="hideExplanationDiv" style="cursor:pointer;position:fixed;top:72%;left:63%;width:22%;height:10%;z-index:50000;"></div>')
 
@@ -976,7 +972,7 @@ $("body").append('<div id="thisBox" style="display:none;width:calc(80% - 160px);
 
 // $("body").append('<div id="infoU" class="cockpit" style="position:fixed;bottom:0;right:0;z-index:7001;width:auto;font-size:20px;height:30px;border-top: 1px solid black;border-left:1px solid black;padding: 5px 5px 0 5px;background:rgb(214, 214, 195);"><div class="info2U" style="position:relative;height:30px;background:rgb(214, 214, 195);"><div id="nameNumber" style="z-index:120;white-space:nowrap;width:auto;background:rgb(214, 214, 195);"></div><div id="changeNameFormDiv" style="position:absolute;bottom:30px;right:60px;display:none;padding:5px;z-index:100;background:rgb(214, 214, 195);"><form id="changeNameForm"><input type="text" id="chnNam" maxlength="76"></input><button type="submit" style="display: inline-block; cursor:pointer; margin-left: 20px;">Submit</button></form></div></div></div>');
 
-// $("body").append('<div id="nameBox" style="position:fixed;top:180px;right:0;z-index:7001;border-top:1px solid black;max-width:180px;overflow:visible;"><div class="menuItem" onclick="changeName();" style="clear:both;">Namen ändern</div>');
+// $("body").append('<div id="nameBox" style="position:fixed;top:180px;right:0;z-index:7001;border-top:1px solid black;max-width:180px;overflow:visible;"><div class="menuItem" onclick="changeName();" style="clear:both;">Namen Ã¤ndern</div>');
 
 $("body").append('<div id="nameNumberContainer" style="position:fixed;top:180px;right:0;z-index:7001;"><div id="nameNumber" style="position:absolute;top:0;right:0;z-index:100;border:1px solid black;border-right:none;white-space:nowrap;width:auto;background:rgb(214, 214, 195);" class="menuItem"></div><form style="position:absolute;top:0;right:0;z-index:101;border:1px solid black;border-right:none;display:none;width:260px;" id="changeNameForm" class="menuItem" ><input type="text" id="chnNam" maxlength="76"></input><button type="submit" style="display: inline-block; cursor:pointer; margin-left: 20px;">Submit</button></form></div>')
 
@@ -1072,7 +1068,7 @@ $("#mapForLocator").css({"bottom":"0","left":"calc(50% - 360px)"});
 $("#sendMessageButton").click(function(){ 
         sendStuffWS($("#writeChat").attr("receiver")); $("#writeChat").hide();
     });
-$("#sendMessageCancel").click(function(){ spacebarText = 0; $("#writeChat").hide(); });
+$("#sendMessageCancel").click(function(){ spacebarText = 0;  chatKeysOn = 0; $("#writeChat").hide(); });
 
 var navIsSmall = 0;
 
@@ -1185,7 +1181,7 @@ var manualBuilt = 0;
 $("#manual").click(function(){ 
     if (manualBuilt == 0) {
     manualBuilt = 1;
-    $("body").append('<div id="manualAnleitung" style="color:black;"><h1 style="background:#ffffff8f;">Anleitung</h1><h2 style="background:#ffffff8f;">Es ist eigentlich alles ganz einfach.</h2><p style="background:#ffffff8f;">Sie sind Visitor und Bauarbeiter.<br />Mit fünf plus zehn sind Sie Chef. <input id="mathQuestion" minlength="1" maxlength="2" size="2"> <span id="mathQuestionResult"><button id="sendMathQuestion">Senden</button></span></p><p style="background:#ffffff8f;">Ziehen Sie Bilder, Videos und Audio einfach in die Welt.<p><p style="background:#ffffff8f;">Sie können auch die Größe verändern.</p><p style="background:#ffffff8f;">Die Audioverbindungen finden direkt zwischen Ihnen und Ihren Gesprächspartnern statt. Ihre Webcamvideos werden vom Server verbreitet.</p><p style="background:#ffffff8f;">Es gibt Abkürzungen für die Tastatur:<ul><li>D is to drive.</li><li>T for turnaround.</li><li>Build audio-station is A.</li><li>Start your video image with i.</li><li>Spacebar for the rainbow-control</li><li>Open the menu with M.</li></ul></p>');
+    $("body").append('<div id="manualAnleitung" style="color:black;"><h1 style="background:#ffffff8f;">Anleitung</h1><h2 style="background:#ffffff8f;">Es ist eigentlich alles ganz einfach.</h2><p style="background:#ffffff8f;">Sie sind Visitor und Bauarbeiter.<br />Mit fÃ¼nf plus zehn sind Sie Chef. <input id="mathQuestion" minlength="1" maxlength="2" size="2"> <span id="mathQuestionResult"><button id="sendMathQuestion">Senden</button></span></p><p style="background:#ffffff8f;">Ziehen Sie Bilder, Videos und Audio einfach in die Welt.<p><p style="background:#ffffff8f;">Sie kÃ¶nnen auch die GrÃ¶ÃŸe verÃ¤ndern.</p><p style="background:#ffffff8f;">Die Audioverbindungen finden direkt zwischen Ihnen und Ihren GesprÃ¤chspartnern statt. Ihre Webcamvideos werden vom Server verbreitet.</p><p style="background:#ffffff8f;">Es gibt AbkÃ¼rzungen fÃ¼r die Tastatur:<ul><li>D is to drive.</li><li>T for turnaround.</li><li>Build audio-station is A.</li><li>Start your video image with i.</li><li>Spacebar for the rainbow-control</li><li>Open the menu with M.</li></ul></p>');
     $("#sendMathQuestion").click(function(){
         $.post("/fleo.at-php/fleo.at_bag.php", { doing: 9, iam: (myNumber[0] + myNumber[2]).replace("#", ""), result: $("#mathQuestion").val() }).done(function(result){ if (result == "Wrong result!") {
             $("#sendMathQuestion").html(result);
@@ -1200,7 +1196,7 @@ $("#manual").click(function(){
         minWidth: 600,
         modal: true,
         buttons: {
-        "Schließen": function() {
+        "SchlieÃŸen": function() {
             $(this).dialog("close");      
         }
       } 
@@ -1230,7 +1226,7 @@ $("#goBuild").click(function(){
 if (window.name == "tCupSpaceOpenInOtherWindow") { if (!window.toolbar.visible || !window.menu.visible) { $("#niceWindowToggle").hide(); } }
 $("#quiet").click(function(){ if ($("#quiet").html() == "Quiet") { quiet = 1; $("#quiet").html("Loud"); } else { quiet = 0; $("#quiet").html("Quiet"); } }); // not implemented
 $("#reset").click(function(){ roomChange("home"); turn = 0; });
-$("#leave").click(function(){ if (myRoom == "demand" || myRoom == "demandNew") { window.location.href = "/leftdemand.html"; } else if (myRoom == "weltfernsehsender.de" && insideWeltpolizei == 0 || myRoom == "interlectual.org" && insideWeltpolizei == 0) { window.location.href = "/return.html"; } else { window.location.href = "/left.html"; }});
+$("#leave").click(function(){ window.location.href = "/left.html"; });
 
 var drawBuilt = 0;
 var drawOn = 0;
@@ -1271,43 +1267,43 @@ $("body").append('<div id="imprint" style="color:black;"><h1 style="background:#
 
 if (gTagId !== "empty") {
 
-$("#turnOnAnalytics").click(function(){
-    $.getScript("https://www.googletagmanager.com/gtag/js?id=" + gTagId, function(){
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-
-        gtag('config', gTagId);
-        $("#turnOnAnalytics").css("background","lightgreen");
-        function gtag_report_conversion(url) {
-            var callback = function () {
-              if (typeof(url) != 'undefined') {
-                window.location = url;
+    $("#turnOnAnalytics").click(function(){
+        $.getScript("https://www.googletagmanager.com/gtag/js?id=" + gTagId, function(){
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+    
+            gtag('config', gTagId);
+            $("#turnOnAnalytics").css("background","lightgreen");
+            function gtag_report_conversion(url) {
+                var callback = function () {
+                  if (typeof(url) != 'undefined') {
+                    window.location = url;
+                  }
+                };
+                gtag('event', 'conversion', {
+                    'send_to': gTagWhatever,
+                    'event_callback': callback
+                });
+                return false;
               }
-            };
-            gtag('event', 'conversion', {
-                'send_to': gTagWhatever,
-                'event_callback': callback
-            });
-            return false;
-          }
-          gtag_report_conversion();
-    })
-});
-}
-
-if (clarityTag !== "empty") {
-
-$("#turnOnClarity").click(function(){
-    (function(c,l,a,r,i,t,y){
-        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
-        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
-        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-    })(window, document, "clarity", "script", clarityTag);
-    $("#turnOnClarity").css("background","lightgreen");
-}); 
-
-}
+              gtag_report_conversion();
+        })
+    });
+    }
+    
+    if (clarityTag !== "empty") {
+    
+    $("#turnOnClarity").click(function(){
+        (function(c,l,a,r,i,t,y){
+            c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+            t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+            y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+        })(window, document, "clarity", "script", clarityTag);
+        $("#turnOnClarity").css("background","lightgreen");
+    }); 
+    
+    }
 
 $("#imprint").dialog({
     title: "Imprint",
@@ -1315,7 +1311,7 @@ $("#imprint").dialog({
     minWidth: 400,
     modal: true,
     buttons: {
-    "Schließen": function() {
+    "SchlieÃŸen": function() {
         $(this).dialog("close");      
     }
   } 
@@ -1323,7 +1319,7 @@ $("#imprint").dialog({
 
 $("#imprintButton").click(function(){ $("#imprint").dialog("open"); });
 
-$("body").append('<div id="startUp" style="padding:8px;"><h1>Start-up</h1><h2>Möchten Sie gern audio/video vorbereiten?</h2><p>Dann können Sie auch chatten.</p>');
+$("body").append('<div id="startUp" style="padding:8px;"><h1>Start-up</h1><h2>MÃ¶chten Sie gern audio/video vorbereiten?</h2><p>Dann kÃ¶nnen Sie auch chatten.</p>');
 
 $("#startUp").dialog({
     title: "Start-up",
@@ -1343,24 +1339,23 @@ $("#startUp").dialog({
 });
 
 $("#sendPresent").click(function(){ 
-    spacebarText = 1;
+    spacebarText = 1; 
     $("#writeAnythingTo").attr("receiver", fleoNumDistant);
     $("#writeAnythingTo").find("h2").html("Write anything to:<br />" + $("#maennikenTextWall-" + fleoNumDistant).html());
     $("#writeAnythingTo").show();
     
 $("#sendAnythingButton").click(function(){ 
-    spacebarText = 0;
+    spacebarText = 0; 
     $.post("/fleo.at-php/fleo.at_setOfflineOnline.php", { doing: 2, fleoNumOwn: (myNumber[0] + myNumber[2]).replace("#", ""), fleoNumDistant: fleoNumDistant, extraContent: document.getElementById('sendAnythingText').value }).done(function(result){
         toastr.success("Trying to give it to: " + $("#maennikenTextWall-" + fleoNumDistant).html());
         });
 $("#writeAnythingTo").hide();
     });
-$("#sendAnythingCancel").click(function(){ spacebarText = 0; $("#writeAnythingTo").hide(); });
+$("#sendAnythingCancel").click(function(){ spacebarText = 0;  $("#writeAnythingTo").hide(); });
     
 
     });
-$("#waldf").append('<div id="waldff"><div style="position:absolute;left:-8746px;bottom:550px;z-index:-1;width:3473px;height:auto;"><img src="https://' + mainDomain + '/fleo.at-medien/layout/background_long_kara_3473x400.webp" style="width:100%;height:auto;" /></div><div style="position:absolute;left:-5273px;bottom:200px;z-index:-1;width:1800px;height:auto;"><img src="https://' + mainDomain + '/fleo.at-medien/repertoire/b_sterne.webp" style="width:100%;height:auto;" /></div><div style="position:absolute;left:-3473px;bottom:550px;z-index:-1;width:3473px;height:auto;"><img src="https://' + mainDomain + '/fleo.at-medien/layout/background_long_kara_3473x400.webp" style="width:100%;height:auto;" /></div><div style="position:absolute;left:0;bottom:200px;z-index:-1;width:1800px;height:auto;"><img src="https://' + mainDomain + '/fleo.at-medien/repertoire/b_sterne.webp" style="width:100%;height:auto;" /></div><div style="position:absolute;left:1800px;bottom:550px;z-index:-1;width:3473px;height:auto;"><img src="https://' + mainDomain + '/fleo.at-medien/layout/background_long_kara_3473x400.webp" style="width:100%;height:auto;" /></div><div style="position:absolute;left:5273px;bottom:200px;z-index:-1;width:1800px;height:auto;"><img src="https://' + mainDomain + '/fleo.at-medien/repertoire/b_sterne.webp" style="width:100%;height:auto;" /></div><div style="position:absolute;left:7073px;bottom:550px;z-index:-1;width:3473px;height:auto;"><img src="https://' + mainDomain + '/fleo.at-medien/layout/background_long_kara_3473x400.webp" style="width:100%;height:auto;" /></div></div>' + 
-'<div id="waldfb" style="display:none;"><div style="position:absolute;left:-8746px;bottom:550px;z-index:-1;width:3473px;height:auto;"><img src="https://' + mainDomain + '/fleo.at-medien/layout/background_long_kara_3473x400.webp" style="width:100%;height:auto;" /></div><div style="position:absolute;left:-5273px;bottom:200px;z-index:-1;width:1800px;height:auto;"><img src="https://' + mainDomain + '/fleo.at-medien/repertoire/b_sterne.webp" style="width:100%;height:auto;" /></div><div style="position:absolute;left:-3473px;bottom:550px;z-index:-1;width:3473px;height:auto;"><img src="https://' + mainDomain + '/fleo.at-medien/layout/background_long_kara_3473x400.webp" style="width:100%;height:auto;" /></div><div style="position:absolute;left:0;bottom:500px;z-index:-1;width:1800px;height:auto;"><img src="/fleo.at-medien/userImages/1678485250imagepng13451778227.png.webp" style="width:100%;height:auto;" /></div><div style="position:absolute;left:1800px;bottom:550px;z-index:-1;width:3473px;height:auto;"><img src="https://' + mainDomain + '/fleo.at-medien/layout/background_long_kara_3473x400.webp" style="width:100%;height:auto;" /></div><div style="position:absolute;left:5273px;bottom:200px;z-index:-1;width:1800px;height:auto;"><img src="https://' + mainDomain + '/fleo.at-medien/repertoire/b_sterne.webp" style="width:100%;height:auto;" /></div><div style="position:absolute;left:7073px;bottom:550px;z-index:-1;width:3473px;height:auto;"><img src="https://' + mainDomain + '/fleo.at-medien/layout/background_long_kara_3473x400.webp" style="width:100%;height:auto;" /></div></div>');
+$("#waldf").append('<div id="waldff"><div style="position:absolute;left:-8746px;bottom:550px;z-index:-1;width:3473px;height:auto;"><img src="https://' + mainDomain + '/fleo.at-medien/layout/background_long_kara_3473x400.webp" style="width:100%;height:auto;" /></div><div style="position:absolute;left:-5273px;bottom:200px;z-index:-1;width:1800px;height:auto;"><img src="https://' + mainDomain + '/fleo.at-medien/repertoire/b_sterne.webp" style="width:100%;height:auto;" /></div><div style="position:absolute;left:-3473px;bottom:550px;z-index:-1;width:3473px;height:auto;"><img src="https://' + mainDomain + '/fleo.at-medien/layout/background_long_kara_3473x400.webp" style="width:100%;height:auto;" /></div><div style="position:absolute;left:0;bottom:200px;z-index:-1;width:1800px;height:auto;"><img src="https://' + mainDomain + '/fleo.at-medien/repertoire/b_sterne.webp" style="width:100%;height:auto;" /></div><div style="position:absolute;left:1800px;bottom:550px;z-index:-1;width:3473px;height:auto;"><img src="https://' + mainDomain + '/fleo.at-medien/layout/background_long_kara_3473x400.webp" style="width:100%;height:auto;" /></div><div style="position:absolute;left:5273px;bottom:200px;z-index:-1;width:1800px;height:auto;"><img src="https://' + mainDomain + '/fleo.at-medien/repertoire/b_sterne.webp" style="width:100%;height:auto;" /></div><div style="position:absolute;left:7073px;bottom:550px;z-index:-1;width:3473px;height:auto;"><img src="https://' + mainDomain + '/fleo.at-medien/layout/background_long_kara_3473x400.webp" style="width:100%;height:auto;" /></div></div><div id="waldfb" style="display:none;"><div style="position:absolute;left:-8746px;bottom:550px;z-index:-1;width:3473px;height:auto;"><img src="https://' + mainDomain + '/fleo.at-medien/layout/background_long_kara_3473x400.webp" style="width:100%;height:auto;" /></div><div style="position:absolute;left:-5273px;bottom:200px;z-index:-1;width:1800px;height:auto;"><img src="https://' + mainDomain + '/fleo.at-medien/repertoire/b_sterne.webp" style="width:100%;height:auto;" /></div><div style="position:absolute;left:-3473px;bottom:550px;z-index:-1;width:3473px;height:auto;"><img src="https://' + mainDomain + '/fleo.at-medien/layout/background_long_kara_3473x400.webp" style="width:100%;height:auto;" /></div><div style="position:absolute;left:0;bottom:500px;z-index:-1;width:1800px;height:auto;"><img src="/fleo.at-medien/userImages/1678485250imagepng13451778227.png.webp" style="width:100%;height:auto;" /></div><div style="position:absolute;left:1800px;bottom:550px;z-index:-1;width:3473px;height:auto;"><img src="https://' + mainDomain + '/fleo.at-medien/layout/background_long_kara_3473x400.webp" style="width:100%;height:auto;" /></div><div style="position:absolute;left:5273px;bottom:200px;z-index:-1;width:1800px;height:auto;"><img src="https://' + mainDomain + '/fleo.at-medien/repertoire/b_sterne.webp" style="width:100%;height:auto;" /></div><div style="position:absolute;left:7073px;bottom:550px;z-index:-1;width:3473px;height:auto;"><img src="https://' + mainDomain + '/fleo.at-medien/layout/background_long_kara_3473x400.webp" style="width:100%;height:auto;" /></div></div>');
 $("#haeuserf").append('<div style="position:absolute;left:0;bottom:60px;z-index:0;width:1800px;height:auto;"><img src="https://' + mainDomain + '/fleo.at-medien/repertoire/haeuserf.webp" style="width:100%;height:auto;" /></div>'); // <div style="position:absolute;left:0px;bottom:60px;z-index:-3;opacity:0.8;width:2000px;height:auto;"><img src="/fleo.at-medien/repertoire/1673042494imagepng939741428082.png" style="width:100%;height:auto;" /></div>
 
 let windowObjectReference = null;
@@ -1377,7 +1372,7 @@ $("#niceWindowToggle").click(function(){
             windowObjectReference.focus(); 
             $("#otherWindowOpenedContent").html('If ' + mainDomain + ' is not open in other window, <span style="color:blue;" id="clickNew">click here</span> to open it.');
             $("#clickNew").click(function(){ 
-                windowObjectReference = window.open('', mainDomain ,'toolbar=no, menubar=no, resizable=yes');
+                windowObjectReference = window.open('', mainDomain,'toolbar=no, menubar=no, resizable=yes');
                 $("#otherWindowOpenedContent").html('You should see ' + mainDomain + ' in other window as you clicked a link to open it. Otherwise <a href="">open ' + mainDomain + '</a> here.');
                 self.focus();
             });
@@ -1462,7 +1457,7 @@ function turnAround(will) {
 
 $("#infot").click(function () {
     if (will == "f") {
-        $("#bgbgsterneVideo").attr("src","/fleo.at-medien/repertoire/space_front_320_PIxEL.mp4"); // 
+        // if (Device_Type() !== "Mobile" && Device_Type() !== "Tablet") { $("#bgbgsterneVideo").attr("src","/fleo.at-medien/repertoire/space_front_320_PIxEL.mp4"); } // 
         // $("#bgbgsterneVideo").attr("src","/fleo.at-medien/repertoire/1676326393part1bmp.mp4.mp4");
         $("#bgbgsterne")[0].load();
         $("#haeuserf").show();
@@ -1475,7 +1470,7 @@ $("#infot").click(function () {
         am = "f";
         will = "b";
     } else if (will == "b") {
-        $("#bgbgsterneVideo").attr("src","/fleo.at-medien/repertoire/space_back_320_PIxEL.mp4");
+        // if (Device_Type() !== "Mobile" && Device_Type() !== "Tablet") { $("#bgbgsterneVideo").attr("src","/fleo.at-medien/repertoire/space_back_320_PIxEL.mp4"); }
         // $("#bgbgsterneVideo").attr("src","/fleo.at-medien/userImages/16773502112COMPO.mp4.mp4");
         $("#bgbgsterne")[0].load();
         $("#haeuserf").hide();
@@ -1674,7 +1669,7 @@ function moveWithSocket(coordsTr,doordsTr,duration,height,turn) {
               wentZ -= (doordsTr - sMMssM); 
                 moveMeTrainsMMssM = (doordsTr - sMMssM) * -1;
           }
-            $(".move").css("transition","bottom "+durationSec+"s linear 0s, transform "+durationSec+"s linear 0s, margin-bottom "+durationSec+"s linear 0s");
+            // $(".move").css("transition","bottom "+durationSec+"s linear 0s, transform "+durationSec+"s linear 0s, margin-bottom "+durationSec+"s linear 0s");
           for (aaa = 0; aaa < iii.length; aaa++) {
               that1 = iii.item(aaa);
               scaleNow = parseInt($(that1).attr("distance"));
@@ -1737,7 +1732,7 @@ function moveWithSocket(coordsTr,doordsTr,duration,height,turn) {
                         }
                     }
 
-$(".move").css("transition","bottom 0.0s linear 0s, transform 0.0s linear 0s, margin-bottom 0.0s linear 0s");
+// $(".move").css("transition","bottom 0.0s linear 0s, transform 0.0s linear 0s, margin-bottom 0.0s linear 0s");
 sMMssM = doordsTr;
 historyCoords = coordsTr;
 // whereAmIFromSocket(coordsTr, doordsTr, 0, (myNumber[0] + myNumber[2]).replace("#", ""), myNumber[2]);
@@ -2747,15 +2742,245 @@ allowPageScroll:"auto"
 });
 */
 
+///// fleo.at_superSteeringWheel
+const trackingDivContainer = document.getElementById('superSteeringWheelContainer');
+const trackingDiv = document.getElementById('superSteeringWheel');
+
+let startX, startY, centerX, centerY, deltaXStore = 0, deltaYStore = 0, currentXStore = 0, currentYStore = 0;
+var currentlyInput = 1, kindOfWheel = 2; let sMMssMTmp, historyCoordsTmp;
+var checkIntervalSuperSteer;
+if (Device_Type() !== "Mobile" && Device_Type() !== "Tablet") { var updateTimeSuperSteer = 250; } else { var updateTimeSuperSteer = 1000; }
+
+const updatePosition = (currentX, currentY) => {
+    const deltaX = (currentX - centerX);
+    const deltaY = (currentY - centerY);
+    deltaXStore += deltaX;
+    deltaYStore += deltaY;
+    if (deltaXStore >= 85) { deltaXStore = 85; };
+    if (deltaXStore <= -85) { deltaXStore = -85; };
+    if (deltaYStore >= 85) { deltaYStore = 85; };
+    if (deltaYStore <= -85) { deltaYStore = -85; };    
+
+    trackingDiv.style.left = `${currentX - trackingDivContainer.getBoundingClientRect().left}px`;
+    trackingDiv.style.top = `${currentY - trackingDivContainer.getBoundingClientRect().top}px`;
+    
+    whoC = (myNumber[0] + myNumber[2]).replace("#", "");
+
+        if (will == "b") {
+            if (ws.readyState === WebSocket.OPEN) {
+                $("#flash").addClass("ffff");
+                hiCo = historyCoords - deltaXStore;
+                sMMs = sMMssM - (deltaYStore *-1);  
+                sMMssMTmp = sMMs;
+                historyCoordsTmp = hiCo;              
+                wentZ -= (sMMs - sMMssM); 
+                moveMeTrainsMMssM = (sMMs - sMMssM);
+          for (aaa = 0; aaa < iii.length; aaa++) {
+              that1 = iii.item(aaa);
+              scaleNow = parseInt($(that1).attr("distance"));
+              scaleNowNumber = scaleNow;
+              scaleNowNumber += moveMeTrainsMMssM;                	
+              eee(scaleNowNumber, aaa, scaleNow, that1);	
+          }
+
+              $("#waldf").css("bottom", Math.round(relationToBackground / -8) * thisAllScale - 140 + "px");
+              $("#haeuserf").css("bottom", Math.round(relationToBackground / -8) * thisAllScale - 140 + "px");
+          }
+          $(".move > .tree").css({"left": "-=" + parseInt(historyCoords - hiCo)}); 
+
+                if (turn < 7800 && turn > -7400) {
+                $("[class*='scale']").css({"left": turn + "px"});
+                $("#haeuserf, #waldf").css({"left": turn + "px"});
+                $("#bgbgbsterne").css({"left": turn * 1.2 + "px"});
+                $("#mapForLocator").css({"transform-origin": mySpotterMapLocationX + "px " + mySpotterMapLocationY + "px"}).transition({perspective: '100px',rotate: (turn / 9000) * 90 + 'deg'}, {duration: 0}); } 
+                else if (turn >= 7400 || turn <= -7800) {
+                    $("#infot").click();
+                    $("[class*='scale']").css({"left": turn + "px"});
+                    $("#haeuserf, #waldf").css({"left": turn + "px"});
+                    $("#bgbgbsterne").css({"left": turn * 1.2 + "px"});
+                    $("#mapForLocator").css({"transform-origin": mySpotterMapLocationX + "px " + mySpotterMapLocationY + "px"}).transition({perspective: '100px',rotate: (turn / 9000) * 90 + 'deg'}, {duration: 0});    
+                }
+                if (!isInt(turn)) { turn = 0; }
+                if (currentlyInput == 1) { ws.send(JSON.stringify({doing:9,hiCo:hiCo,sMMs:sMMs,level:relationToBackground,duration:0,turn:parseInt(turn),turnX:0,turnZ:0,whoC:whoC})); 
+                currentlyInput = 0;
+                checkIntervalSuperSteer = setTimeout(function (){
+                    // ws.send(JSON.stringify({doing:9,hiCo:hiCo,sMMs:sMMs,level:relationToBackground,duration:0,turn:parseInt(turn),turnX:0,turnZ:0,whoC:whoC}));
+                    currentlyInput = 1;
+                    deltaXStore = 0;
+                    deltaYStore = 0;
+                }, updateTimeSuperSteer);
+            };       
+
+        } else {
+            if (ws.readyState === WebSocket.OPEN) {
+                $("#flash").addClass("ffff");
+                hiCo = (historyCoords + deltaXStore);
+                sMMs = (sMMssM + deltaYStore);
+                sMMssMTmp = sMMs;
+                historyCoordsTmp = hiCo;         
+                went += (sMMs - sMMssM);
+                moveMeTrainsMMssM = (sMMs - sMMssM);
+              for (aaa = 0; aaa < iii.length; aaa++) {
+                  that1 = iii.item(aaa);
+                  scaleNow = parseInt($(that1).attr("distance"));
+                  scaleNowNumber = scaleNow;
+                  scaleNowNumber += moveMeTrainsMMssM;                	
+                  eee(scaleNowNumber, aaa, scaleNow, that1);	
+              }
+    
+                  $("#waldf").css("bottom", Math.round(relationToBackground / -8) * thisAllScale - 140 + "px");
+                  $("#haeuserf").css("bottom", Math.round(relationToBackground / -8) * thisAllScale - 140 + "px");
+              }
+              $(".move > .tree").css({"left": "-=" + parseInt(historyCoords - hiCo)}); 
+    
+                
+                        if (turn < 7400 && turn > -7800) {
+                            $("[class*='scale']").css({"left": turn + "px"});
+                            $("#haeuserf, #waldf").css({"left": turn + "px"});
+                            $("#bgbgbsterne").css({"left": turn * 1.2 + "px"});
+                            $("#mapForLocator").css({"transform-origin": mySpotterMapLocationX + "px " + mySpotterMapLocationY + "px"}).transition({perspective: '100px', rotate: (turn / 9000) * -90 + 180 + 'deg'}, {duration: 0}); }
+                            else if (turn >= 7800 || turn <= -7400) { 
+                                $("#infot").click();
+                                $("[class*='scale']").css({"left": turn + "px"});
+                                $("#haeuserf, #waldf").css({"left": turn + "px"});
+                                $("#bgbgbsterne").css({"left": turn * 1.2 + "px"});
+                                $("#mapForLocator").css({"transform-origin": mySpotterMapLocationX + "px " + mySpotterMapLocationY + "px"}).transition({perspective: '100px',rotate: (turn / 9000) * -90 + 180 + 'deg'}, {duration: 0});
+                            }
+
+                if (!isInt(turn)) { turn = 0; }
+                if (currentlyInput == 1) { ws.send(JSON.stringify({doing:9,hiCo:hiCo,sMMs:sMMs,level:relationToBackground,duration:0,turn:parseInt(turn),turnX:0,turnZ:0,whoC:whoC})); };       
+                currentlyInput = 0;
+                checkIntervalSuperSteer = setTimeout(function (){
+                    // ws.send(JSON.stringify({doing:9,hiCo:hiCo,sMMs:sMMs,level:relationToBackground,duration:0,turn:parseInt(turn),turnX:0,turnZ:0,whoC:whoC}));
+                    currentlyInput = 1;
+                    deltaXStore = 0;
+                    deltaYStore = 0;
+                }, updateTimeSuperSteer);
+            }
+            sMMssM = sMMssMTmp;
+            historyCoords = historyCoordsTmp;
+            Cookies.set('spacecoords', historyCoords, { secure: true, sameSite: 'none', expires: 730 });
+            Cookies.set('spacedoords', (parseInt(sMMssM / 3)), { secure: true, sameSite: 'none', expires: 730 });
+            $(".maennikenLocator").each(function(){
+            let locatorToMove = $(this).attr("id"); 
+            let locatorToMoveSnip = locatorToMove.replace("maennikenLocator-","");                       
+            locateHorizontal = parseInt(($("#personCode-" + locatorToMoveSnip).find(".tree").css("left")));
+            locateHorizontal = 150 + (locateHorizontal / 300);
+            let oldD = parseInt($("#personCode-" + locatorToMoveSnip).attr("distance"));
+            locateVertical = 150 + (oldD / 300);
+            bottomLocate = locateVertical - 2.5 + "px";
+            leftLocate = locateHorizontal - 2.5 + "px";
+            if (locateVertical < 150) { $("#" + locatorToMove).css("background","red"); bottomLocate = 150 + (150 - Math.abs(locateVertical)) + "px"; } else {
+              $("#" + locatorToMove).css("background","white"); 
+            }
+            $("#" + locatorToMove).css({
+              "left": leftLocate,
+              "bottom": bottomLocate
+            });
+            }); 
+            $(".person").each(function(){
+                changeVolumeMeMoving($(this).attr("id").replace("personCode-",""));
+            });
+            
+            $(".audioStation").each(function(){            
+                sideVolume[$(this)] = ((1) - Math.abs((parseInt($(this).parent(".tree").css("left"))) * (1 / 7500))).toFixed(2);
+                doordsVolume[$(this)] = ((1) - Math.abs((parseInt($(this).parent(".tree").parent(".move").attr("distance"))) * (1 / 7500))).toFixed(2);                   
+                if (sideVolume[$(this)] < doordsVolume[$(this)]) { setVolume[$(this)] = sideVolume[$(this)]; } else { setVolume[$(this)] = doordsVolume[$(this)]; }                 
+                if (setVolume[$(this)] < 0) { setVolume[$(this)] = 0; }    
+                if ($(this).attr("id") == "ytplayer") {
+                  ytplayer.setVolume(setVolume[$(this)] * 100);
+                } else {         
+                $(this)[0].volume = setVolume[$(this)];           
+                }
+            });
+            
+            mySpotterMapLatitude = Math.trunc(parseInt(historyCoords) / 1000) * -1;
+            mySpotterMapLongitude = (parseInt(sMMssM) * -1) / 300;
+            mySpotterMapLocationX = ((mySpotterMapLatitude / 360) + 0.5) * 720;
+            mySpotterMapLocationY = (1 - ((mySpotterMapLongitude / 180) + 0.5)) * 360;
+            
+            if (will == "b") { 
+                $("#mapForLocator").css({"transform-origin": mySpotterMapLocationX + "px " + mySpotterMapLocationY + "px", "bottom": mySpotterMapLocationY - 200 + "px", "left": w / 2 - mySpotterMapLocationX + "px"}).transition({perspective: '100px', rotate: (turn / 9000) * 90 + 'deg'}, {duration: 0}); 
+            } else {
+                $("#mapForLocator").css({"transform-origin": mySpotterMapLocationX + "px " + mySpotterMapLocationY + "px", "bottom": mySpotterMapLocationY - 200 + "px", "left": w / 2 - mySpotterMapLocationX + "px"}).transition({perspective: '100px', rotate: (turn / 9000) * -90 + 180 + 'deg'}, {duration: 0}); 
+            }
+            $("#maennikenSpotter-Own").css({"top": mySpotterMapLocationY - 5 + "px", "left": mySpotterMapLocationX - 5 + "px"});
+            
+            
+            if (historyCoords > 15000 || historyCoords < -32000 || sMMssM < -21000 || sMMssM > -11000 || 1 == 1) { if (mapIsWorld == 0) { mapIsWorld = 1; //$("#mapForLocatorEurope").hide(); 
+            $("#mapForLocator").show(); if (Device_Type() !== "Mobile" && Device_Type() !== "Tablet") { 
+                $("#mapBody2").css("transform","rotateX(34deg) scale(1)"); $("#mapBody").css({"transform":"scale(1);"}); } else { 
+                    $("#mapBody2").css("transform","rotateX(34deg) scale(1)"); $("#mapBody").css({"transform":"scale(1);"}); }}} else { if (mapIsWorld == 1) { mapIsWorld = 0; 
+                $("#mapForLocator").hide(); // $("#mapForLocatorEurope").show(); 
+                if (Device_Type() !== "Mobile" && Device_Type() !== "Tablet") { 
+                    $("#mapBody2").css("transform","rotateX(34deg) scale(1)"); $("#mapBody").css({"transform":"scale(1);"}); } else {
+                    $("#mapBody2").css("transform","rotateX(34deg) scale(1)"); $("#mapBody").css({"transform":"scale(1);"});
+                }}
+            }  
+
+
+    
+
+    trackingDiv.style.left = `${currentX - trackingDivContainer.getBoundingClientRect().left}px`;
+    trackingDiv.style.top = `${currentY - trackingDivContainer.getBoundingClientRect().top}px`;
+};
+
+const startDrag = (e) => {
+    e.preventDefault();
+    const isTouch = e.type === 'touchstart';
+
+    startX = isTouch ? e.touches[0].clientX : e.clientX;
+    startY = isTouch ? e.touches[0].clientY : e.clientY;
+
+    const rect = trackingDivContainer.getBoundingClientRect();
+    centerX = rect.left + rect.width / 2;
+    centerY = rect.top + rect.height / 2;
+
+    console.log(`Start Drag - StartX: ${startX}, StartY: ${startY}, CenterX: ${centerX}, CenterY: ${centerY}`);
+
+    const moveHandler = (e) => {
+        const currentX = isTouch ? e.touches[0].clientX : e.clientX;
+        const currentY = isTouch ? e.touches[0].clientY : e.clientY;
+        currentXStore = currentX;
+        currentYStore = currentY;
+        
+
+    };
+    let superSteeringWheelInterval = setInterval(function(){ updatePosition(currentXStore, currentYStore); }, 100);
+    const endHandler = () => {
+
+        clearInterval(superSteeringWheelInterval);
+        trackingDiv.style.left = '50%';
+        trackingDiv.style.top = '50%';
+        deltaXStore = 0;
+        deltaYStore = 0;
+
+        document.removeEventListener('mousemove', moveHandler);
+        document.removeEventListener('mouseup', endHandler);
+        document.removeEventListener('touchmove', moveHandler);
+        document.removeEventListener('touchend', endHandler);
+    };
+
+    document.addEventListener('mousemove', moveHandler);
+    document.addEventListener('mouseup', endHandler);
+    document.addEventListener('touchmove', moveHandler);
+    document.addEventListener('touchend', endHandler);
+};
+
+trackingDiv.addEventListener('mousedown', startDrag);
+trackingDiv.addEventListener('touchstart', startDrag);
+
+// $("#superSteeringWheelContainer").click(function(){ trackingDiv.style.left = '50%'; trackingDiv.style.top = '50%'; });
+
 
 ///// fleo.at_trainStation.js
 
 var currenturl = window.location.hostname;
 var currentpath = window.location.pathname;
 var currentaddress = currenturl + currentpath;
-var mapLatitude, mapLongitude, mapLocationX, mapLocationY; // <span id="goTrainstation" style="float:right;cursor:pointer;display:block;">Go Trainstation<span style="font-size:32px;">🚆</span></span>
-$("body").append('<div id="fixedLocation" style="color:white; font-size:24px;z-index:9050;background:gray; "><div id="TrainWOMapDiv"><div><span id="goMap" style="float:right;cursor:pointer;display:block;">Go map<span style="font-size:32px;">🗺</span></span>So, do you want to go:</div><br /><div class="goNothingLink" style="cursor:pointer;border: 10px solid purple; padding:10px;">Just hide this, looked good. X</div><br />or<br /><div id="goReal" style="cursor:pointer;border: 10px solid purple; padding:10px;">To my real location in ' + currenturl + ' (by IP-address)</div><br />or<br /><div id="goDowntown" style="cursor:pointer;border: 10px solid purple; padding:10px;">Downtown</div></div><div id="mapDiv" style="display:none;"><canvas id="mapForTrain" width="720" height="360" style="width:720px;height:360px;float:left;margin: 0 30px 0 0;"></canvas><span>Taxi:</span><p><input id="taxi-coords" class="selectReset" type="text" placeholder="' + historyCoords + '" size="20"></p><p><input id="taxi-doords" class="selectReset" type="text" placeholder="' + sMMssM + '" size="20"></p><p><button id="taxi-send">Go Taxi!</button></p><p><span class="goNothingLink" style="cursor:pointer;">Cancel</span></p></div></div>');
-$("body").append('<div id="fixedLocationOpen" style="display:none;position:fixed;top: 200px; right: 0px; width:90px; height: 90px;color:white; font-size:24px;z-index:7000;background:gray;border:5px solid purple;border-radius: 50px; transform: translateX(50px);cursor:pointer;"><br />🚆</div>');
+var mapLatitude, mapLongitude, mapLocationX, mapLocationY; // <span id="goTrainstation" style="float:right;cursor:pointer;display:block;">Go Trainstation<span style="font-size:32px;">ðŸš†</span></span>
+$("body").append('<div id="fixedLocation" style="color:white; font-size:24px;z-index:9050;background:gray; "><div id="TrainWOMapDiv"><div><span id="goMap" style="float:right;cursor:pointer;display:block;">Go map<span style="font-size:32px;">ðŸ—º</span></span>So, do you want to go:</div><br /><div class="goNothingLink" style="cursor:pointer;border: 10px solid purple; padding:10px;">Just hide this, looked good. X</div><br />or<br /><div id="goReal" style="cursor:pointer;border: 10px solid purple; padding:10px;">To my real location in ' + currenturl + ' (by IP-address)</div><br />or<br /><div id="goDowntown" style="cursor:pointer;border: 10px solid purple; padding:10px;">Downtown</div></div><div id="mapDiv" style="display:none;"><canvas id="mapForTrain" width="720" height="360" style="width:720px;height:360px;float:left;margin: 0 30px 0 0;"></canvas><span>Taxi:</span><p><input id="taxi-coords" class="selectReset" type="text" placeholder="' + historyCoords + '" size="20"></p><p><input id="taxi-doords" class="selectReset" type="text" placeholder="' + sMMssM + '" size="20"></p><p><button id="taxi-send">Go Taxi!</button></p><p><span class="goNothingLink" style="cursor:pointer;">Cancel</span></p></div></div>');
+$("body").append('<div id="fixedLocationOpen" style="display:none;position:fixed;top: 200px; right: 0px; width:90px; height: 90px;color:white; font-size:24px;z-index:7000;background:gray;border:5px solid purple;border-radius: 50px; transform: translateX(50px);cursor:pointer;"><br />ðŸš†</div>');
 
 $("#fixedLocation").dialog({
     title: "Move far",
@@ -2861,7 +3086,6 @@ var oldDirectionMoveW = [];
 var world2GeneratePortion = [];
 var world2GeneratePortionCount = 0;
 var world2GeneratePortionCountUp = 0;
-var world2GeneratePortionAmount = 0;
 
 if (Device_Type() !== "Mobile" && Device_Type() !== "Tablet") { 
     worldSrc = new EventSource('https://' + mainDomain + '/fleo.at-php/world.php?doing=0&spacenumber=' + (myNumber[0] + myNumber[2]).replace("#", "")); } else {
@@ -2991,13 +3215,10 @@ function reactToChanges() {
                     }  
                 if (isChangeS == 1) {
                     $('[data-attr=' + worldNews2.id + ']').find(".tree").animate({"width": worldNews2.width + "px"}, 500);
-                    }
-    
-    
-    
+                    }    
         }
         if (worldNews2.tick2 - worldNews2.tick == 2) {
-        $('[data-attr=' + worldNews2.id + ']').remove();
+        $('[data-attr=' + worldNews2.id + ']').remove(); 
         if (am == "f") {
             if (worldNews2.whatIsThis.includes("audStat")) {
                 $("#wrapper").append('<div class="move thing scale' + (worldNews2.coordsD + sMMssM) + '" distance="' + (worldNews2.coordsD + sMMssM) + '" playing="' + worldNews2.play + '" data-attr="' + worldNews2.id + '" data-online="' + worldNews2.isOnline + '"><div ' + worldNews2.object + ' width: ' + worldNews2.width + 'px; min-height: 1000px; pointer-events: none; bottom: ' + worldNews2.coordsH + 'px; left: ' + (worldNews2.coordsW + historyCoords) + 'px;">' + stripslashes(htmlDecode(worldNews2.name)) + '</div><script>' + stripslashes(htmlDecode(worldNews2.script)) + '</script></div>');
@@ -3014,6 +3235,9 @@ function reactToChanges() {
                 }
             }
             oldDirectionMoveW[worldNews2.id] == "x";
+        } 
+        if (worldNews2.robotData.includes("lowerOpacity")) {
+            $('[data-attr=' + worldNews2.id + ']').animate({"opacity":"0.5"}, 200);
         }
      } else {
         if (am == "f") {
@@ -3090,6 +3314,12 @@ function reactToChanges() {
                 isChangeS = 0;
             }
             if (haltEverything == 0) {
+                
+            /* if (worldNews2.whatIsThis.includes("audStat")) { 
+                console.log((Math.abs(parseFloat(worldNews2.seek) - parseFloat(document.getElementById(worldNews2.whatIsThis).currentTime)))); 
+                console.log(parseFloat(worldNews2.seek));
+                console.log(parseFloat(document.getElementById(worldNews2.whatIsThis).currentTime));
+            } */
             if (worldNews2.play == 1 && worldNews2.seek == 0 && worldNews2.whatIsThis.includes("audStat") || worldNews2.play == 1 && playerPlayingOld[worldNews2.whatIsThis] !== worldNews2.play && worldNews2.whatIsThis.includes("audStat")) { 
                 if (worldNews2.whatIsThis == "audStat-16713162473-01Mete") { 
                     document.getElementById("audStat-16713162473-01Mete").src = radioWebsite1; document.getElementById(worldNews2.whatIsThis).currentTime = 0; document.getElementById(worldNews2.whatIsThis).play(); }
@@ -3102,10 +3332,20 @@ function reactToChanges() {
             if (worldNews2.play == 2 && worldNews2.whatIsThis.includes("audStat") && !$("#videoPlayerControlsOuter-" + worldNews2.whatIsThis).hasClass("startedSimple")) {         
                 document.getElementById(worldNews2.whatIsThis).pause(); 
             } 
-            if (worldNews2.seek !== playerSeekOld[worldNews2.whatIsThis] && worldNews2.whatIsThis.includes("audStat") || worldNews2.play !== playerPlayingOld[worldNews2.whatIsThis] && worldNews2.whatIsThis.includes("audStat")) {
+
+            if (document.getElementById(worldNews2.whatIsThis) && typeof document.getElementById(worldNews2.whatIsThis).currentTime === 'number' && worldNews2.whatIsThis.includes("audStat")) {
+            if ((Math.abs(parseFloat(worldNews2.seek) - parseFloat(document.getElementById(worldNews2.whatIsThis).currentTime)) > 1.5)) { 
+            document.getElementById(worldNews2.whatIsThis).currentTime = worldNews2.seek;
+            // console.log("player_seek_change");
+            }}
+            if (worldNews2.play !== playerPlayingOld[worldNews2.whatIsThis] && worldNews2.whatIsThis.includes("audStat")) {
+            document.getElementById(worldNews2.whatIsThis).currentTime = worldNews2.seek;
             playerPlayingOld[worldNews2.whatIsThis] = worldNews2.play;
-            playerSeekOld[worldNews2.whatIsThis] = worldNews2.seek;
+            // console.log("player_play_different");
             }
+        
+
+
         }
     
     
@@ -3189,15 +3429,8 @@ worldSrc.addEventListener('genesis', function (e) {
         truckLetDoords = worldNews.coordsD;
     }
 
-    if (firstRoomLoaded == 1) { 
-    $("#flash").addClass("fff");
-    $(".thing").remove();
-    $(".floor").remove();
-}
-
-
-
-        world2GeneratePortionAmount++;        
+    if (!$('[data-attr=' + worldNews.id + ']').length) {
+        
         if (worldNews.whatIsThis.includes("audStat")) {
         if (haltEverything == 0 || haltEverything == 1) {
         world2GeneratePortion[world2GeneratePortionCount] += '<div class="move thing scale' + worldNews.coordsD + '" distance="' + worldNews.coordsD + '" playing="' + worldNews.play + '" data-attr="' + worldNews.id + '" data-online="' + worldNews.isOnline + '"><div ' + worldNews.object + ' width: ' + worldNews.width + 'px; min-height: 1000px; pointer-events: none; bottom: ' + worldNews.coordsH + 'px; left: ' + worldNews.coordsW + 'px;">' + stripslashes(htmlDecode(worldNews.name)) + '</div><script>' + stripslashes(htmlDecode(worldNews.script)) + '</script></div>';
@@ -3205,13 +3438,12 @@ worldSrc.addEventListener('genesis', function (e) {
         if (worldNews.floor == "on") { world2GeneratePortion[world2GeneratePortionCount] += '<div class="move floor scale' + worldNews.coordsD + '" distance="' + worldNews.coordsD + '" playing="' + worldNews.play + '" data-attr="' + worldNews.id + '" data-online="' + worldNews.isOnline + '"><div ' + worldNews.object + ' width: ' + worldNews.width + 'px; bottom: ' + worldNews.coordsH + 'px; left: ' + worldNews.coordsW + 'px;">' + stripslashes(htmlDecode(worldNews.name)) + '</div></div><script>' + stripslashes(htmlDecode(worldNews.script)) + '</script>'; }
         else { world2GeneratePortion[world2GeneratePortionCount] += '<div class="move thing scale' + worldNews.coordsD + '" distance="' + worldNews.coordsD + '" playing="' + worldNews.play + '" data-attr="' + worldNews.id + '" data-online="' + worldNews.isOnline + '"><div ' + worldNews.object + ' width: ' + worldNews.width + 'px; bottom: ' + worldNews.coordsH + 'px; left: ' + worldNews.coordsW + 'px;">' + stripslashes(htmlDecode(worldNews.name)) + '</div><script>' + stripslashes(htmlDecode(worldNews.script)) + '</script></div>'; }
         }
-        $("#wrapper").append(world2GeneratePortion[world2GeneratePortionCount]);
         if (world2GeneratePortionCountUp%10==0) {
-        console.log("*** World-Portion " + (world2GeneratePortionCount + 1) + " loaded ***");
         world2GeneratePortionCount++;
         }
         world2GeneratePortionCountUp++
         oldDirectionMoveW[worldNews.id] == "x";
+    }
 
     $("#flash").removeClass("ff");
 }
@@ -3225,70 +3457,22 @@ function fff(fff, ggg, scaleNow, item) {
 }
 
 worldSrc.addEventListener('genesis-complete', function (e) {
-    toastr.success("Genesis done with " + world2GeneratePortionAmount + " elements.");
     if (genesisDone == 0 && firstRoomLoaded == 0) {
         $("#flash").addClass("fff");
-        $("body").append('<div id="startUpMessages" style="position:fixed;height:100%;width:100%;background:#00800000;color:blue;font-weight:bold;font-size:30px;bottom:0;left:0;z-index:9999999;perspective-origin:top right;perspective:460px;"><div style="transform-origin:center;transform:scale(1) rotateX(-3deg) rotateY(-1.55deg);position:absolute;text-align:center;height:auto;padding:30px;width:320px;top:120px;right:0;cursor:pointer;background:#ffffff8f;border:20px solid blue;">Let\'s collect and manage memories.<br />We need one click to start sounds.<br />When someone calls you, the browser will first ask for mic and cam. You do not have to accept anything.<br />Willkommen!</div></div>');
-            $("#startUpMessages").click(function(){ 
-                $("#startUpMessages").fadeOut(500);
-                setTimeout(function(){ haltEverything = 0; }, 500);
-                if (!$("#maennikenBag-" + (myNumber[0] + myNumber[2]).replace("#", "")).find(".medal2").length) { 
-                    // console.log("here");
-
-                    $("#goBuild").click();
-                }  });
-        reactToChanges();
-        world2Generate = "";
-        readyWorlds = 1;
-        firstRoomLoaded = 1;
-        genesisDone = 1;
-        world2GeneratePortionCountUp = 0;
-        world2GeneratePortionCount = 0;
-        world2GeneratePortionAmount = 0;
-        $("#flash").removeClass("fff");
-            } else if (genesisDone == 0 && firstRoomLoaded == 1) {
-                toastr.success("Genesis done with " + world2GeneratePortionAmount + " elements.");
-
-                $("#flash").addClass("fff");
-                $("body").append('<div id="startUpMessages" style="position:fixed;height:100%;width:100%;background:#00800000;color:blue;font-weight:bold;font-size:30px;bottom:0;left:0;z-index:9999999;perspective-origin:top right;perspective:460px;"><div style="transform-origin:center;transform:scale(1) rotateX(-3deg) rotateY(-1.55deg);position:absolute;text-align:center;height:auto;padding:30px;width:320px;top:120px;right:0;cursor:pointer;background:#ffffff8f;border:20px solid blue;">Let\'s collect and manage memories.<br />We need one click to start sounds.<br />When someone calls you, the browser will first ask for mic and cam. You do not have to accept anything.<br />Willkommen!</div></div>');
-
-                /*        for (var aaa = 0; aaa < iii.length; aaa++) {
-                            that = iii.item(aaa);
-                            scaleNow = parseInt($(that).attr("distance"));
-                            scaleNowNumber = scaleNow;
-                            scaleNowNumber += sMMssM;
-                            fff(scaleNowNumber, aaa, scaleNow, that);
-                            $(that).find(".tree").animate({
-                                "left": "+=" + parseInt(historyCoords)
-                            }, 0);
-                        } */
-                        
-                setTimeout(function(){ haltEverything = 0; }, 500);
-
-                world2Generate = "";
-                readyWorlds = 1;
-                firstRoomLoaded = 1;
-                genesisDone = 1;
-                world2GeneratePortionCountUp = 0;
-                world2GeneratePortionCount = 0;
-                world2GeneratePortionAmount = 0;
-                $("#flash").removeClass("fff");
-
-                    }
     // if ($(window).height() > 600) { $("body").append('<div id="startUpAskUser" style="position:fixed;width:40%;height:40%;left:26%;top:26%;padding:20px;background:white;border:2vw solid black;font-size:30px;color:black;font-weight:bold;z-index:999999;"><h1>Hello</h1><p>Please click \"Go for it!\" to get things started.<br />Or wait 10 seconds.</p><p><span id="getThingsStarted" style="border:5px solid black;background:white;color:black;padding:10px;cursor:pointer;">Go for it!</span><p></div>'); }
     // else { $("body").append('<div id="startUpAskUser" style="position:fixed;width:60%;height:60%;left:16%;top:6%;padding:20px;background:white;border:2vw solid black;font-size:30px;color:black;font-weight:bold;z-index:999999;"><h1>Hello</h1><p>Please click \"Go for it!\" to get things started.<br />Or wait 10 seconds.</p><p><span id="getThingsStarted" style="border:5px solid black;background:white;color:black;padding:10px;cursor:pointer;">Go for it!</span><p></div>'); }
     // if (yeahStartup == 1) { setTimeout(function(){ $("#getThingsStarted").click(); $("#menuOnOff").click(); $(".nineedge").dblclick(); },1500); } else { var startUpTimeout = setTimeout(function(){ $("#getThingsStarted").click(); $(".nineedge").dblclick(); },10000); }
     // $("#getThingsStarted").click(function(){ 
     // clearTimeout(startUpTimeout);
     // $("#startUpAskUser").remove(); 
-    // for (let i=0; i <= world2GeneratePortionCount; i++) {
+    for (let i=0; i <= world2GeneratePortionCount; i++) {
 
 
 
-        /* setTimeout(function(){
-            // $("#wrapper").append(world2GeneratePortion[i]); 
+        setTimeout(function(){
+            $("#wrapper").append(world2GeneratePortion[i]); 
             world2GeneratePortion[i] = "";
-            // if (i > 0) { console.log("*** World-Portion " + i + " of " + world2GeneratePortionCount + " loaded ***"); }
+            if (i > 0) { console.log("*** World-Portion " + i + " of " + world2GeneratePortionCount + " loaded ***"); }
         
         if (i == world2GeneratePortionCount) {
             console.log("*** Genesis complete ***");
@@ -3313,27 +3497,26 @@ worldSrc.addEventListener('genesis-complete', function (e) {
                 $(that).find(".tree").animate({
                     "left": "+=" + historyCoords
                 }, 0);
-            }}
+            }}*/
             world2Generate = "";
             readyWorlds = 1;
             firstRoomLoaded = 1;
             genesisDone = 1;
             world2GeneratePortionCountUp = 0;
             world2GeneratePortionCount = 0;
-            world2GeneratePortionAmount = 0;
             
             // });
             $("#flash").removeClass("fff");
             }
 
-        }, 100);
-    // }
-} */
+        }, i * 600);
+    }
+}
 
-    /*         else if (genesisDone == 0 && firstRoomLoaded == 1) {
-                /* $("#flash").addClass("fff");
+            else if (genesisDone == 0 && firstRoomLoaded == 1) {
+                $("#flash").addClass("fff");
                 $(".thing").remove();
-                $(".floor").remove(); 
+                $(".floor").remove();
                 for (let i=0; i <= world2GeneratePortionCount; i++) {
                     setTimeout(function(){
                     $("#wrapper").append(world2GeneratePortion[i]);
@@ -3362,7 +3545,7 @@ worldSrc.addEventListener('genesis-complete', function (e) {
     }, i * 600);
 
 }
-    } */
+    }
 });
 
     
@@ -3438,19 +3621,21 @@ $(".audioStationAudioPlayLargeSimple-" + audioStationToAssign).click(function(){
     $("#videoPlayerControlsOuter-" + audioStationToAssign).removeClass("startedAll").addClass("startedSimple");
  });
  $(".audioStationAudioStopLargeSimple-" + audioStationToAssign).click(function(){
-    document.getElementById(audioStationToAssign).pause();   
+    document.getElementById(audioStationToAssign).pause();
+    $("#videoPlayerControlsOuter-" + audioStationToAssign).removeClass("startedSimple").removeClass("startedAll");
  });
  $(".audioStationAudioPlayLargeAll-" + audioStationToAssign).click(function(){
     $("#videoPlayerControlsOuter-" + audioStationToAssign).removeClass("startedSimple").addClass("startedAll");
 
         $.post("https://" + mainDomain + "/fleo.at-php/fleo.at_timeSeek.php", { doing: 4, room: myRoom, audioStation: audioStationToAssign }).done(function(resultSeek){
             document.getElementById(audioStationToAssign).currentTime = resultSeek;
-            setTimeout(function(){ // document.getElementById(audioStationToAssign).play(); 
-            $.post("https://" + mainDomain + "/fleo.at-php/fleo.at_timeSeek.php", { doing: 1, room: myRoom, audioStation: audioStationToAssign, seek: document.getElementById(audioStationToAssign).currentTime }); }, 1500);
+            // document.getElementById(audioStationToAssign).play(); 
+            $.post("https://" + mainDomain + "/fleo.at-php/fleo.at_timeSeek.php", { doing: 1, room: myRoom, audioStation: audioStationToAssign, seek: document.getElementById(audioStationToAssign).currentTime });
         });  
  });
  $(".audioStationAudioStopLargeAll-" + audioStationToAssign).click(function(){
     $.post("https://" + mainDomain + "/fleo.at-php/fleo.at_timeSeek.php", { doing: 2, room: myRoom, audioStation: audioStationToAssign, seek: document.getElementById(audioStationToAssign).currentTime });
+    $("#videoPlayerControlsOuter-" + audioStationToAssign).removeClass("startedSimple").removeClass("startedAll");
  });
     document.getElementById(audioStationToAssign).oncanplaythrough = function(){
     $("#videoPlayerInnerSeekBar-" + audioStationToAssign).slider(
@@ -3470,9 +3655,7 @@ $(".audioStationAudioPlayLargeSimple-" + audioStationToAssign).click(function(){
             stop: function(abc, ui){
                 $("#videoPlayerControlsInner-" + audioStationToAssign).removeClass("seeking");
                 if ($("#videoPlayerControlsOuter-" + audioStationToAssign).hasClass("startedSimple")) { document.getElementById(audioStationToAssign).play(); } else {
-                setTimeout(function(){
                 $.post("https://" + mainDomain + "/fleo.at-php/fleo.at_timeSeek.php", { doing: 1, room: myRoom, audioStation: audioStationToAssign, seek: ui.value }); 
-                }, 500);
             }
             },
             create: function(){
@@ -3485,10 +3668,11 @@ $(".audioStationAudioPlayLargeSimple-" + audioStationToAssign).click(function(){
 
         $("#audioStationAudioDiv-" + audioStationToAssign).css("bottom", 28 + (322 - (322/100 * (document.getElementById(audioStationToAssign).currentTime / document.getElementById(audioStationToAssign).duration * 100))));
         $("#videoPlayerInnerSeekBar-" + audioStationToAssign).slider("value",document.getElementById(audioStationToAssign).currentTime);
-        if (tuq[audioStationToAssign] % 30 == 0) {//  && $(".audioStationAudioPlay-" + audioStationToAssign).hasClass("startedAll")) {
+        if ($("#videoPlayerControlsOuter-" + audioStationToAssign).hasClass("startedAll")) {
+        if (tuq[audioStationToAssign] % 100 == 0) {
             // console.log(document.getElementById(audioStationToAssign).currentTime);
             $.post("https://" + mainDomain + "/fleo.at-php/fleo.at_timeSeek.php", { doing: 3, room: myRoom, audioStation: audioStationToAssign, seek: document.getElementById(audioStationToAssign).currentTime });        
-        }
+        }}
         tuq[audioStationToAssign]++;
 }
         
@@ -3559,8 +3743,8 @@ $(".audioStationAudioStop-" + audioStationToAssign).click(function(){
         if (audioStationToAssign == "audStat-16713162473-01Mete" || audioStationToAssign == "audStat45614724") { } else {
         $("#audioStationAudioDiv-" + audioStationToAssign).css("bottom", 28 + (322 - (322/100 * (document.getElementById(audioStationToAssign).currentTime / document.getElementById(audioStationToAssign).duration * 100))));
         $("#videoPlayerInnerSeekBar-" + audioStationToAssign).slider("value",document.getElementById(audioStationToAssign).currentTime);
-        if ($(".audioStationAudioPlay-" + audioStationToAssign).hasClass("startedSelf")) {
-        if (tuq[audioStationToAssign] % 30 == 0) {
+        if ($(".audioStationAudioPlay-" + audioStationToAssign).hasClass("startedAll")) {
+        if (tuq[audioStationToAssign] % 20 == 0) {
             // console.log(document.getElementById(audioStationToAssign).currentTime);
             $.post("https://" + mainDomain + "/fleo.at-php/fleo.at_timeSeek.php", { doing: 3, room: myRoom, audioStation: audioStationToAssign, seek: document.getElementById(audioStationToAssign).currentTime });        
         }
@@ -3647,73 +3831,6 @@ $("#drive").css("background","rgb(214, 214, 195)");
 var sensorsStarted = 0;
 if (window.self == window.top) { var isWindowTop = 1; } else { var isWindowTop = 0; }  // workaround
 
-if (myRoom == "demand" || myRoom == "demandNew" || myRoom == "weltfernsehsender.de" && insideWeltpolizei == 0 || myRoom == "interlectual.org" && insideWeltpolizei == 0) {
-    $("body").append('<div id="overlaySensors" style="position:fixed;top:0;left:0;width:100%;height:100%;background:#B0CECD;background:linear-gradient(45deg, #B0CECD4f 0%, #6279C54f 100%);color:blue;text-shadow: 4px 4px 2px #fff;font-size:50px;font-weight:bold;text-align:center;padding:400px 0 400px 0;z-index:999999999;">Technical 5 seconds, wait ...</div>'); 
-    $("body").append('<div id="demandLink" style="position:fixed;width:40%;height:100%;left:26%;top:0;padding:20px;background:rgb(214, 214, 195);border-left:2vw solid black;border-right:2vw solid black;font-size:20px;color:black;font-weight:bold;z-index:999999;">' +
-    '<h2>Are you personally affected with a problem?</h2>' +
-    '<p><div id="demandYes" style="width:100px;height:50px;background:red;border:10px solid gray;color:white;font-weight:bold;text-align:center;padding:5px;">Yes</div><div id="demandNo" style="width:100px;height:50px;background:green;border:10px solid gray;color:white;font-weight:bold;cursor:pointer;text-align:center;padding:5px;">No</div></p>' +
-    '<p>(This question is for ask for camera, microphone, location and sensors.)</p>' +
-    '<p class="camMicSensorsTimeout">(Camera and microphone will start in <span class="secondsToCall" style="background:white;"></span> seconds.)<br /><br /><button class="abortLoadingCamMicLocationSensors" style="font-size:26px;">Abort loading Cam and Mic</button></p>' +
-    '</div>');
-
-    var secondsToLoadCameraMicLocationSensors = 15;
-    var startupTimeout = setInterval(function(){
-    secondsToLoadCameraMicLocationSensors--;
-    $(".secondsToCall").html(secondsToLoadCameraMicLocationSensors);
-    if (secondsToLoadCameraMicLocationSensors == 0) { clearTimeout(startupTimeout);
-    $.post("/fleo.at-php/present.php", { personally: "time" });
-    $("#demandLink").hide();
-    $("#goReal").click();
-    $("#bindLocation").click();
-    $("#startSensors").click();
-    setTimeout(function(){ $("#push2TalkUserWants").click(); }, 6000);
-    setTimeout(function(){ $("#walkAroundWithVideoAudioAutoAccept").click(); $("#hearLikeOwl").click(); }, 10000);
-    }
-    }, 1000);
-    $(".abortLoadingCamMicLocationSensors").click(function(){ clearTimeout(startupTimeout);
-    $.post("/fleo.at-php/present.php", { personally: "noCallWanted" });
-    $(".camMicSensorsTimeout").hide();
-    });
-    $("#demandYes").click(function(){
-    clearTimeout(startupTimeout);
-    $.post("/fleo.at-php/present.php", { personally: "yes" });
-    $("#demandLink").hide();
-    $("#goReal").click();
-    $("#bindLocation").click();
-    $("#startSensors").click();
-    setTimeout(function(){ $("#push2TalkUserWants").click(); }, 6000);
-    setTimeout(function(){ $("#walkAroundWithVideoAudioAutoAccept").click(); $("#hearLikeOwl").click(); }, 10000);
-    });
-    $("#demandNo").click(function(){
-    clearTimeout(startupTimeout);
-    $.post("/fleo.at-php/present.php", { personally: "no" });
-    $("#demandLink").hide();
-    $("#goReal").click();
-    $("#bindLocation").click();
-    $("#startSensors").click();
-    setTimeout(function(){ $("#push2TalkUserWants").click(); }, 6000);
-    setTimeout(function(){ $("#walkAroundWithVideoAudioAutoAccept").click(); $("#hearLikeOwl").click(); }, 10000);
-    });
-
-setTimeout(function(){ $("#overlaySensors").hide(); }, 5000);
-/*
-setTimeout(function(){ if (sensorsStarted == 0) {
-sensorsStarted = 1; 
-
-$("#startSensors").hide();
-$("#overlaySensors").hide(); 
-$("#menuBottom").append('<div id="sensorsWallOnOff" class="cockpit menuItem">Show Data</div>');                      
-                      
-$("#sensorsWallOnOff").click(function(){
-$("#sensorsWall").slideToggle("slow");
-});
-sensorsWall();
-} 
-
-},5000);*/
-setTimeout(function(){ $("#startUpMessages").click(); }, 7000)
-}
-
 $("#startSensors").click(function(){
     sensorsStarted = 1; 
 
@@ -3731,7 +3848,7 @@ $("#startSensors").click(function(){
 
 function sensorsWall() {
 setTimeout(function(){
-$("body").append('<div id="sensorsWall" style="pointer-events:none;position:fixed;width:300px;height:420px;bottom:0;right:0;background:#ffffff4f;color:#ffffff7f;display:none;"></div>'); // ja, was soll ich sagen: Die Frage ruhte hier für drei Wochen. War wohl ein Systemfehler, die sensorsWall zu blocken.
+$("body").append('<div id="sensorsWall" style="pointer-events:none;position:fixed;width:300px;height:420px;bottom:0;right:0;background:#ffffff4f;color:#ffffff7f;display:none;"></div>'); // ja, was soll ich sagen: Die Frage ruhte hier fÃ¼r drei Wochen. War wohl ein Systemfehler, die sensorsWall zu blocken.
 
 $("#sensorsWall").append('<span>Lat</span><div id="sensorsLat">empty</div><span>Lon</span><div id="sensorsLon">empty</div><span>Heading</span><div id="sensorsHeading">empty</div>');
 
@@ -4002,6 +4119,7 @@ $("body").arrive("#push2TalkUser", function() {
                 fd.append('streamsNum', streamsNum);
     
         setTimeout(function(){
+     
             $.ajax({
                 url: "https://" + mainDomain + "/fleo.at-php/uploadPush2Talk.php",
                 data: fd,
@@ -4011,6 +4129,7 @@ $("body").arrive("#push2TalkUser", function() {
               $("#audioStationUrl").val(data);
               $("#audioStationUrl").trigger("input");  
             });
+        
       $("#push2TalkUser").toggle();
       $("#push2TalkUserUpload").toggle();
       $("#push2TalkRec").toggle();
@@ -4181,9 +4300,7 @@ $("body").arrive("#push2TalkUser", function() {
                         playReplayStream.addTrack(playReplay); */
                         document.getElementById("callerAudio-ReplayPlaySound").srcObject = streamReplay;
                         document.getElementById("callerAudio-ReplayPlaySound").play(); }
-                      else { 
-                        mediaRecorder["callerAudio-Replay"] = new MediaRecorder(fleoMediaStream["callerAudio-Replay"].stream); 
-                    }
+                      
     
                       mediaRecorderArray = [];
                       Object.keys(mediaRecorder).forEach((key) => {
@@ -4266,6 +4383,7 @@ $("body").arrive("#push2TalkUser", function() {
               $("#push2TalkRec").toggle();
               $("#push2TalkRecUpload").toggle();
               $(".maennikenAudioPlay-rec").hide(); $(".maennikenAudioStop-rec").hide(); $(".maennikenAudioWhite-rec").show();
+
     }
 
         
@@ -4323,7 +4441,7 @@ var locateHorizontal, locateVertical, bottomLocate, leftLocate;
         myNumber[2] = urlForCoordsGet.get('herocolor');
         if (location.pathname.replace("/r/", "") !== "/" && location.pathname.replace("/r/", "")) { startRoom = location.pathname.replace("/r/", ""); } else { startRoom = "home"; }
         myRoom = startRoom;
-        $("body").append('<video autoplay muted loop id="bgbgsterne" poster="/fleo.at-medien/layout/sternenhimmel.jpg"><source src="/fleo.at-medien/repertoire/space_front_320_PIxEL.mp4" type="video/mp4" id="bgbgsterneVideo"></video>'); 
+        // $("body").append('<video autoplay muted loop id="bgbgsterne" poster="/fleo.at-medien/layout/sternenhimmel.jpg"><source src="/fleo.at-medien/repertoire/space_front_320_PIxEL.mp4" type="video/mp4" id="bgbgsterneVideo"></video>');
         $("#h1title").html("This is " + mainDomain + ", room: " + myRoom);
         $("title").html("This is " + mainDomain + ", room: " + myRoom + " // " + mainDomain + " open-world hubs with content-trees");
         if ($.cookie('spacenumber')) {
@@ -4366,7 +4484,7 @@ var locateHorizontal, locateVertical, bottomLocate, leftLocate;
                 myNumber[2] + '">' + myNumber[1] +
                 '</span>'
             )
-            spacebarText = 0;
+            spacebarText = 0; 
             myNumber[3] = "known";
             $("#flash").removeClass("f");
             connectWorld();
@@ -4420,7 +4538,7 @@ $.post("/fleo.at-php/fleo.at_videoSizer.php", {
                 myNumber[2] + '">' + myNumber[1] +
                 '</span>'
             )
-            spacebarText = 0;
+            spacebarText = 0; 
             $("#flash").removeClass("f");
             connectWorld();
             socketDataConnect();
@@ -4438,12 +4556,12 @@ $.post("/fleo.at-php/fleo.at_videoSizer.php", {
 	
         function changeName() {
             if (changeNameVisible == 0) {
-                spacebarText = 1;
+                spacebarText = 1; 
                 $("#changeNameForm").show();
                 $("#chnNam").val(myNumber[1]);
                 changeNameVisible = 1;
             } else {
-                spacebarText = 0;
+                spacebarText = 0; 
                 $("#changeNameForm").hide();
                 changeNameVisible = 0;
             }
@@ -4483,7 +4601,7 @@ $.post("/fleo.at-php/fleo.at_videoSizer.php", {
                     myNumber[2] + '">' + myNumber[1] +
                     '</span>'
                 )
-                spacebarText = 0;
+                spacebarText = 0; 
                 $("#changeNameForm").hide();
                 changeNameVisible = 0;
                 $("#flash").removeClass("f");
@@ -4511,8 +4629,8 @@ $.post("/fleo.at-php/fleo.at_videoSizer.php", {
 
        /*  function connectPersons(){
             if (Device_Type() !== "Mobile" && Device_Type() !== "Tablet") { 
-                presenceSrc = new EventSource('https://' + mainDomain + '/fleo.at-php/presenceSystem.php?client=' + (myNumber[0] + myNumber[2]).replace("#", "")); } else {
-                presenceSrc = new EventSource('https://' + mainDomain + '/fleo.at-php/presenceSystem.php?client=' + (myNumber[0] + myNumber[2]).replace("#", "") + '&mobile=1'); 
+                presenceSrc = new EventSource('https://" + mainDomain + "/fleo.at-php/presenceSystem.php?client=' + (myNumber[0] + myNumber[2]).replace("#", "")); } else {
+                presenceSrc = new EventSource('https://" + mainDomain + "/fleo.at-php/presenceSystem.php?client=' + (myNumber[0] + myNumber[2]).replace("#", "") + '&mobile=1'); 
             } */
     
          /*   presenceSrc.addEventListener('open', function (e) {
@@ -4546,7 +4664,7 @@ $("#thisBoxDialog").dialog({
       modal: true,
       beforeClose: function( event, ui ) {
         $("#push2TalkUserWants").fadeIn("slow");
-        spacebarText = 0; 
+        spacebarText = 0;  
         $("[class^='volumeMetercallerAudio-']").each(function(){
             let sessionAttachMeter = $(this).attr("class").replace("volumeMetercallerAudio-", "");               
             $(this).html($(".volumeMeterReccallerAudio-" + sessionAttachMeter).children().detach());
@@ -4591,7 +4709,7 @@ $("#monoOrStereo").dialog({
         },
         "Ok, start": function() {
             if (location.pathname.replace("/r/", "") !== "/" && location.pathname.replace("/r/", "")) { roomWhereEdit = location.pathname.replace("/r/", ""); }
-            spacebarText = 1;
+            spacebarText = 1; 
             $(this).dialog("close");
             $("#thisBoxDialog").load("https://" + mainDomain + "/fleo.at-php/fleo.at_audioStationAdd.php?client=" + (myNumber[0] + myNumber[2]).replace("#", "") + "&buildcoords=" + (historyCoords - 500) + "&builddoords=" + (sMMssM - 2) + "&room=" + roomWhereEdit);          
             $("#thisBoxDialog").dialog("open");
@@ -4606,11 +4724,11 @@ $("#push2TalkUserWants").click(function(){
         var waitForConnected = setInterval(function(){
             if (audioConferenceConnected == 1) { $("#push2TalkUserWants").hide(); clearInterval(waitForConnected); 
             if (location.pathname.replace("/r/", "") !== "/") { roomWhereEdit = location.pathname.replace("/r/", ""); }
-            // spacebarText = 1;
-            $("#thisBoxDialog").load("https://" + mainDomain + "/fleo.at-php/fleo.at_audioStationAdd.php?client=" + (myNumber[0] + myNumber[2]).replace("#", "") + "&buildcoords=" + (historyCoords - 500) + "&builddoords=" + (sMMssM - 2) + "&room=" + roomWhereEdit); $("#thisBoxDialog").dialog("open"); 
+            // spacebarText = 1; 
+             $("#thisBoxDialog").load("https://" + mainDomain + "/fleo.at-php/fleo.at_audioStationAdd.php?client=" + (myNumber[0] + myNumber[2]).replace("#", "") + "&buildcoords=" + (historyCoords - 500) + "&builddoords=" + (sMMssM - 2) + "&room=" + roomWhereEdit); $("#thisBoxDialog").dialog("open");             
          } }, 500); 
     } else { if (location.pathname.replace("/r/", "") !== "/") { roomWhereEdit = location.pathname.replace("/r/", ""); }
-    // spacebarText = 1;
+    // spacebarText = 1; 
     $("#thisBoxDialog").load("https://" + mainDomain + "/fleo.at-php/fleo.at_audioStationAdd.php?client=" + (myNumber[0] + myNumber[2]).replace("#", "") + "&buildcoords=" + (historyCoords - 500) + "&builddoords=" + (sMMssM - 2) + "&room=" + roomWhereEdit); $("#thisBoxDialog").dialog("open"); 
      }
 });
@@ -4657,6 +4775,7 @@ $("#audioStationTextContainer").append('<div id="push2TalkUserCheck" style="posi
 '<div class="maennikenAudioWhite-rec" style="position:absolute;z-index:7776;top:170px;left:34px;width:140px;height:140px;cursor:pointer;"><img src="/fleo.at-js/push2Talk/fleoRecWhite.webp" /></div>' + 
 '<div class="maennikenAudioPlay-rec" style="position:absolute;z-index:7776;top:170px;left:34px;width:140px;height:140px;cursor:pointer;display:none;"><img src="/fleo.at-js/push2Talk/fleoPlay.webp" /></div>' + 
 '<div class="maennikenAudioStop-rec" style="position:absolute;z-index:7776;top:170px;left:34px;width:140px;height:140px;cursor:pointer;display:none;"><img src="/fleo.at-js/push2Talk/fleoStop.webp" /></div>');
+
 
 
 document.getElementById("callerAudio-ReplaySound").onplay = function(){ $(".maennikenAudioWhite-rec").hide(); $(".maennikenAudioPlay-rec").hide(); $(".maennikenAudioStop-rec").show(); };
@@ -4710,8 +4829,8 @@ $("#savebtnAudioStation").click(function(){
 			success: function(data) {
 				$("#thisBox").hide();
 				edith = 0;
-				spacebarText = 0;
-                toastr.success('Audio-Station hinzugefügt  ...');
+				spacebarText = 0; 
+                toastr.success('Audio-Station hinzugefÃ¼gt  ...');
 			}
 		});
 return false;
@@ -4721,7 +4840,7 @@ return false;
 $("#cancelbtn").click(function(){	
 $("#thisBox").hide();
 edith = 0;
-spacebarText = 0;
+spacebarText = 0; 
 });
 
 $("#fullAgain").click(function(){	
@@ -4998,7 +5117,6 @@ function loadVideoSystem(){
 }
 });
     
-    $("body").append('<audio id="maeaek" src="/fleo.at-js/push2Talk/recordings/2910_audio_recording_1651946993329.mp3"></audio>');
     var maeaek = document.getElementById("maeaek");
     maeaek.volume = 0.01;
     var maennikenWallManCount = -1;
@@ -5467,8 +5585,17 @@ function doLettercoinPayments(hatID, doWhich) {
         }
     });
     
+    function resetTypeTimeout() {
+        spacebarText = 1; 
+        clearTimeout(typeTimeout);
+        typeTimeout = setTimeout(() => {
+            spacebarText = 0; 
+        }, 10000);
+      }
+
     $(document).on("click", '#audioStationText-' + doWhich, function (event) {
     if ($(".lettercoinSelected").length) {
+        resetTypeTimeout();
         var whereItGoesTo = $("#fleoAtHat" + hatID).data("hat");
         var audioStationTextSendText = $(this).html();
         var coinToDonate = document.querySelectorAll(".lettercoinSelected");
@@ -5507,11 +5634,12 @@ function doLettercoinPayments(hatID, doWhich) {
     
     } else {
     $(this).on("keydown", function(){
-        spacebarText = 1;
+        resetTypeTimeout();
+        // spacebarText = 1; 
     });
     $(this).on("keyup", function(){
         toastr.info("Drop Lettercoin on text to change it on server.");
-        spacebarText = 0;
+        // spacebarText = 0; 
     });
     }
     });
@@ -5954,7 +6082,7 @@ if  ($("#maennikenLegs-" + personData.number).length) {
             if (personData.conn == 1) {
                 if (persConn[personData.number] == 0) {
                 persConn[personData.number] = 1;
-                if (myRoom !== "weltfernsehsender.de" && myRoom !== "interlectual.org" || insideWeltpolizei == 1) { $(".heyImVisitorVideoImg-" + personData.number).attr("src",'/fleo.at-php/fleo.at_communication.php?video=' + personData.number + '&viewer=' + (myNumber[0] + myNumber[2]).replace("#", "")); }
+                $(".heyImVisitorVideoImg-" + personData.number).attr("src",'/fleo.at-php/fleo.at_communication.php?video=' + personData.number + '&viewer=' + (myNumber[0] + myNumber[2]).replace("#", ""));
                 $(".maennikenConferenceOffline-" + personData.number).hide(); 
                 $(".maennikenConferenceCall-" + personData.number).show();
                 $(".videoWallMan-" + personData.number).attr("data-audioses", personData.audioSes);
@@ -6141,7 +6269,7 @@ if  ($("#maennikenLegs-" + personData.number).length) {
                             kindfOfGuyFunctionBuilt[personData.number] = 1;
                     $("#maennikenBag-" + personData.number).click(function(){
                         $.post("/fleo.at-php/fleo.at_bag.php", { doing: 1, iam: (myNumber[0] + myNumber[2]).replace("#", ""), them: personData.number }).done(function(bagresponse){
-                            $("body").append('<div class="openBag" id="closeMaennikenBag-' + personData.number + '" style="position:fixed;top:0;left:0;width:100%;height:100%;z-index:1999;"></div><div class="openBag" id="maennikenBagOpen-' + personData.number + '" style="position:fixed;height:300px;width:300px;top:calc(50% - 260px);left:calc(50% - 170px);z-index:2000;background:yellow;border:20px solid brown;color:orange;font-size:20px;"></div><div class="openBag" style="position:fixed;height:140px;width:280px;top:calc(50% + 80px);left:calc(50% - 170px);z-index:2000;background:yellow;padding:10px;border:20px solid brown;border-top:none;color:brown;font-size:20px;text-align:center;">Markiere grün Deine Medaillen um sie zu kopieren, markiere grau die Medaillen die nicht mehr sollen.</div>');
+                            $("body").append('<div class="openBag" id="closeMaennikenBag-' + personData.number + '" style="position:fixed;top:0;left:0;width:100%;height:100%;z-index:1999;"></div><div class="openBag" id="maennikenBagOpen-' + personData.number + '" style="position:fixed;height:300px;width:300px;top:calc(50% - 260px);left:calc(50% - 170px);z-index:2000;background:yellow;border:20px solid brown;color:orange;font-size:20px;"></div><div class="openBag" style="position:fixed;height:140px;width:280px;top:calc(50% + 80px);left:calc(50% - 170px);z-index:2000;background:yellow;padding:10px;border:20px solid brown;border-top:none;color:brown;font-size:20px;text-align:center;">Markiere grÃ¼n Deine Medaillen um sie zu kopieren, markiere grau die Medaillen die nicht mehr sollen.</div>');
                             if (bagresponse.includes("guy")) {
                                 let myNewKindOfGuy = bagresponse;
                                 let makeAdmin = 0;

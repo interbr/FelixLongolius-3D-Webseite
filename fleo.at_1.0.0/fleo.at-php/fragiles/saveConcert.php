@@ -1,0 +1,27 @@
+<?php
+
+if (isset($_POST['concert'])) { 
+
+    if (intval($_POST['concert']) == 1) { $concert = "https://popular.gb.fleo.at/fleo.at-medien/userImages/full_concert_carlos_santana_1970ies.mp4"; } // "https://places.fleo.at/fleo.at-medien/userImages/1736453068SantanaF0dad3f6de0f7d09350c1ba4e6640db72.mp4.mp4"
+    else if (intval($_POST['concert']) == 2) { $concert = "https://fleo.at/fleo.at-medien/userImages/1690908961videoplay.mp4.mp4"; }
+    else if (intval($_POST['concert']) == 3) { $concert = "https://dn720409.ca.archive.org/0/items/youtube-os-bS3H7avU/os-bS3H7avU.mp4"; }
+    else if (intval($_POST['concert']) == 4) { $concert = "https://popular.gb.fleo.at/fleo.at-medien/userImages/173878974701_Dizzy_bdf6cf72f70e19ae3740283870a49b5d.mp4.mp4"; }
+    else if (intval($_POST['concert']) == 5) { $concert = "https://popular.gb.fleo.at/fleo.at-medien/userImages/173878904102_Miles_bde3fa82a85c6aa85c0fd7915dd50936.mp4.mp4"; }
+    else if (intval($_POST['concert']) == 6) { $concert = "https://popular.gb.fleo.at/fleo.at-medien/userImages/173878927103_Dave_B3f0210ce5823ef13aa42fcbc13ef95ba.mp4.mp4"; }
+    else if (intval($_POST['concert']) == 7) { $concert = "https://popular.gb.fleo.at/fleo.at-medien/userImages/173878951904_Thelon0094747f2a70b70bb9e880bb532eef5d.mp4.mp4"; }
+    else if (intval($_POST['concert']) == 8) { $concert = "https://popular.gb.fleo.at/fleo.at-medien/userImages/173878889805_Bill_E10d87c77201662838a17f54001b39b0a.mp4.mp4"; }
+    else if (intval($_POST['concert']) == 9) { $concert = "https://popular.gb.fleo.at/fleo.at-medien/userImages/17387994590846_Fenc08e8b6bcdd6e860d6f0bfb5a09ff67b9.mp4.mp4"; }
+    else if (intval($_POST['concert']) == 10) { $concert = "https://popular.gb.fleo.at/fleo.at-medien/userImages/1738801642jazz_denm5a1fc5a70ce737ee4c4a6b6067a3b1dd.mp4.mp4"; }
+
+    
+$concertWrite = '<video class="audioStation" id="audStat-17380942952025-01-2" src="'.$concert.'" style="position:absolute;left:230px;bottom:0;width:calc(100% - 230px);height:auto;pointer-events:auto;border:200px solid white;border-top-left-radius:250px;border-top-right-radius:250px;"></video><div id="audioStationAudioDiv-audStat-17380942952025-01-2" class="audioStationAudioDiv-audStat-17380942952025-01-2" style="width:140px;height:140px;border:16px solid #ffffff00;text-align:center;position:absolute;bottom:350px;left:24px;pointer-events:auto;"><div class="audioStationAudioPlay-audStat-17380942952025-01-2" style="cursor:pointer;"><img src="/fleo.at-js/push2Talk/fleoPlay.webp" style="position:absolute;top:0;left:0;width:100%;height:100%;" alt="fleo.Controls Play" /></div><div class="audioStationAudioStop-audStat-17380942952025-01-2" style="display:none;cursor:pointer;"><img src="/fleo.at-js/push2Talk/fleoStop.webp" style="position:absolute;top:0;left:0;width:100%;height:100%;" alt="fleo.Controls Stop" /></div></div><div id="audioStationText-audStat-17380942952025-01-2" style="font-weight:bold;pointer-events:auto;" contenteditable="true"></div><div id="letterCoinMillAudioStationTextLettercoin-1-audStat-17380942952025-01-2" style="position:absolute;margin:auto;display:flex;align-items:center;justify-content:center;bottom:0;height:56px;left:18px;width:56px;border:2px solid gray;border-radius:30px;overflow:hidden;padding:0px;font-size:56px;text-align:center;font-family:Courier,monospace;color:yellow;"></div><div id="letterCoinMillAudioStationTextLettercoin-2-audStat-17380942952025-01-2" style="position:absolute;margin:auto;display:flex;align-items:center;justify-content:center;bottom:0;height:56px;left:138px;width:56px;border:2px solid gray;border-radius:30px;overflow:hidden;padding:0px;font-size:56px;text-align:center;font-family:Courier,monospace;color:yellow;"></div><div style="position:absolute;bottom:900px;height:auto;left:-100px;width:300px;border:2px solid gray;border-radius:30px;overflow:hidden;padding:0px;font-size:56px;text-align:center;font-family:Courier,monospace;color:yellow;"><span id="concertFxSantana" style="cursor:pointer">Concert Santana</span><br />-----<br /><span id="concertFxPhilCollinsBerlin" style="cursor:pointer">Phil Collins Berlin</span><br />-----<br /><span id="concertFxJazzConcert" style="cursor:pointer">Jazz concert</span><br />-----<br /><span id="concertFxJazzConcertOld_01" style="cursor:pointer">Old Jazz (Jazz 625)</span><br />-----<br /><span id="concertFxJazzConcertOld_02" style="cursor:pointer">Old Jazz So What</span><br />-----<br /><span id="concertFxJazzConcertOld_03" style="cursor:pointer">Old Jazz Take Five</span><br />-----<br /><span id="concertFxJazzConcertOld_04" style="cursor:pointer">Old Jazz Blue Monk</span><br />-----<br /><span id="concertFxJazzConcertOld_05" style="cursor:pointer">Old Jazz Waltz for Debbie</span><br />-----<br /><span id="concertFxJazzConcertOld_06" style="cursor:pointer">Old Jazz Fences & Gates</span><br />-----<br /><span id="concertFxJazzConcertOld_07" style="cursor:pointer">Old Jazz Denmark</span></div><img src="/fleo.at-medien/audioStation_I.webp" style="width:216px;height:704px;pointer-events:none;" alt="audioStation" />';
+
+
+
+$buildhtml=addslashes($concertWrite);
+$buildhtml=htmlspecialchars($buildhtml);
+
+require('../../../fleo.at_1.0.0-config/connection.php');
+$save_build_query = "UPDATE `room-home` SET `name`='$buildhtml', `tick` = tick+1, `tick2`=tick+2 WHERE `whatIsThis`='audStat-17380942952025-01-2';";
+$fleo_pdo->exec($save_build_query);
+}

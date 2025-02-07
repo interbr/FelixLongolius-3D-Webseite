@@ -13,7 +13,7 @@ if (isset($_GET['doing'])) {
         $postIs = 1;
         $comparePost = $postnumber;
     }
-    if ($postnumber == "3082e56c76") {
+    if ($postnumber == "3082e56c76" || $postnumber == "tower7qkr3jvxk") {
         $postIs = 1;
         $showAdmin = 1; 
     }
@@ -39,7 +39,7 @@ $serverTime = time();
 
 $messageID = 1;
 
-echo "popular.gb.fleo.at world", PHP_EOL;
+echo "us.in.fleo.at world", PHP_EOL;
 echo PHP_EOL;
 
 $allFragiles = array();
@@ -80,10 +80,14 @@ $set_world2->execute();
             foreach ($get_fragiles_datas as $get_fragiles_data) {
                 if ($get_fragiles_data !== "null") {
             if ($get_fragiles_data->isRobot == 5 || $get_fragiles_data->isRobot == 8 || $get_fragiles_data->isRobot == 2) {
+                if ($get_fragiles_data->audioStationText !== ${'topic' . $get_fragiles_data->id}) {
                 echo 'id: ' . $messageID . '', PHP_EOL;
                 echo 'event: topic', PHP_EOL;
                 echo 'data: ' . json_encode(array("id"=>"$get_fragiles_data->id","whatIsThis"=>"$get_fragiles_data->whatIsThis","go"=>"$get_fragiles_data->go","audioStationText"=>"$get_fragiles_data->audioStationText","robotData"=>"$get_fragiles_data->robotData","audioImage"=>"$get_fragiles_data->audioImage","robotwork"=>"$get_fragiles_data->robotwork")), PHP_EOL;
                 echo PHP_EOL;
+                $messageID++;
+                ${'topic' . $get_fragiles_data->id} = $get_fragiles_data->audioStationText;
+                }
             }
         }}
 
@@ -147,10 +151,14 @@ while (1) {
                 foreach ($get_fragiles_datas as $get_fragiles_data) {
                     if ($get_fragiles_data !== "null") {
                 if ($get_fragiles_data->isRobot == 5 || $get_fragiles_data->isRobot == 8 || $get_fragiles_data->isRobot == 2) {
+                    if ($get_fragiles_data->audioStationText !== ${'topic' . $get_fragiles_data->id}) {
                     echo 'id: ' . $messageID . '', PHP_EOL;
                     echo 'event: topic', PHP_EOL;
                     echo 'data: ' . json_encode(array("id"=>"$get_fragiles_data->id","whatIsThis"=>"$get_fragiles_data->whatIsThis","go"=>"$get_fragiles_data->go","audioStationText"=>"$get_fragiles_data->audioStationText","robotData"=>"$get_fragiles_data->robotData","audioImage"=>"$get_fragiles_data->audioImage","robotwork"=>"$get_fragiles_data->robotwork")), PHP_EOL;
                     echo PHP_EOL;
+                    $messageID++;
+                    ${'topic' . $get_fragiles_data->id} = $get_fragiles_data->audioStationText;
+                    }
                 }
             }}
         }
@@ -189,6 +197,16 @@ while (1) {
                         // $fleo_pdo->prepare("UPDATE `$roomToQuery` SET `isRobot`=0 WHERE `id`='$get_fragiles_data->id'")->execute();
                     // }
                     
+                }
+                if (strpos($get_fragiles_data->robotData, "lowerOpacity") !== false) {
+
+                    $messageChange = $get_fragiles_data;
+                    echo 'id: ' . $messageID . '', PHP_EOL;
+                    echo 'event: change', PHP_EOL;
+                    echo 'data: ' . json_encode($messageChange), PHP_EOL;
+                    echo PHP_EOL;
+                    $messageID++;  
+
                 }
                 }
                     else if ($get_fragiles_data->tick === -1) {
