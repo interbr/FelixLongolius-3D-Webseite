@@ -4,3 +4,5 @@ fleo.at_1.0.0-config/configuration.php
 fleo.at_1.0.0/fleo.at-medien/userImages/
 fleo.at_1.0.0/fleo.at-medien/audioStations/
 fleo.at_1.0.0-extras/uploadedFilesFleoat/
+fleo.at_1.0.0-extras/worldmap/GeoLite2-City.mmdb
+fleo.at_1.0.0-extras/worldmap/GeoLite2-Country.mmdb

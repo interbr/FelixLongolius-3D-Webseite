@@ -5927,8 +5927,8 @@ ws.onmessage = function(e) {
             // Legs
             if  ($("#maennikenLegs-" + personData.number).length) {
             $("#maennikenLegs-" + personData.number).animate({
-                "height": (personData.uH * -1) * 0.4,
-                "bottom": (personData.uH * 0.4) - 83
+                "height": (personData.uH * -1) * 2,
+                "bottom": (personData.uH * 2) - 83
             }, personData.duration);
             }
 
@@ -5939,7 +5939,7 @@ ws.onmessage = function(e) {
     
                 $("#" + personCode1).find(".tree").animate({
                         "left": relW,
-                        "bottom": personData.uH * (-1 * 0.4)
+                        "bottom": personData.uH * (-1 * 2)
                     }, personData.duration, "linear");
 
                 $("#" + personCode1).css("transition","bottom " + (personData.duration / 1000) + "s linear 0s, transform " + (personData.duration / 1000) + "s linear 0s, margin-bottom " + (personData.duration / 1000) + "s linear 0s");
@@ -5998,7 +5998,7 @@ ws.onmessage = function(e) {
     
                 $("#" + personCode1).find(".tree").animate({
                     "left": relW,
-                    "bottom": personData.uH * (-1 * 0.4)
+                    "bottom": personData.uH * (-1 * 2)
                 }, personData.duration, "linear");
     
                     if (Math.abs(parseInt(relW) + 800) > relD) { crucDistance = Math.abs(parseInt(relW) + 800); } else { crucDistance = relD; } 
