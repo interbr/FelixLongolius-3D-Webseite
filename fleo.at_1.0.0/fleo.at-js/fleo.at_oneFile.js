@@ -129,6 +129,12 @@ var legacyMovement = 1;
 
 var typeTimeout;
 
+if ($.cookie('spacenumber')) { localStorage.setItem('spacenumber', $.cookie('spacenumber')); Cookies.set('spacenumber', 'empty', { secure: true, sameSite: 'none', expires: -1 }); }
+if ($.cookie('spacename')) { localStorage.setItem('spacename', $.cookie('spacename')); Cookies.set('spacename', 'empty', { secure: true, sameSite: 'none', expires: -1 }); }
+if ($.cookie('spacecolor')) { localStorage.setItem('spacecolor', $.cookie('spacecolor')); Cookies.set('spacecolor', 'empty', { secure: true, sameSite: 'none', expires: -1 }); }
+if ($.cookie('spacecoords')) { localStorage.setItem('spacecoords', $.cookie('spacecoords')); Cookies.set('spacecoords', 'empty', { secure: true, sameSite: 'none', expires: -1 }); }
+if ($.cookie('spacedoords')) { localStorage.setItem('spacedoords', $.cookie('spacedoords')); Cookies.set('spacedoords', 'empty', { secure: true, sameSite: 'none', expires: -1 }); console.log("Cookies replaced with localStorage"); }
+
 medals[0] = '<div class="medal medal0 medalAdmin" medalcode="0" style="width:26px;height:26px;border:2px solid black;border-radius:15px;background:white;font-size:30px;line-height:30px;text-align:center;color:orange;font-weight:bold;" title="Administrator">A</div>';
 medals[1] = '<div class="medal medal1 medalVisitor" medalcode="1" style="width:30px;height:30px;border-radius:15px;background:blue;font-size:30px;line-height:32px;text-align:center;" title="Visitor">V</div>';
 medals[2] = '<div class="medal medal2 medalWorker" medalcode="2" style="width:30px;height:30px;border-radius:15px;background:red;font-size:30px;line-height:32px;text-align:center;color:yellow;" title="Bauarbeiter">B</div>';
@@ -644,9 +650,9 @@ sendStuffWS = function(otherEasyrtcid) {
 			var niceAddress = 0;
 			var readyWorlds = 0;
 			var readyPersons = 1;
-			if ((!((urlForCoordsGet.has('coords')) && (urlForCoordsGet.has('doords')))) && $.cookie('spacecoords') && $.cookie('spacedoords')) {
-				placeToOpenWN = parseInt($.cookie('spacecoords'));
-				placeToOpenDN = parseInt($.cookie('spacedoords')) * 3;
+			if ((!((urlForCoordsGet.has('coords')) && (urlForCoordsGet.has('doords')))) && localStorage.getItem('spacecoords') && localStorage.getItem('spacedoords')) {
+				placeToOpenWN = parseInt(localStorage.getItem('spacecoords'));
+				placeToOpenDN = parseInt(localStorage.getItem('spacedoords')) * 3;
 			}
 			historyCoords = placeToOpenWN;
 			sMMssM = placeToOpenDN;
@@ -1719,8 +1725,8 @@ sMMssM = doordsTr;
 historyCoords = coordsTr;
 // whereAmIFromSocket(coordsTr, doordsTr, 0, (myNumber[0] + myNumber[2]).replace("#", ""), myNumber[2]);
 if (hp%1==0) { history.replaceState("", "", "?doords="+(parseInt(sMMssM / 3))+"&coords="+(parseInt(historyCoords))); }; hp++;
-Cookies.set('spacecoords', historyCoords, { secure: true, sameSite: 'none', expires: 730 });
-Cookies.set('spacedoords', (parseInt(sMMssM / 3)), { secure: true, sameSite: 'none', expires: 730 });
+localStorage.setItem('spacecoords', historyCoords);
+localStorage.setItem('spacedoords', (parseInt(sMMssM / 3)));
 $(".maennikenLocator").each(function(){
 let locatorToMove = $(this).attr("id"); 
 let locatorToMoveSnip = locatorToMove.replace("maennikenLocator-","");                       
@@ -2841,8 +2847,8 @@ const updatePosition = (currentX, currentY) => {
             }
             sMMssM = sMMssMTmp;
             historyCoords = historyCoordsTmp;
-            Cookies.set('spacecoords', historyCoords, { secure: true, sameSite: 'none', expires: 730 });
-            Cookies.set('spacedoords', (parseInt(sMMssM / 3)), { secure: true, sameSite: 'none', expires: 730 });
+            localStorage.setItem('spacecoords', historyCoords);
+            localStorage.setItem('spacedoords', (parseInt(sMMssM / 3)));
             $(".maennikenLocator").each(function(){
             let locatorToMove = $(this).attr("id"); 
             let locatorToMoveSnip = locatorToMove.replace("maennikenLocator-","");                       
@@ -2918,7 +2924,7 @@ const startDrag = (e) => {
     centerX = rect.left + rect.width / 2;
     centerY = rect.top + rect.height / 2;
 
-    console.log(`Start Drag - StartX: ${startX}, StartY: ${startY}, CenterX: ${centerX}, CenterY: ${centerY}`);
+    // console.log(`Start Drag - StartX: ${startX}, StartY: ${startY}, CenterX: ${centerX}, CenterY: ${centerY}`);
 
     const moveHandler = (e) => {
         const currentX = isTouch ? e.touches[0].clientX : e.clientX;
@@ -2936,6 +2942,12 @@ const startDrag = (e) => {
         trackingDiv.style.top = '50%';
         deltaXStore = 0;
         deltaYStore = 0;
+
+        histroyCoords = hiCo;
+        sMMssM = sMMs;
+        localStorage.setItem('spacecoords', historyCoords);
+        localStorage.setItem('spacedoords', (parseInt(sMMssM / 3)));
+        window.history.pushState("", "", "/r/" + myRoom + "?coords=" + (parseInt(historyCoords)) + "&doords=" + (parseInt(sMMssM / 3)));
 
         document.removeEventListener('mousemove', moveHandler);
         document.removeEventListener('mouseup', endHandler);
@@ -4413,7 +4425,7 @@ var myRoom;
 var relD, relW;
 var locateHorizontal, locateVertical, bottomLocate, leftLocate;
 
-    if ($.cookie('spacenumber') || urlForCoordsGet.has('heronumber')) {
+    if (localStorage.getItem('spacenumber') || urlForCoordsGet.has('heronumber')) {
         myNumber[3] = "familiar";
         // $("#hello").hide();
         myNumber[0] = urlForCoordsGet.get('heronumber');
@@ -4424,14 +4436,14 @@ var locateHorizontal, locateVertical, bottomLocate, leftLocate;
         // $("body").append('<video autoplay muted loop id="bgbgsterne" poster="/fleo.at-medien/layout/sternenhimmel.jpg"><source src="/fleo.at-medien/repertoire/space_front_320_PIxEL.mp4" type="video/mp4" id="bgbgsterneVideo"></video>');
         $("#h1title").html("This is " + mainDomain + ", room: " + myRoom);
         $("title").html("This is " + mainDomain + ", room: " + myRoom + " // " + mainDomain + " open-world hubs with content-trees");
-        if ($.cookie('spacenumber')) {
-            myNumber[0] = $.cookie('spacenumber');
+        if (localStorage.getItem('spacenumber')) {
+            myNumber[0] = localStorage.getItem('spacenumber');
         };
-        if ($.cookie('spacename')) {
-            myNumber[1] = $.cookie('spacename');
+        if (localStorage.getItem('spacename')) {
+            myNumber[1] = localStorage.getItem('spacename');
         };
-        if ($.cookie('spacecolor')) {
-            myNumber[2] = $.cookie('spacecolor');
+        if (localStorage.getItem('spacecolor')) {
+            myNumber[2] = localStorage.getItem('spacecolor');
         };
         $.ajax({
             beforeSend: function () {
@@ -4456,9 +4468,9 @@ var locateHorizontal, locateVertical, bottomLocate, leftLocate;
                 will: "f"
             }
         }).done(function (response) {
-            Cookies.set('spacenumber', myNumber[0], { secure: true, sameSite: 'none', expires: 730 });
-            Cookies.set('spacename', myNumber[1], { secure: true, sameSite: 'none', expires: 730 });
-            Cookies.set('spacecolor', myNumber[2], { secure: true, sameSite: 'none', expires: 730 });
+            localStorage.setItem('spacenumber', myNumber[0]);
+            localStorage.setItem('spacename', myNumber[1]);
+            localStorage.setItem('spacecolor', myNumber[2]);
             window.history.pushState("", "", "/r/" + startRoom);
             $("#nameNumber").html('<span id="nameNumberText" onclick="changeName();" style="background:#fff;color:' +
                 myNumber[2] + '">' + myNumber[1] +
@@ -4530,9 +4542,9 @@ $.post("/fleo.at-php/fleo.at_videoSizer.php", {
                 will: "f"
             }
         }).done(function (response) {
-            Cookies.set('spacenumber', myNumber[0], { secure: true, sameSite: 'none', expires: 730 });
-            Cookies.set('spacename', myNumber[1], { secure: true, sameSite: 'none', expires: 730 });
-            Cookies.set('spacecolor', myNumber[2], { secure: true, sameSite: 'none', expires: 730 });
+            localStorage.setItem('spacenumber', myNumber[0]);
+            localStorage.setItem('spacename', myNumber[1]);
+            localStorage.setItem('spacecolor', myNumber[2]);
             window.history.pushState("", "", "/r/" + startRoom);
             $("#nameNumber").html('<span id="nameNumberText" onclick="changeName();" style="background:#fff;color:' +
                 myNumber[2] + '">' + myNumber[1] +
@@ -4594,7 +4606,7 @@ $.post("/fleo.at-php/fleo.at_videoSizer.php", {
                     will: will
                 }
             }).done(function (response) {
-                Cookies.set('spacename', myNumber[1], { secure: true, sameSite: 'none', expires: 730 });
+                localStorage.setItem('spacename', myNumber[1]);
                 heroname = myNumber[1];
                 $("#nameNumber").html(
                     '<span id="nameNumberText" onclick="changeName();" style="background:#fff;color:' +
@@ -5927,8 +5939,8 @@ ws.onmessage = function(e) {
             // Legs
             if  ($("#maennikenLegs-" + personData.number).length) {
             $("#maennikenLegs-" + personData.number).animate({
-                "height": (personData.uH * -1) * 2,
-                "bottom": (personData.uH * 2) - 83
+                "height": (personData.uH * -1) * 0.4,
+                "bottom": (personData.uH * 0.4) - 83
             }, personData.duration);
             }
 
@@ -5939,7 +5951,7 @@ ws.onmessage = function(e) {
     
                 $("#" + personCode1).find(".tree").animate({
                         "left": relW,
-                        "bottom": personData.uH * (-1 * 2)
+                        "bottom": personData.uH * (-1 * 0.4)
                     }, personData.duration, "linear");
 
                 $("#" + personCode1).css("transition","bottom " + (personData.duration / 1000) + "s linear 0s, transform " + (personData.duration / 1000) + "s linear 0s, margin-bottom " + (personData.duration / 1000) + "s linear 0s");
@@ -5998,7 +6010,7 @@ ws.onmessage = function(e) {
     
                 $("#" + personCode1).find(".tree").animate({
                     "left": relW,
-                    "bottom": personData.uH * (-1 * 2)
+                    "bottom": personData.uH * (-1 * 0.4)
                 }, personData.duration, "linear");
     
                     if (Math.abs(parseInt(relW) + 800) > relD) { crucDistance = Math.abs(parseInt(relW) + 800); } else { crucDistance = relD; } 
