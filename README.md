@@ -37,3 +37,5 @@ the "php-fpm"-version needs to be adjusted in the webserver-script. Maybe you ha
 at least two directories need write permission. I would need "chmod 775 fleo.at-medien/audioStations fleo.at-medien/userImages" at least.
 
 [popular.gb.fleo.at](https://popular.gb.fleo.at)
+
+![output](https://github.com/user-attachments/assets/de837366-e6f1-4814-9a54-590c1066bec9)
