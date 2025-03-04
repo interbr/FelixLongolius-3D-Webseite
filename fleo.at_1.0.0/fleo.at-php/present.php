@@ -246,7 +246,7 @@ For questions regarding this system or suggestions, please feel free to write to
         } 
 //          }
 }
-if ($_POST['doing'] == 8) {
+/* if ($_POST['doing'] == 8) {
 
   try {
     $get_user_color = $fleo_pdo->prepare("SELECT color FROM `present` WHERE `number` = '$number' AND `name` = '$name' ORDER BY id DESC LIMIT 1;");
@@ -269,7 +269,7 @@ if ($_POST['doing'] == 8) {
   } catch (PDOException $e) {
     echo "<br>" . $e->getMessage();
   }
-}
+} */
 
 if ($_POST['doing'] == 9) {
   $startColor = htmlspecialchars($_POST['color'], ENT_QUOTES);
