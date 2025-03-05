@@ -18,7 +18,7 @@ $moveFragileW = 0;
 $moveFragileD = 0;
 $moveFragileH = 0;
 $meIam = random_int(1000000,2000000);
-$set_fragile = "UPDATE `$room` SET `program` = '$meIam', `isRobot`= 7 WHERE `whatIsThis` = '$id';";
+$set_fragile = "UPDATE `$room` SET `program` = '$meIam', `isRobot`= 7, `go`=1 WHERE `whatIsThis` = '$id';";
 $fleo_pdo->exec($set_fragile);
 
 
@@ -105,7 +105,8 @@ if ($row["program"] == $meIam) {
     
     usleep(1000000);
     
-    if ($i > 79) { 
+    if ($i > 79) {
+        $fleo_pdo->exec("UPDATE `$room` SET `go`=0 WHERE `whatIsThis` = '$id';");
         exec('php ' . $fleoPathAbs . '/fleo.at_1.0.0/fleo.at-php/fragiles/Zeppelin.php 1 '.$id.' '.$room.' > /dev/null &');
         $goBaby = 0;
     }

@@ -129,6 +129,11 @@ var legacyMovement = 1;
 
 var typeTimeout;
 
+var buildHtmlOpen = 0;
+var buildJavascriptOpen = 0;
+
+var pingWhereAmIInterval;
+
 if ($.cookie('spacenumber')) {
     localStorage.setItem('spacenumber', $.cookie('spacenumber'));
     Cookies.set('spacenumber', 'empty', {
@@ -993,7 +998,7 @@ function isInt(value) {
 function whereAmI(hiCo, sMMs, level, duration, turn, whoC, colorC) {
 
     if (ws.readyState === WebSocket.OPEN) {
-        $("#flash").addClass("ffff");
+        // $("#flash").addClass("ffff");
         moveWithSocket(hiCo, sMMs, duration, level, turn);
         if (!isInt(turn)) {
             turn = 0;
@@ -1009,12 +1014,12 @@ function whereAmI(hiCo, sMMs, level, duration, turn, whoC, colorC) {
             turnZ: 0,
             whoC: whoC
         }));
-
+        // $("#flash").removeClass("ffff");
     } else {
         moveWithSocket(hiCo, sMMs, duration, level, turn);
         $.ajax({
             beforeSend: function () {
-                $("#flash").addClass("ffff");
+                // $("#flash").addClass("ffff");
             },
             type: "POST",
             url: "/fleo.at-php/moving.php",
@@ -1030,7 +1035,7 @@ function whereAmI(hiCo, sMMs, level, duration, turn, whoC, colorC) {
                 colorC: colorC
             }
         }).always(function () {
-            $("#flash").removeClass("ffff");
+            // $("#flash").removeClass("ffff");
         });
     }
 
@@ -1122,7 +1127,7 @@ function Device_Type() {
     return Return_Device;
 }
 
-$("body").append('<div class="nineedge" class="cockpit" style="color:red;text-shadow:0 0 10px green;font-weight:bold;cursor:pointer;width:181px;height:181px;position:fixed;top:0;right:0;z-index:14000;pointer-events:none;"><div style="width:80px;"><div class="chtop" style="pointer-events:auto;font-weight:bold;cursor:pointer;width:40px;height:80px;z-index:14000;border-left:1px solid black;border-bottom:1px solid black;">&uarr;</div><div class="chbottom" style="pointer-events:auto;font-weight:bold;cursor:pointer;width:40px;height:80px;z-index:14000;border-left:1px solid black;border-bottom:1px solid black;">&darr;</div></div><div class="chcentercenter" style="position:relative;pointer-events:auto;font-weight:bold;cursor:pointer;width:100px;height:99px;z-index:14000;border-left:1px solid black;border-bottom:1px solid black;"><div style="pointer-events:none;"><span style="text-align:center;">Turn<br />(scroll here)</span></div></div><div style="width:80px;float:right;"><div class="chleft" style="float:right;pointer-events:auto;font-weight:bold;cursor:pointer;width:39px;height:80px;z-index:14000;border-left:1px solid black;border-bottom:1px solid black;">&larr;</div><div class="chright" style="float:right;pointer-events:auto;font-weight:bold;cursor:pointer;width:39px;height:80px;z-index:14000;border-left:1px solid black;border-bottom:1px solid black;">&rarr;</div></div><div id="superSteeringWheelContainer" style="position:fixed;z-index:15000;top:80px;right:80px;width:32px;height:32px;background:white;border:4px solid white;border-radius:100%;"><div id="superSteeringWheel" style="position:absolute;width:12px;height:12px;border:14px solid #d6d6c3;background:red;top:50%;left:50%;transform:translate(-50%,-50%);border-radius:50%;cursor:grab;pointer-events:auto;z-index:2;"></div></div></div>' + 
+$("body").append('<div class="nineedge" class="cockpit" style="color:red;text-shadow:0 0 10px green;font-weight:bold;cursor:pointer;width:180px;height:180px;position:fixed;top:0;right:0;z-index:14000;pointer-events:none;overflow:visible;"><div style="position:absolute;top:0;right:100px;width:80px;"><div class="chtop" style="pointer-events:auto;font-weight:bold;cursor:pointer;width:39px;height:80px;z-index:14000;border-left:1px solid black;border-bottom:1px solid black;">&uarr;</div><div class="chbottom" style="pointer-events:auto;font-weight:bold;cursor:pointer;width:39px;height:80px;z-index:14000;border-left:1px solid black;border-bottom:1px solid black;">&darr;</div></div><div class="chcentercenter" style="position:absolute;top:0;right:0;pointer-events:auto;font-weight:bold;cursor:pointer;width:99px;height:99px;z-index:14000;border-left:1px solid black;border-bottom:1px solid black;"><div style="pointer-events:none;"><span style="text-align:center;">Turn<br />(scroll here)</span></div></div><div style="position:absolute;top:100px;right:0;width:80px;"><div class="chleft" style="pointer-events:auto;font-weight:bold;cursor:pointer;width:39px;height:80px;z-index:14000;border-left:1px solid black;border-bottom:1px solid black;">&larr;</div><div class="chright" style="pointer-events:auto;font-weight:bold;cursor:pointer;width:39px;height:80px;z-index:14000;border-left:1px solid black;border-bottom:1px solid black;">&rarr;</div></div><div id="superSteeringWheelContainer" style="position:fixed;z-index:15000;top:80px;right:80px;width:32px;height:32px;background:white;border:4px solid white;border-radius:100%;"><div id="superSteeringWheel" style="position:absolute;width:12px;height:12px;border:14px solid #d6d6c3;background:red;top:50%;left:50%;transform:translate(-50%,-50%);border-radius:50%;cursor:grab;pointer-events:auto;z-index:2;"></div></div></div>' + 
 '<div id="square"><svg style="width:100%;height:100%;" viewBox="0 0 100 100" preserveAspectRatio="none"><polygon points="33,33 50,50 33,67" id="navLef" /><polygon points="18,0 33,0 33,67 18,82" id="navLefStrong" /><polygon points="9,0 18,0 18,82 9,91" id="navLefStrongVery" class="stepL chleft" /><polygon points="0,0 9,0 9,91 0,100" id="navLookLef" class="lookL chtopleft" /><polygon points="0,100 18,82 50,82 50,100" id="navBacStrongVery" class="straightB chbottom" /><text class="explanation" x="0" y="90" fill="white"><tspan x="9" dy="1.2em">Step Backwards</tspan></text><polygon points="50,100 50,82 82,82 100,100" id="navForStrongVery" class="straightF chtop" /><text class="explanation" x="0" y="90" fill="white"><tspan x="69" dy="1.2em">Step Forward</tspan></text><polygon points="50,50 67,33 67,67" id="navRig" /><polygon points="67,33 82,18 82,82 67,67" id="navRigStrong" /><polygon points="82,0 91,0 91,91 82,82" id="navRigStrongVery" class="stepR chright" /><polygon points="91,0 100,0 100,100 91,91" id="navLookRig" class="lookR chtopright" /><text class="explanation" x="0" y="74" fill="white"><tspan x="42" dy="1.2em">and scroll</tspan><tspan x="42" dy="1.2em">the colors</tspan></text><text class="explanation" x="0" y="94" fill="white"><tspan x="46" dy="1.2em">Map</tspan></text><text id="hideExplanation" class="explanation" x="0" y="74" fill="white"><tspan x="65" dy="1.2em">X hide (ok)</tspan></text><text class="explanation" x="0" y="30" fill="white"><tspan x="1" dy="1.2em">Look</tspan><tspan x="1" dy="1.2em">Left</tspan></text><text class="explanation" x="10" y="30" fill="white"><tspan x="10" dy="1.2em">Step</tspan><tspan x="10" dy="1.2em">Left</tspan></text></svg></div><style>#superSteeringWheel:before { content: \'\';position: absolute;top: -20px;left: -20px;right: -20px;bottom: -20px; border: 2px solid white;border-radius:100%;z-index: -1;}</style>');
 
 $("body").append('<div id="hideExplanationDiv" style="cursor:pointer;position:fixed;top:72%;left:63%;width:22%;height:10%;z-index:50000;"></div>')
@@ -1236,7 +1241,7 @@ $(".chcentercenter").click(function () {
     $("#infot").click();
 });
 
-$("body").append('<div id="menuBottom" style="position:fixed;width:100%;max-width:calc(100% - 231px);height:auto;right:181px;top:0;z-index:20000;pointer-events:none;"><div id="menuOnOff" class="menuItem">Menu</div></div>');
+$("body").append('<div id="menuBottom" style="position:fixed;width:100%;max-width:calc(100% - 231px);height:auto;right:180px;top:0;z-index:20000;pointer-events:none;"><div id="menuOnOff" class="menuItem">Menu</div></div>');
 $("#menuBottom").append('<div id="manual" class="menuItem">Anleitung</div>');
 $("#menuBottom").append('<div id="goBuild" class="menuItem">Etwas bauen</div>');
 $("#menuBottom").append('<div id="leave" class="cockpit menuItem">Verabschieden</div>');
@@ -3406,7 +3411,7 @@ const updatePosition = (currentX, currentY) => {
 
     if (will == "b") {
         if (ws.readyState === WebSocket.OPEN) {
-            $("#flash").addClass("ffff");
+            // $("#flash").addClass("ffff");
             hiCo = historyCoords - deltaXStore;
             sMMs = sMMssM - (deltaYStore * -1);
             sMMssMTmp = sMMs;
@@ -3488,10 +3493,10 @@ const updatePosition = (currentX, currentY) => {
                 deltaYStore = 0;
             }, updateTimeSuperSteer);
         };
-
+        // $("#flash").removeClass("ffff");
     } else {
         if (ws.readyState === WebSocket.OPEN) {
-            $("#flash").addClass("ffff");
+            // $("#flash").addClass("ffff");
             hiCo = (historyCoords + deltaXStore);
             sMMs = (sMMssM + deltaYStore);
             sMMssMTmp = sMMs;
@@ -3575,6 +3580,7 @@ const updatePosition = (currentX, currentY) => {
             deltaXStore = 0;
             deltaYStore = 0;
         }, updateTimeSuperSteer);
+        // $("#flash").removeClass("ffff");
     }
     sMMssM = sMMssMTmp;
     historyCoords = historyCoordsTmp;
@@ -4415,15 +4421,22 @@ function connectWorld() {
             }
         } else if (genesisDone == 0 && firstRoomLoaded == 1) {
             $("#flash").addClass("fff");
+            if (!$("#genesisOverlay").length) { $("body").append('<div id="genesisOverlay" style="position:fixed;z-index:99999999;top:0;left:0;width:100%;height:100%;background:#ffffff1f;color:white;text-shadow: -1px -1px 0px #000, 1px -1px 0px #000, -1px 1px 0px #000, 1px 1px 0px #000;font-size:120px;text-align:center;">Wait ...</div>'); }
             $(".thing").remove();
             $(".floor").remove();
             for (let i = 0; i <= world2GeneratePortionCount; i++) {
                 setTimeout(function () {
                     $("#wrapper").append(world2GeneratePortion[i]);
                     world2GeneratePortion[i] = "";
+                    if (i > 0) {
+                        if (i%3==0) { $("#genesisOverlay").html("Wait&nbsp;&nbsp;.."); }
+                        if (i%3==1) { $("#genesisOverlay").html("Wait&nbsp;.&nbsp;."); }
+                        if (i%3==2) { $("#genesisOverlay").html("Wait&nbsp;..&nbsp;"); }
+                     }
                     console.log("*** World-Portion " + i + " of " + world2GeneratePortionCount + " loaded ***");
                     if (i == world2GeneratePortionCount) {
                         console.log("*** Genesis complete ***");
+                        $("#genesisOverlay").fadeOut("slow").remove();
                         for (var aaa = 0; aaa < iii.length; aaa++) {
                             that = iii.item(aaa);
                             scaleNow = parseInt($(that).attr("distance"));
@@ -7985,7 +7998,7 @@ ws.onopen = function () {
 ws.onclose = function (e) {
     console.log('Socket is closed. Reconnect will be attempted in a second.');
 };
-var pingWhereAmIInterval;
+
 pingWhereAmIInterval = setInterval(function(){
     whereAmI(historyCoords, sMMssM, relationToBackground, 0, turn, (myNumber[0] + myNumber[2]).replace("#", ""), myNumber[2]);
 }, 20000);

@@ -1,0 +1,3 @@
+function placeholder(){
+$.post("/fleo.at-php/fragiles/Zeppelin.php", { doing: 0, fragile: "placeHolder", room: myRoom });
+}

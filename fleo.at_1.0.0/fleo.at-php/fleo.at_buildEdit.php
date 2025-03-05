@@ -34,10 +34,50 @@ foreach ($get_user_datas as $get_user_data) {
     $isAdmin = $get_user_data->isAdmin;
 }
 ?>
-<link href="/fleo.at-js/edit/codemirror.css" rel="stylesheet">
+<link href="/fleo.at-js/edit/codemirror.css?20250304_20CEWT" rel="stylesheet">
 <style>
 .CodeMirror {
-      resize: vertical;
+    resize: vertical;
+}
+#getHtmlSnippets, #getJavascriptSnippets {
+	width: calc(100% - 10px);
+	height: 20px;
+	border: 1px solid black;
+	padding: 4px;
+	margin: 0 0 10px 0;
+	cursor: pointer;
+}
+#htmlBuildFormDiv, #javascriptBuildFormDiv {
+	width: 100%;
+}
+#getHtmlSnippets:hover, #getJavascriptSnippets:hover {
+	background-color: #ccc;
+}
+.snippetsOpen {
+	background-color: #ccc;
+}
+.snippetsClosed {
+	background-color: none;
+}
+#htmlSnippets, #javascriptSnippets {
+	display: none;
+	width: calc(100% - 10px);
+	min-height: 100px;
+	border: 1px solid black;
+	padding: 4px;
+	margin: 10px 0 10px 0;
+}
+.htmlSnippetName, .javascriptSnippetName {
+	cursor: pointer;
+	border: 1px solid black;
+	padding: 4px;
+	width: auto;
+	height: auto;
+	margin: 0 8px 8px 0;
+	display: inline-block;
+}
+.htmlSnippetName:hover, .javascriptSnippetName:hover {
+	background: #ccc;
 }
 </style>
 <script>
@@ -46,7 +86,7 @@ foreach ($get_user_datas as $get_user_data) {
 		var url4b = "/fleo.at-js/edit/javascript/javascript.js";
 		var url4c = "/fleo.at-js/edit/css/css.js";
 		var url4d = "/fleo.at-js/edit/htmlmixed/htmlmixed.js";
-		var url5 = "/fleo.at-js/edit/admin.js";
+		var url5 = "/fleo.at-js/edit/admin.js?20250304_21bCEWT";
 		$.getScript(url3, function(){$.getScript(url4a, function(){$.getScript(url4b, function(){$.getScript(url4c, function(){$.getScript(url4d, function(){$.getScript(url5);});});});});}); 
 		spacebarText = 1;
 </script>
@@ -65,13 +105,17 @@ foreach ($get_user_datas as $get_user_data) {
     <label class="form">Is your object supposed to lay on the floor? </label>
 </div></p>
 
-<p><div class=""><label for="buildhtml" class="form">html </label><textarea type="textarea" class="form-control form buildcode" name="buildhtml" id="buildhtml">
+<p><div style="position:relative;width:100%;height:auto;"><div id="getHtmlSnippets" class="snippetsClosed">get html snippets</div></div><div id="htmlSnippets">html snippets</div><div id="htmlBuildFormDiv" class=""><label for="buildhtml" class="form">html</label><textarea type="textarea" class="form-control form buildcode" name="buildhtml" id="buildhtml">
 <?php echo html_entity_decode(htmlspecialchars_decode($ame)); ?>
-</textarea></div></p>
+</textarea></div></div></p>
 
-<p><div class=""><label for="buildjavascript" class="form">javascript </label><textarea type="textarea" class="form-control form buildcode" name="buildjavascript" id="buildjavascript">
+
+
+<p><div style="position:relative;width:100%;height:auto;"><div id="getJavascriptSnippets" class="snippetsClosed">get javascript snippets</div></div><div id="javascriptSnippets">javascript snippets</div><div id="javascriptBuildFormDiv" class=""><label for="buildjavascript" class="form">javascript</label><textarea type="textarea" class="form-control form buildcode" name="buildjavascript" id="buildjavascript">
 <?php echo html_entity_decode(htmlspecialchars_decode($script)); ?>
 </textarea></div></p>
+
+
 
 <p><div class=""><label for="buildwidth" class="form">Width? (How much do you need?) </label><input type="text" class="form-control form" name="buildwidth" id="buildwidth" value="<?php echo $width; ?>" style="width: 200px"> (Default width: 400px plus border: 2 x 10px = 420px</div></p>
 <p><div class=""><label for="buildheight" class="form">Distance from ground? </label><input type="text" class="form-control form" name="buildheight" id="buildheight" value="<?php echo $ordsH; ?>" style="width: 200px"> (100 is little, 4000 is the sky)</div></p>
@@ -161,6 +205,8 @@ $("#cancelbtn").click(function(){
 	$("#thisBox").hide();
 	edith = 0;
 	spacebarText = 0;
+	buildHtmlOpen = 0;
+	buildJavascriptOpen = 0;
 });
 
 $("#fullAgain").click(function(){	
