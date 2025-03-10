@@ -18,19 +18,25 @@ $moveFragileW = 0;
 $moveFragileD = 0;
 $moveFragileH = 0;
 $meIam = random_int(1000000,2000000);
-$set_fragile = "UPDATE `$room` SET `program` = '$meIam', `isRobot`= 7, `go`=1 WHERE `whatIsThis` = '$id';";
+$set_fragile = "UPDATE `$room` SET `program` = '$meIam', `isRobot`=9, `go`=1, `play`=2, `seek` = 0 WHERE `whatIsThis` = '$id';";
 $fleo_pdo->exec($set_fragile);
 
 $i = 0;
 $goBaby = 1;
+
 
 $get_fragile = $fleo_pdo->prepare("SELECT `whatIsThis`, `onOff`, `coordsW`, `coordsH`, `coordsD`, `isRobot`, `go`, `program`, `isOnline` FROM `$room` WHERE `whatIsThis` = '$id';"); 
 
 $get_fragile->execute(); 
 $row = $get_fragile->fetch();
 
-// if ($row["isRobot"] !== 1) { echo "no robot"; }
 if ($row["go"] == 1) { $goBaby = 1; } else { $goBaby = 0; }
+
+
+
+
+
+// if ($row["isRobot"] !== 1) { echo "no robot"; }
 
 
 
@@ -44,15 +50,21 @@ $FragileH = $row["coordsH"];
 
 
 
+$laughTimer = 0;
+$laughPause = 150;
+
+
 
 while ($goBaby == 1) {
 
 $get_fragile = $fleo_pdo->prepare("SELECT `whatIsThis`, `onOff`, `coordsW`, `coordsH`, `coordsD`, `isRobot`, `program`, `isOnline`, `minusPlusW` FROM `$room` WHERE `whatIsThis` = '$id';"); 
 $get_fragile->execute(); 
 $row = $get_fragile->fetch();
+
 $mpMoveW = $row["minusPlusW"];
 
 $i++;
+
 
 $moveFragileDPlusMinus = random_int(0,5);
 $moveFragileWPlusMinus = random_int(0,5);
@@ -77,42 +89,43 @@ else if ($moveFragileWPlusMinus == 4) { if ($mpMoveW == 0) { $moveFragileW -= 10
 else if ($moveFragileWPlusMinus == 5) { if ($mpMoveW == 0) { $moveFragileW -= 150; } else { $moveFragileW += 150; } }
 else if ($moveFragileWPlusMinus == 0) { if ($mpMoveW == 0) { $moveFragileW -= 200; } else { $moveFragileW += 200; } }
 
-if ($moveFragileW > 400) { $moveFragileW -= 200; }
-if ($moveFragileW < -400) { $moveFragileW += 200; }
+if ($mpMoveW == 0) { ($moveFragileW = random_int(200,400) * -1); } else { $moveFragileW = random_int(200,400); }
+if ($row["coordsW"] > 15000) { $mpMoveW = 0; $moveFragileW = (15000 - $row["coordsW"]) - 1400; $mpChange = 1; } else if ($row["coordsW"] < -15000) { $mpMoveW = 1; $moveFragileW = (-15000 - $row["coordsW"]) + 1400; $mpChange = 1; } else { $mpChange = 0; }
 
-if ($row["coordsW"] > 20000) { $mpMoveW = 0; $moveFragileW = -1000; $mpChange = 1; } else if ($row["coordsW"] < -20000) { $mpMoveW = 1; $moveFragileW = 1000; $mpChange = 1; } else { $mpChange = 0; }
+/*
+if ($moveFragileHPlusMinus == 1) { $moveFragileH += 60; } else { $moveFragileH -= 60; }
+if ($moveFragileH > 200) { $moveFragileH -= 200; }
+if ($moveFragileH < -200) { $moveFragileH += 200; }
+if ($row["coordsH"] < 0) { $moveFragileH = $row["coordsH"] * -1; }
+if ($row["coordsH"] > 6000) { $moveFragileH = -300; } */
 
-if ($moveFragileHPlusMinus > 2) { $moveFragileH += 200; } else { $moveFragileH -= 200; }
-if ($moveFragileH > 50) { $moveFragileH = 40; }
-if ($moveFragileH < -50) { $moveFragileH = -40; }
-if ($row["coordsH"] < 0) { $moveFragileH = $moveFragileH + $row["coordsH"] * -1; }
-if ($row["coordsH"] > 6000) { $moveFragileH = -150; }
+$set_fragile_while = "UPDATE `$room` SET `coordsW` = `coordsW` + '$moveFragileW', `coordsD` = `coordsD` + '$moveFragileD', `coordsH` = `coordsH` + '$moveFragileH', `tick` = `tick` + 1, `minusPlusW` = '$mpMoveW', `mpChange` = '$mpChange', `play` = 3 WHERE `whatIsThis` = '$id' AND `program` = '$meIam';"; 
+
+$set_fragile_laugh = "UPDATE `$room` SET `coordsW` = `coordsW` + '$moveFragileW', `coordsD` = `coordsD` + '$moveFragileD', `coordsH` = `coordsH` + '$moveFragileH', `tick` = `tick` + 1, `minusPlusW` = '$mpMoveW', `mpChange` = '$mpChange', `play` = 1 WHERE `whatIsThis` = '$id' AND `program` = '$meIam';"; 
+
 if ($row["program"] == $meIam) {
+$randMonkey = rand(1, 500);
+if ($randMonkey == 1 && $laughPause == 0) {
+if (!$fleo_pdo->exec($set_fragile_laugh)) { echo "database error 1a";  }
+$laughPause = 150;
+} else {
+if ($laughPause > 0) { $laughPause--; }
+if (!$fleo_pdo->exec($set_fragile_while)) { echo "database error 1b";  }
+}
+}
 
-    if ($i == 1) {
-    $set_fragile_while = "UPDATE `$room` SET `coordsW` = `coordsW` + '$moveFragileW', `coordsD` = `coordsD` + '$moveFragileD', `coordsH` = `coordsH` + '$moveFragileH', `tick` = `tick` + 1, `play` = 1, `seek` = '0.01', `minusPlusW` = '$mpMoveW', `mpChange` = '$mpChange' WHERE `whatIsThis` = '$id';"; 
-    } else {
-        $set_fragile_while = "UPDATE `$room` SET `coordsW` = `coordsW` + '$moveFragileW', `coordsD` = `coordsD` + '$moveFragileD', `coordsH` = `coordsH` + '$moveFragileH', `tick` = `tick` + 1, `minusPlusW` = '$mpMoveW', `mpChange` = '$mpChange' WHERE `whatIsThis` = '$id';"; 
-    }
-    }
-    /*    if ($FragileH > 20000 || $FragileH < -20000) { 
-            $set_fragile_while = "UPDATE $room SET `coordsW` = `coordsW` + '$moveFragileW', `coordsD` = `coordsD` + '$moveFragileD', `coordsH` = 10000, `tick` = `tick` + 1, `minusPlusW` = '$mpMoveW', `mpChange` = 0 WHERE `whatIsThis` = '$id' AND `program` = '$meIam';"; }
-        if ($FragileD > 60 || $FragileD < -60) {
-            $set_fragile_while = "UPDATE $room SET `coordsW` = `coordsW` + '$moveFragileW', `coordsD` = 0, `coordsH` = `coordsH` + '$moveFragileH', `tick` = `tick` + 1, `minusPlusW` = '$mpMoveW', `mpChange` = 0 WHERE `whatIsThis` = '$id' AND `program` = '$meIam';"; }
-    */
-    if (!$fleo_pdo->exec($set_fragile_while)) { echo "database error 1";  }
-    
-    usleep(1000000);
-    
-    if ($i > 79) {
-        $fleo_pdo->exec("UPDATE `$room` SET `go`=0 WHERE `whatIsThis` = '$id';");
-        exec('php ' . $fleoPathAbs . '/fleo.at_1.0.0/fleo.at-php/fragiles/Zeppelin.php 1 '.$id.' '.$room.' > /dev/null &');
-        $goBaby = 0;
-    }
-    if ($row["program"] !== $meIam) {
-        $goBaby = 0;
-    }
-    
-    echo "done?", PHP_EOL;
-    }
-    die();
+usleep(1000000);
+
+
+if ($i > 500) { 
+    $fleo_pdo->exec("UPDATE `$room` SET `go`=0 WHERE `whatIsThis` = '$id';");
+    exec('php ' . $fleoPathAbs . '/fleo.at_1.0.0/fleo.at-php/fragiles/harpTruck.php 1 '.$id.' '.$room.' > /dev/null &');
+    $goBaby = 0;
+}
+if ($row["program"] !== $meIam) {
+    $goBaby = 0;
+}
+
+echo "done?", PHP_EOL;
+}
+die();

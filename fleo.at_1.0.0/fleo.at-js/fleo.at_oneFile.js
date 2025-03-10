@@ -3971,11 +3971,6 @@ function connectWorld() {
 
             worldNews2 = JSON.parse(e.data);
 
-            if (worldNews2.id == "1465") {
-                truckLetCoords = worldNews2.coordsW;
-                truckLetDoords = worldNews2.coordsD;
-            }
-
             if ($('[data-attr=' + worldNews2.id + ']').length) {
 
                 let fragileDoordsGo = ((sMMssM) + (parseInt(worldNews2.coordsD)));
@@ -4009,15 +4004,7 @@ function connectWorld() {
 
                 if (isChangeW == 1 || isChangeD == 1 || isChangeH == 1 || isChangeS == 1) {
                     if (isChangeH == 1) {
-                        if (worldNews2.id == "1487") {
-                            $('[data-attr=' + worldNews2.id + ']').find(".tree").animate({
-                                "bottom": worldNews2.coordsH + "px"
-                            }, {
-                                duration: 5000,
-                                queue: false,
-                                easing: "linear"
-                            });
-                        } else {
+                        
                             $('[data-attr=' + worldNews2.id + ']').find(".tree").animate({
                                 "bottom": worldNews2.coordsH + "px"
                             }, {
@@ -4025,7 +4012,6 @@ function connectWorld() {
                                 queue: false,
                                 easing: "linear"
                             });
-                        }
                     }
                     if (isChangeW == 1) {
                         if (worldNews2.id == "1487") {
@@ -4102,7 +4088,7 @@ function connectWorld() {
                     }
                     oldDirectionMoveW[worldNews2.id] == "x";
                 }
-                if (worldNews2.robotData.includes("lowerOpacity")) {
+                if (worldNews2.robotData.length && worldNews2.robotData.includes("lowerOpacity")) {
                     $('[data-attr=' + worldNews2.id + ']').animate({
                         "opacity": "0.5"
                     }, 200);
@@ -4131,9 +4117,9 @@ function connectWorld() {
                 }
                 oldDirectionMoveW[worldNews2.id] == "x";
             }
-            $('[data-attr=' + worldNews2.id + ']').animate({
+            /* $('[data-attr=' + worldNews2.id + ']').animate({
                 "left": turn + "px"
-            }, 0);
+            }, 0); */
 
         });
 
@@ -4142,11 +4128,6 @@ function connectWorld() {
         worldSrc.addEventListener('move', function (e) {
 
             worldNews2 = JSON.parse(e.data);
-
-            if (worldNews2.id == "1465") {
-                truckLetCoords = worldNews.coordsW;
-                truckLetDoords = worldNews.coordsD;
-            }
 
             if (worldNews2.whatIsThis == "1678666308imagepng416842183436.png.webp") {
 
@@ -4191,51 +4172,32 @@ function connectWorld() {
                 }
                 if (haltEverything == 0) {
                     if (worldNews2.play == 1 && worldNews2.seek == 0 && worldNews2.whatIsThis.includes("audStat") || worldNews2.play == 1 && playerPlayingOld[worldNews2.whatIsThis] !== worldNews2.play && worldNews2.whatIsThis.includes("audStat")) {
-                        if (worldNews2.whatIsThis == "audStat-16713162473-01Mete") {
-                            document.getElementById("audStat-16713162473-01Mete").src = radioWebsite1;
-                            document.getElementById(worldNews2.whatIsThis).currentTime = 0;
-                            document.getElementById(worldNews2.whatIsThis).play();
-                        } else if (worldNews2.whatIsThis == "audStat45614724") {
-                            document.getElementById(worldNews2.whatIsThis).src = radioWebsite2;
-                            document.getElementById(worldNews2.whatIsThis).currentTime = 0;
-                            document.getElementById(worldNews2.whatIsThis).play();
-                        } else {
-                            if (!$(".audioStationAudioPlay-" + worldNews2.whatIsThis).hasClass("startedSelf")) {
+
+                        if (!$(".audioStationAudioPlay-" + worldNews2.whatIsThis).hasClass("startedSelf")) {
+                            if (parseInt(worldNews2.isRobot) != 9) {
                                 document.getElementById(worldNews2.whatIsThis).currentTime = worldNews2.seek;
-                                document.getElementById(worldNews2.whatIsThis).play();
                             }
+                            document.getElementById(worldNews2.whatIsThis).play();
                         }
+
                     }
                     if (worldNews2.play == 2 && worldNews2.whatIsThis.includes("audStat") && !$("#videoPlayerControlsOuter-" + worldNews2.whatIsThis).hasClass("startedSimple")) {
                         document.getElementById(worldNews2.whatIsThis).pause();
+                        $("#videoPlayerControlsOuter-" + worldNews2.whatIsThis).removeClass("startedSimple")
                     }
 
                     if (document.getElementById(worldNews2.whatIsThis) && typeof document.getElementById(worldNews2.whatIsThis).currentTime === 'number' && worldNews2.whatIsThis.includes("audStat")) {
-                        if ((Math.abs(parseFloat(worldNews2.seek) - parseFloat(document.getElementById(worldNews2.whatIsThis).currentTime)) > 1.5)) {
+                        if ((Math.abs(parseFloat(worldNews2.seek) - parseFloat(document.getElementById(worldNews2.whatIsThis).currentTime)) > 1.5) && parseInt(worldNews2.isRobot) != 9) {
                             document.getElementById(worldNews2.whatIsThis).currentTime = worldNews2.seek;
                         }
                     }
-                    if (worldNews2.play !== playerPlayingOld[worldNews2.whatIsThis] && worldNews2.whatIsThis.includes("audStat")) {
-                        document.getElementById(worldNews2.whatIsThis).currentTime = worldNews2.seek;
-                        playerPlayingOld[worldNews2.whatIsThis] = worldNews2.play;
-                    }
+                    playerPlayingOld[worldNews2.whatIsThis] = worldNews2.play;
                 }
 
                 if (isChangeW == 1 || isChangeD == 1 || isChangeH == 1 || isChangeS == 1) {
 
                     if (isChangeH == 1) {
-                        if (worldNews2.id == "1487") {
-                            $('[data-attr=' + worldNews2.id + ']').find(".tree").animate({
-                                "bottom": worldNews2.coordsH + "px"
-                            }, {
-                                duration: 5000,
-                                queue: false,
-                                easing: "linear"
-                            });
-                        } else {
-                            if (worldNews2.id == "1246") {
-                                $('[data-attr=' + worldNews2.id + ']').closest(".move").css("transition", "bottom .125s linear 0s, transform .125s linear 0s, margin-bottom .125s linear 0s");
-                            }
+                        
                             $('[data-attr=' + worldNews2.id + ']').find(".tree").animate({
                                 "bottom": worldNews2.coordsH + "px"
                             }, {
@@ -4243,22 +4205,10 @@ function connectWorld() {
                                 queue: false,
                                 easing: "linear"
                             });
-                        }
+
                     }
                     if (isChangeW == 1) {
-                        if (worldNews2.id == "1487") {
-                            $('[data-attr=' + worldNews2.id + ']').find(".tree").animate({
-                                "left": fragileCoordsGo + "px"
-                            }, {
-                                duration: 5000,
-                                queue: false,
-                                easing: "linear"
-                            });
-                        } else {
-
-                            if (worldNews2.id == "1246") {
-                                $('[data-attr=' + worldNews2.id + ']').closest(".move").css("transition", "bottom .125s linear 0s, transform .125s linear 0s, margin-bottom .125s linear 0s");
-                            }
+                        
                             $('[data-attr=' + worldNews2.id + ']').find(".tree").animate({
                                 "left": fragileCoordsGo + "px"
                             }, {
@@ -4266,7 +4216,7 @@ function connectWorld() {
                                 queue: false,
                                 easing: "linear"
                             });
-                        }
+                    
                         if (worldNews2.minusPlusW == "0") {
                             if (oldDirectionMoveW[worldNews2.id] !== "0") {
                                 $("[data-attr='" + worldNews2.id + "']").find(".tree").css({
@@ -4289,16 +4239,9 @@ function connectWorld() {
                         }
                     }
                     if (isChangeD == 1) {
-                        if (worldNews2.id == "1487") {
-                            $('[data-attr=' + worldNews2.id + ']').closest(".move").css("transition", "bottom 5.0s linear 0s, transform 5.0s linear 0s, margin-bottom 5.0s linear 0s");
-                        } else {
-
-                            if (worldNews2.id == "1246") {
-                                $('[data-attr=' + worldNews2.id + ']').closest(".move").css("transition", "bottom .125s linear 0s, transform .125s linear 0s, margin-bottom .125s linear 0s");
-                            }
 
                             $('[data-attr=' + worldNews2.id + ']').closest(".move").css("transition", "bottom 1.0s linear 0s, transform 1.0s linear 0s, margin-bottom 1.0s linear 0s");
-                        }
+
                         $('[data-attr=' + worldNews2.id + ']').closest(".move").toggleClass("scale" + fragileDoordsOld).toggleClass("scale" + fragileDoordsGo);
                         $('[data-attr=' + worldNews2.id + ']').attr("distance", fragileDoordsGo);
                     }
@@ -4421,7 +4364,7 @@ function connectWorld() {
             }
         } else if (genesisDone == 0 && firstRoomLoaded == 1) {
             $("#flash").addClass("fff");
-            if (!$("#genesisOverlay").length) { $("body").append('<div id="genesisOverlay" style="position:fixed;z-index:99999999;top:0;left:0;width:100%;height:100%;background:#ffffff1f;color:white;text-shadow: -1px -1px 0px #000, 1px -1px 0px #000, -1px 1px 0px #000, 1px 1px 0px #000;font-size:120px;text-align:center;">Wait ...</div>'); }
+            if (!$("#genesisOverlay").length) { $("body").append('<div id="genesisOverlay" style="position:fixed;z-index:99999999;top:0;left:0;width:100%;height:100%;background:#ffffff1f;color:white;text-shadow: -1px -1px 0px #000, 1px -1px 0px #000, -1px 1px 0px #000, 1px 1px 0px #000;font-size:120px;text-align:center;">Loading ...</div>'); }
             $(".thing").remove();
             $(".floor").remove();
             for (let i = 0; i <= world2GeneratePortionCount; i++) {
@@ -4429,9 +4372,9 @@ function connectWorld() {
                     $("#wrapper").append(world2GeneratePortion[i]);
                     world2GeneratePortion[i] = "";
                     if (i > 0) {
-                        if (i%3==0) { $("#genesisOverlay").html("Wait&nbsp;&nbsp;.."); }
-                        if (i%3==1) { $("#genesisOverlay").html("Wait&nbsp;.&nbsp;."); }
-                        if (i%3==2) { $("#genesisOverlay").html("Wait&nbsp;..&nbsp;"); }
+                        if (i%3==0) { $("#genesisOverlay").html("Loading&nbsp;&nbsp;.."); }
+                        if (i%3==1) { $("#genesisOverlay").html("Loading&nbsp;.&nbsp;."); }
+                        if (i%3==2) { $("#genesisOverlay").html("Loading&nbsp;..&nbsp;"); }
                      }
                     console.log("*** World-Portion " + i + " of " + world2GeneratePortionCount + " loaded ***");
                     if (i == world2GeneratePortionCount) {
@@ -4713,7 +4656,12 @@ function connectWorld() {
             };
 
             document.getElementById(audioStationToAssign).onended = function () {
-
+                $.post("https://" + mainDomain + "/fleo.at-php/fleo.at_timeSeek.php", {
+                    doing: 2,
+                    room: myRoom,
+                    audioStation: audioStationToAssign,
+                    seek: 0
+                });
                 $("#letterCoinMillAudioStationTextLettercoin-1-" + audioStationToAssign).effect("pulsate", {
                     times: 4
                 }, 1400, function () {
@@ -4728,12 +4676,7 @@ function connectWorld() {
                     "bottom": "350px"
                 }, 1000);
                 audFunk[audioStationToAssign]();
-                $.post("https://" + mainDomain + "/fleo.at-php/fleo.at_timeSeek.php", {
-                    doing: 2,
-                    room: myRoom,
-                    audioStation: audioStationToAssign,
-                    seek: 0
-                });
+                
                 $(".audioStationAudioPlay-" + audioStationToAssign).removeClass("startedSelf");
 
             };
@@ -6757,7 +6700,7 @@ function doTheUploadStuff(rank) {
 
             ///// fleo.at_dropFiles.js
 
-            $("body").append('<div id="dropContainer" style="position:fixed;bottom:20%;left:20%;width:60%;height:60%;z-index:20000;display:none;"></div>')
+            // $("body").append('<div id="dropContainer" style="position:fixed;bottom:20%;left:20%;width:60%;height:60%;z-index:20000;display:none;"></div>')
 
             $("body").on('dragenter', function (e) {
                 e.preventDefault();
@@ -6769,7 +6712,8 @@ function doTheUploadStuff(rank) {
             });
 
             $("body").on('drop', function (e) {
-                $("#dropContainer").css({
+                e.preventDefault();
+                /* $("#dropContainer").css({
                     'border': '2px dashed green',
                     'background': '#ffffff2f',
                     'display': 'block'
@@ -6780,8 +6724,7 @@ function doTheUploadStuff(rank) {
                         'background': '#f1ffef2f',
                         'display': 'none'
                     });
-                }, 2000);
-                e.preventDefault();
+                }, 2000); */
                 if (doNotUpload == 0) {
                     var image = e.originalEvent.dataTransfer.files;
                     createFormData(image);
@@ -7436,13 +7379,13 @@ function createMaenniken(personData) {
 
 
         $("#wrapper").arrive(".person", function () {
-            if ($(this).find(".tree").length) {
+            setTimeout(function(){ if ($(this).find(".tree").length) {
             let toObserve = $(this).find(".tree").attr("id").replace("personTree-", "");
             onScreenObserver[toObserve] = new IntersectionObserver(function () {
                 setMedalsCorrect(toObserve)
             }, observerOptions);
-            onScreenObserver[toObserve].observe($("#personTree-" + toObserve)[0]);
-        }
+            onScreenObserver[toObserve].observe(document.getElementById("personTree-" + toObserve));
+        } }, 2000);
         });
 
     if (personData.conn == 1) { setVisitorVideo(personData.number, personData.audioSes); persConn[personData.number] = 1; }
