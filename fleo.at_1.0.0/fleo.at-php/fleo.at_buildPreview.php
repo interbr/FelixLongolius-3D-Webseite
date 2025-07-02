@@ -10,7 +10,7 @@ if (isset($_POST['buildwidth'])) { $buildwidth = $_POST["buildwidth"]; } else { 
 
 
 $reloadTrick = "ffff" . random_int(0,99999999);
-echo '<div class="move nattin scale2" data-attr="1000-1000">', PHP_EOL;
+echo '<div class="move nattin scale900" data-attr="1000-1000">', PHP_EOL;
 echo '<div class="tree ';
 if ($buildfloor) { echo 'floor'; };
 echo '" style="width: ' . $buildwidth. 'px; background: none; bottom: 0px; left: 500px;">', PHP_EOL;

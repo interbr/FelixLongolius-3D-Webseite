@@ -731,9 +731,14 @@ var yeahStartup = 0;
 var worldHeight = 0;
 
 function eee(fff, ggg, scaleNow, item) {
+    if (Device_Type() == "Mobile" && Device_Type() == "Tablet") {
+        if (fff < 3000) { fff = Math.round(fff / 100) * 100; }
+        else { fff = Math.round(fff / 500) * 500; }
+    }
     $(item).toggleClass("scale" + scaleNow).toggleClass("scale" + fff);
     $(item).attr("distance", fff);
 }
+
 queryCoordsGet = window.location.search;
 urlForCoordsGet = new URLSearchParams(queryCoordsGet);
 var article = urlForCoordsGet.get('open');
@@ -800,9 +805,12 @@ var w = $(window).width();
 var h = $(window).height();
 var thisAllScale = w / 1800;
 var pointZero;
+var freeWidth = 0;
 
 function getThingsStraight() {
     if (yeahStartup !== 1) {
+        if (freeWidth == 0) {
+        $("#wrapperContainer").css("width","1800px");
         $("html").animate({
             scrollTop: $("body").css("height")
         }, 0, (function () {
@@ -904,7 +912,113 @@ function getThingsStraight() {
                 }))
             }))
         }));
+    } else {
+$("#wrapperContainer").css("width",w + "px"); 
+$("html").animate({
+            scrollTop: $("body").css("height")
+        }, 0, (function () {
+            w = $(window).width(), h = $(window).height(), thisAllScale = 1, $("#wrapperContainer").transition({
+                scale: thisAllScale,
+                duration: 0
+            }, (function () {
+                pointZero = $(window).scrollTop() - parseInt($("body").css("height")), relationToBackground = $(window).scrollTop() - parseInt($("body").css("height")) - pointZero + 35, $("html").animate({
+                    scrollTop: $("body").css("height")
+                }, 0, (function () {
+                    $("#wrapper").animate({
+                        height: "5000px"
+                    }, 0, (function () {
+                        $("html").animate({
+                            scrollTop: $("body").css("height")
+                        }, 0, (function () {
+                            $("body").animate({
+                                height: parseInt($("#wrapper").css("height")) * thisAllScale
+                            }, 0, (function () {
+                                $("#waldf").animate({
+                                    bottom: Math.round(relationToBackground / 5) * thisAllScale + "px"
+                                }, 0, (function () {
+                                    $("#haeuserf").animate({
+                                        bottom: Math.round(relationToBackground / 8) * thisAllScale + "px"
+                                    }, 0, (function () {
+                                        $("html").animate({
+                                            scrollTop: $("body").css("height")
+                                        }, 0, (function () {
+                                            w = $(window).width(), h = $(window).height(), thisAllScale = 1, $("#wrapperContainer").transition({
+                                                scale: thisAllScale,
+                                                duration: 0
+                                            }, (function () {
+                                                pointZero = $(window).scrollTop() - parseInt($("body").css("height")), relationToBackground = $(window).scrollTop() - parseInt($("body").css("height")) - pointZero + 35, $("html").animate({
+                                                    scrollTop: $("body").css("height")
+                                                }, 0, (function () {
+                                                    $("#wrapper").animate({
+                                                        height: "5000px"
+                                                    }, 0, (function () {
+                                                        $("#bgbgsterne").animate({
+                                                            left: ($(window).width() - $("#bgbgsterne").width()) / 2 + "px"
+                                                        }, 0, (function () {
+                                                            $("html").animate({
+                                                                scrollTop: $("body").css("height")
+                                                            }, 0, (function () {
+                                                                $("body").animate({
+                                                                    height: parseInt($("#wrapper").css("height")) * thisAllScale
+                                                                }, 0, (function () {
+                                                                    $("#waldf").animate({
+                                                                        bottom: Math.round(relationToBackground / 5) * thisAllScale + "px"
+                                                                    }, 0, (function () {
+                                                                        $("#haeuserf").animate({
+                                                                            bottom: Math.round(relationToBackground / 8) * thisAllScale + "px"
+                                                                        }, 0, (function () {
+                                                                            "b" == will ? $("#mapForLocator").css({
+                                                                                "transform-origin": mySpotterMapLocationX + "px " + mySpotterMapLocationY + "px",
+                                                                                bottom: mySpotterMapLocationY - 200 + "px",
+                                                                                left: w / 2 - mySpotterMapLocationX - 16 + "px"
+                                                                            }).transition({
+                                                                                perspective: "100px",
+                                                                                rotate: turn / 9e3 * 90 + "deg"
+                                                                            }, {
+                                                                                duration: 0
+                                                                            }) : $("#mapForLocator").css({
+                                                                                "transform-origin": mySpotterMapLocationX + "px " + mySpotterMapLocationY + "px",
+                                                                                bottom: mySpotterMapLocationY - 200 + "px",
+                                                                                left: w / 2 - mySpotterMapLocationX - 16 + "px"
+                                                                            }).transition({
+                                                                                perspective: "100px",
+                                                                                rotate: turn / 9e3 * -90 + 180 + "deg"
+                                                                            }, {
+                                                                                duration: 0
+                                                                            }), will, $("#menuBottom")[0].offsetWidth < 450 ? ($(".menuItem").css({
+                                                                                "font-size": "14px",
+                                                                                "line-height": "18px",
+                                                                                height: "22px"
+                                                                            }), $("#maennikenBag-" + (myNumber[0] + myNumber[2]).replace("#", "")).css({
+                                                                                top: "55px"
+                                                                            })) : ($(".menuItem").css({
+                                                                                "font-size": "18px",
+                                                                                "line-height": "25px",
+                                                                                height: "28px"
+                                                                            }), $("#maennikenBag-" + (myNumber[0] + myNumber[2]).replace("#", "")).css({
+                                                                                top: "68px"
+                                                                            }))
+                                                                        }))
+                                                                    }))
+                                                                }))
+                                                            }))
+                                                        }))
+                                                    }))
+                                                }))
+                                            }))
+                                        }))
+                                    }))
+                                }))
+                            }))
+                        }))
+                    }))
+                }))
+            }))
+        }));
+
+
     }
+}
 }
 
 $("#wrapperContainer").css({
@@ -919,7 +1033,24 @@ pointZero = $(window).scrollTop() - parseInt($("body").css("height"));
 relationToBackground = 0;
 $(window).resize(function () {
     if (draggingVideoSize == 0) {
+        if (freeWidth == 0) { 
+            $("#wrapperContainer").css("width","1800px"); 
+            $(".move").css("min-width","1800px");
+        } else {
+            $("#wrapperContainer").css("width",$(window).width() + "px");
+            $(".move").css("min-width",$(window).width() + "px");
+    }
         getThingsStraight();
+        setTimeout(function(){
+            if (freeWidth == 0) { 
+            $("#wrapperContainer").css("width","1800px"); 
+            $(".move").css("min-width","1800px");
+        } else {
+            $("#wrapperContainer").css("width",$(window).width() + "px");
+            $(".move").css("min-width",$(window).width() + "px");
+    }
+            getThingsStraight();
+        }, 2000);
     }
 
 });
@@ -1254,6 +1385,7 @@ $("#menuBottom").append('<div id="walkAroundWithVideoAudioAutoReject" class="coc
 $("#menuBottom").append('<div id="walkAroundWithVideoAudioAutoAccept" class="cockpit menuItem" data-audioautoaccept="off" style="text-decoration:line-through;display:none;">Anrufe automatisch annehmen</div>');
 $("#menuBottom").append('<div id="hearLikeOwl" active="0" class="menuItem" style="text-decoration:line-through;display:none;">Eule</div>');
 $("#menuBottom").append('<div id="niceWindowToggle" class="cockpit menuItem" style="display:none">Nice Window</div>');
+$("#menuBottom").append('<div id="freeWidth" class="cockpit menuItem" style="text-decoration:line-through;">Free width</div>');
 $("#menuBottom").append('<div id="fullscreenToggle" class="cockpit fullscreenToggle menuItem">Vollbild</div>');
 $("#menuBottom").append('<div id="fullscreenExitToggle" class="cockpit fullscreenToggle menuItem" style="display:none;background:orange;">Exit Vollb.</div>');
 $("#menuBottom").append('<div id="speedPlus" class="cockpit menuItem">+</div>');
@@ -1442,6 +1574,22 @@ $("#speedPlus").click(function () {
 });
 $("#speedMinus").click(function () {
     speed--;
+});
+
+$("#freeWidth").click(function(){
+    if (freeWidth == 0) {
+        freeWidth = 1;
+        $(".move").css("min-width",$(window).width() + "px");
+        getThingsStraight();
+        $(".move").css("min-width",$(window).width() + "px");
+        getThingsStraight();
+        $("#freeWidth").css("text-decoration","none");
+    } else {
+        freeWidth = 0;
+        $(".move").css("min-width","1800px");
+        getThingsStraight();
+        $("#freeWidth").css("text-decoration","line-through");
+    }
 });
 
 $("body").append('<div id="imprint" style="color:black;"><h1 style="background:#ffffff8f;">Imprint</h1><h2 style="background:#ffffff8f;">Felix Longolius</h2><p style="background:#ffffff8f;">Brahmsallee 41, 20144 Hamburg<p><p style="background:#ffffff8f;">00494035775757, deepmonitor@t-online.de</p><p style="background:#ffffff8f;"><a href="/datenschutz.html" target="_blank">Datenschutz (privacy)</a></p><p style="background:#ffffff8f;">If you feel like presenting the state of your browser to Google <span id="turnOnAnalytics" style="color:blue;text-decoration:underline;background:white;cursor:pointer;">"Google Analytics"</span> or Microsoft <span id="turnOnClarity" style="color:blue;text-decoration:underline;background:white;cursor:pointer;">"Microsoft-Clarity"-recordings</span>, you can inject their code by clicking the links above.</p>');

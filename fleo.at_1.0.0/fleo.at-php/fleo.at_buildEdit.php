@@ -124,8 +124,8 @@ foreach ($get_user_datas as $get_user_data) {
 <div class="" style="display: none"><input type="text" name="buildauthor" value="<?php echo $creator; ?>"></div>
 <div class="" style="display: none"><input type="text" name="room" value="<?php echo $room; ?>"></div>
 <div class="" style="display: none"><input type="text" id="formIsRobot" name="isRobot" value="<?php echo $isRobot; ?>"></div>
-<div class="" style=""><input type="text" name="buildcoords" value="<?php echo (intval($ordsW) * -1); ?>"></div>
-<div class="" style=""><input type="text" name="builddoords" value="<?php echo (intval($ordsD) * -1); ?>"></div>
+<div class="" style="">Coords: <input type="text" name="buildcoords" value="<?php echo (intval($ordsW) * -1); ?>"></div>
+<div class="" style="">Doords: <input type="text" name="builddoords" value="<?php echo (intval($ordsD) * -1); ?>"></div>
 
 <?php  
 if ($isAdmin > 0) {
@@ -202,6 +202,7 @@ return false;
 });
 
 $("#cancelbtn").click(function(){	
+	$("#buildpreview").remove();
 	$("#thisBox").hide();
 	edith = 0;
 	spacebarText = 0;
