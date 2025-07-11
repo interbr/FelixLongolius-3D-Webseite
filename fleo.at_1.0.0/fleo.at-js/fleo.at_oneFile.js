@@ -134,6 +134,12 @@ var buildJavascriptOpen = 0;
 
 var pingWhereAmIInterval;
 
+var worldNews, worldNews2, isChangeW, isChangeD, isChangeH, isChangeS, world2Generate = "", scriptAudioStationText, lettercoins, newLettercoins;
+var oldDirectionMoveW = [];
+var world2GeneratePortion = [];
+var world2GeneratePortionCount = 0;
+var world2GeneratePortionCountUp = 0;
+
 if ($.cookie('spacenumber')) {
     localStorage.setItem('spacenumber', $.cookie('spacenumber'));
     Cookies.set('spacenumber', 'empty', {
@@ -180,6 +186,28 @@ medals[0] = '<div class="medal medal0 medalAdmin" medalcode="0" style="width:26p
 medals[1] = '<div class="medal medal1 medalVisitor" medalcode="1" style="width:30px;height:30px;border-radius:15px;background:blue;font-size:30px;line-height:32px;text-align:center;" title="Visitor">V</div>';
 medals[2] = '<div class="medal medal2 medalWorker" medalcode="2" style="width:30px;height:30px;border-radius:15px;background:red;font-size:30px;line-height:32px;text-align:center;color:yellow;" title="Bauarbeiter">B</div>';
 medals[3] = '<div class="medal medal3 medalChef" medalcode="3" style="width:30px;height:30px;border-radius:15px;background:beige;font-size:30px;line-height:32px;text-align:center;color:blue;" title="Chef">C</div>';
+
+var changeManager = (function () {
+var changeListeners = [];
+
+return {
+    add: (fn) => changeListeners.push(fn),
+    trigger: (e) => {
+    changeListeners.forEach(fn => fn(worldNews2));
+    },
+};
+})();
+
+var moveManager = (function () {
+var moveListeners = [];
+
+return {
+    add: (fn) => moveListeners.push(fn),
+    trigger: (e) => {
+    moveListeners.forEach(fn => fn(worldNews2));
+    },
+};
+})();
 
 toastr.options = {
     "closeButton": true,
@@ -4027,12 +4055,6 @@ var truckLetCoords;
 var truckLetDoords;
 
 function connectWorld() {
-    var worldNews, worldNews2, isChangeW, isChangeD, isChangeH, isChangeS, world2Generate = "",
-        scriptAudioStationText, lettercoins, newLettercoins;
-    var oldDirectionMoveW = [];
-    var world2GeneratePortion = [];
-    var world2GeneratePortionCount = 0;
-    var world2GeneratePortionCountUp = 0;
 
     if (Device_Type() !== "Mobile" && Device_Type() !== "Tablet") {
         worldSrc = new EventSource('https://' + mainDomain + '/fleo.at-php/world.php?doing=0&spacenumber=' + (myNumber[0] + myNumber[2]).replace("#", ""));
@@ -4265,6 +4287,9 @@ function connectWorld() {
                 }
                 oldDirectionMoveW[worldNews2.id] == "x";
             }
+
+            window.changeManager.trigger(e);
+
             /* $('[data-attr=' + worldNews2.id + ']').animate({
                 "left": turn + "px"
             }, 0); */
@@ -4419,6 +4444,9 @@ function connectWorld() {
                         }
                     }
                 }
+
+                window.moveManager.trigger(e);
+
             }
         });
     }

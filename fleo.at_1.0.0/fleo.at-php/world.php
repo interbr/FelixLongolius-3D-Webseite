@@ -191,7 +191,7 @@ while (1) {
                     // if ($get_fragiles_data->isRobot == 1 || $get_fragiles_data->isRobot == 2 || $get_fragiles_data->isRobot == 3 || $get_fragiles_data->isRobot == 4 || $get_fragiles_data->isRobot == 6 || $get_fragiles_data->isRobot == 7) {
                         echo 'id: ' . $messageID . '', PHP_EOL;
                         echo 'event: move', PHP_EOL;
-                        echo 'data: ' . json_encode(array("id"=>"$get_fragiles_data->id","whatIsThis"=>"$get_fragiles_data->whatIsThis","coordsW"=>"$get_fragiles_data->coordsW","coordsH"=>"$get_fragiles_data->coordsH","coordsD"=>"$get_fragiles_data->coordsD","width"=>"$get_fragiles_data->width","go"=>"$get_fragiles_data->go","minusPlusW"=>"$get_fragiles_data->minusPlusW","mpChange"=>"$get_fragiles_data->mpChange","play"=>"$get_fragiles_data->play","seek"=>"$get_fragiles_data->seek","isRobot"=>"$get_fragiles_data->isRobot")), PHP_EOL;
+                        echo 'data: ' . json_encode(array("id"=>"$get_fragiles_data->id","whatIsThis"=>"$get_fragiles_data->whatIsThis","coordsW"=>"$get_fragiles_data->coordsW","coordsH"=>"$get_fragiles_data->coordsH","coordsD"=>"$get_fragiles_data->coordsD","width"=>"$get_fragiles_data->width","go"=>"$get_fragiles_data->go","minusPlusW"=>"$get_fragiles_data->minusPlusW","mpChange"=>"$get_fragiles_data->mpChange","play"=>"$get_fragiles_data->play","seek"=>"$get_fragiles_data->seek","isRobot"=>"$get_fragiles_data->isRobot","robotData"=>"$get_fragiles_data->robotData")), PHP_EOL;
                         echo PHP_EOL;
                         $messageID++;
                         // $fleo_pdo->prepare("UPDATE `$roomToQuery` SET `isRobot`=0 WHERE `id`='$get_fragiles_data->id'")->execute();
