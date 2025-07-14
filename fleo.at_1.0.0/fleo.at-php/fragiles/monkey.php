@@ -58,7 +58,6 @@ $i++;
 $moveFragileDPlusMinus = random_int(0,5);
 $moveFragileWPlusMinus = random_int(0,5);
 $moveFragileHPlusMinus = random_int(0,5);
-$moveFragileJump = random_int(0,60);
 
 if ($moveFragileDPlusMinus == 1) { $moveFragileD += 50; }
 else if ($moveFragileDPlusMinus == 2) { $moveFragileD += 100; }
@@ -90,19 +89,13 @@ if ($moveFragileH < -50) { $moveFragileH = -40; }
 if ($row["coordsH"] < 0) { $moveFragileH = $moveFragileH + $row["coordsH"] * -1; }
 if ($row["coordsH"] > 6000) { $moveFragileH = -150; }
 if ($row["program"] == $meIam) {
-    if ($moveFragileJump > 50) {
-$robotData = "monkeyJump";
-    } else {
-$robotData = "";
-
-    }
 
     /* if ($i == 1) {
     $set_fragile_while = "UPDATE `$room` SET `coordsW` = `coordsW` + '$moveFragileW', `coordsD` = `coordsD` + '$moveFragileD', `coordsH` = `coordsH` + '$moveFragileH', `tick` = `tick` + 1, `play` = 1, `seek` = '0.01', `minusPlusW` = '$mpMoveW', `mpChange` = '$mpChange' WHERE `whatIsThis` = '$id';"; 
     } else { */
-        $set_fragile_while = "UPDATE `$room` SET `coordsW` = `coordsW` + '$moveFragileW', `coordsD` = `coordsD` + '$moveFragileD', `coordsH` = `coordsH`, `tick` = `tick` + 1, `minusPlusW` = '$mpMoveW', `mpChange` = '$mpChange', `robotData` = '$robotData', `play` = 3 WHERE `whatIsThis` = '$id';"; 
+        $set_fragile_while = "UPDATE `$room` SET `coordsW` = `coordsW` + '$moveFragileW', `coordsD` = `coordsD` + '$moveFragileD', `coordsH` = `coordsH`, `tick` = `tick` + 1, `minusPlusW` = '$mpMoveW', `mpChange` = '$mpChange', `play` = 3 WHERE `whatIsThis` = '$id';"; 
 
-        $set_fragile_laugh = "UPDATE `$room` SET `coordsW` = `coordsW` + '$moveFragileW', `coordsD` = `coordsD` + '$moveFragileD', `coordsH` = `coordsH`, `tick` = `tick` + 1, `minusPlusW` = '$mpMoveW', `mpChange` = '$mpChange', `robotData` = '$robotData', `play` = 1 WHERE `whatIsThis` = '$id';"; 
+        $set_fragile_laugh = "UPDATE `$room` SET `coordsW` = `coordsW` + '$moveFragileW', `coordsD` = `coordsD` + '$moveFragileD', `coordsH` = `coordsH`, `tick` = `tick` + 1, `minusPlusW` = '$mpMoveW', `mpChange` = '$mpChange', `play` = 1 WHERE `whatIsThis` = '$id';"; 
     // }
     }
     /*    if ($FragileH > 20000 || $FragileH < -20000) { 
@@ -134,4 +127,4 @@ $robotData = "";
     
     echo "done?", PHP_EOL;
     }
-    die();
+    exit("monkey.php exit");

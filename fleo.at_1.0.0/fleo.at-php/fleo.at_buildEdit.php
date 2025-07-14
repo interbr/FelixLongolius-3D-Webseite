@@ -1,4 +1,7 @@
 <?php
+header("Cache-Control: no-cache");
+header("Content-Type: text/event-stream");
+header("X-Accel-Buffering: no");
 if (isset($_GET["client"])) {
     $creator = $_GET["client"];
 
@@ -15,6 +18,41 @@ if (isset($_GET["monster"])) {
     $get_user->execute();
     $get_user_datas = $get_user->fetchAll(PDO::FETCH_OBJ);
 foreach ($get_monster_datas as $get_monster_data) {
+	if (isset($_GET["requestEditPhp"])) {
+			echo "Output php to edit and store in database", PHP_EOL;
+			echo PHP_EOL;
+
+			$robotData = $get_monster_data->robotData;
+			$robotData = html_entity_decode(htmlspecialchars_decode($robotData));
+			$length = strlen($robotData);
+			$step = 5;
+
+			for ($i = 0; $i < $length; $i += $step) {
+				$chunk = substr($robotData, $i, $step);
+				echo 'id: ' . $i . '', PHP_EOL;
+                echo 'event: editphpdripple', PHP_EOL;
+                echo 'data: ' . json_encode(array("chunk"=>"{$chunk}")), PHP_EOL;
+			    echo PHP_EOL;	
+				@ob_flush();
+				flush();
+				usleep(750000);
+			}
+				echo 'id: ' . $i + 1, PHP_EOL;
+                echo 'event: editphpdrippledone', PHP_EOL;
+                echo 'data: ' . json_encode(array("steps"=>"$i")), PHP_EOL;
+			    echo PHP_EOL;	
+				@ob_flush();
+				flush();
+
+
+
+
+			exit("data served");
+		}
+
+
+
+
     $monsterName = $get_monster_data->whatIsThis;
     $ame = $get_monster_data->name;
     $isID = $get_monster_data->thisID;
@@ -39,7 +77,7 @@ foreach ($get_user_datas as $get_user_data) {
 .CodeMirror {
     resize: vertical;
 }
-#getHtmlSnippets, #getJavascriptSnippets {
+#getHtmlSnippets, #getJavascriptSnippets, #getphp2codeEditor, #getPhpSnippets, #cancelReceivePhp {
 	width: calc(100% - 10px);
 	height: 20px;
 	border: 1px solid black;
@@ -47,10 +85,10 @@ foreach ($get_user_datas as $get_user_data) {
 	margin: 0 0 10px 0;
 	cursor: pointer;
 }
-#htmlBuildFormDiv, #javascriptBuildFormDiv {
+#htmlBuildFormDiv, #javascriptBuildFormDiv, #phpBuildFormDiv {
 	width: 100%;
 }
-#getHtmlSnippets:hover, #getJavascriptSnippets:hover {
+#getHtmlSnippets:hover, #getJavascriptSnippets:hover, #getphp2codeEditor:hover, #getPhpSnippets:hover, #cancelReceivePhp:hover {
 	background-color: #ccc;
 }
 .snippetsOpen {
@@ -59,7 +97,7 @@ foreach ($get_user_datas as $get_user_data) {
 .snippetsClosed {
 	background-color: none;
 }
-#htmlSnippets, #javascriptSnippets {
+#htmlSnippets, #javascriptSnippets, #phpSnippets {
 	display: none;
 	width: calc(100% - 10px);
 	min-height: 100px;
@@ -67,7 +105,7 @@ foreach ($get_user_datas as $get_user_data) {
 	padding: 4px;
 	margin: 10px 0 10px 0;
 }
-.htmlSnippetName, .javascriptSnippetName {
+.htmlSnippetName, .javascriptSnippetName, .phpSnippetName {
 	cursor: pointer;
 	border: 1px solid black;
 	padding: 4px;
@@ -76,7 +114,7 @@ foreach ($get_user_datas as $get_user_data) {
 	margin: 0 8px 8px 0;
 	display: inline-block;
 }
-.htmlSnippetName:hover, .javascriptSnippetName:hover {
+.htmlSnippetName:hover, .javascriptSnippetName:hover, .phpSnippetName:hover {
 	background: #ccc;
 }
 </style>
@@ -86,8 +124,10 @@ foreach ($get_user_datas as $get_user_data) {
 		var url4b = "/fleo.at-js/edit/javascript/javascript.js";
 		var url4c = "/fleo.at-js/edit/css/css.js";
 		var url4d = "/fleo.at-js/edit/htmlmixed/htmlmixed.js";
-		var url5 = "/fleo.at-js/edit/admin.js?20250304_21bCEWT";
-		$.getScript(url3, function(){$.getScript(url4a, function(){$.getScript(url4b, function(){$.getScript(url4c, function(){$.getScript(url4d, function(){$.getScript(url5);});});});});}); 
+		var url4e = "/fleo.at-js/edit/php/php.js";
+		var url4f = "/fleo.at-js/edit/clike/clike.js";
+		var url5 = "/fleo.at-js/edit/admin.js?20250712_04bCEST";
+		$.getScript(url3, function(){$.getScript(url4a, function(){$.getScript(url4b, function(){$.getScript(url4c, function(){$.getScript(url4d, function(){$.getScript(url4e, function(){$.getScript(url4f, function(){$.getScript(url5);});});});});});});}); 
 		spacebarText = 1;
 </script>
 <?php if ($isAdmin > 0) { echo '<span class="h2" id="deleteFragile" style="float:right;cursor:pointer;">Delete</span>'; } ?>
@@ -113,6 +153,13 @@ foreach ($get_user_datas as $get_user_data) {
 
 <p><div style="position:relative;width:100%;height:auto;"><div id="getJavascriptSnippets" class="snippetsClosed">get javascript snippets</div></div><div id="javascriptSnippets">javascript snippets</div><div id="javascriptBuildFormDiv" class=""><label for="buildjavascript" class="form">javascript</label><textarea type="textarea" class="form-control form buildcode" name="buildjavascript" id="buildjavascript">
 <?php echo html_entity_decode(htmlspecialchars_decode($script)); ?>
+</textarea></div></p>
+
+
+<div style="position:relative;width:100%;height:auto;"><div id="getphp2codeEditor" class="snippetsClosed">get php-functions server</div><div id="cancelReceivePhp" style="display:none">Cancel receive code</div></div>
+
+<p><div style="position:relative;width:100%;height:auto;"><div id="getPhpSnippets" class="snippetsClosed" style="display:none;">get php snippets</div></div><div style="display:none;" id="phpSnippets">php snippets</div><div id="phpBuildFormDiv" class="" style="display:none;"><label for="buildphp" class="form">php</label><textarea type="textarea" class="form-control form buildcode" name="buildphp" id="buildphp">
+php not requested
 </textarea></div></p>
 
 
@@ -199,6 +246,9 @@ e.preventDefault();
 			});
 return false;
 });
+if (typeof phpSrc !== "undefined" && phpSrc instanceof EventSource) {
+  phpSrc.close();
+}
 });
 
 $("#cancelbtn").click(function(){	
@@ -208,6 +258,9 @@ $("#cancelbtn").click(function(){
 	spacebarText = 0;
 	buildHtmlOpen = 0;
 	buildJavascriptOpen = 0;
+	if (typeof phpSrc !== "undefined" && phpSrc instanceof EventSource) {
+	phpSrc.close();
+	}
 });
 
 $("#fullAgain").click(function(){	

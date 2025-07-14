@@ -1,0 +1,6 @@
+$moveFragileW = 0;
+$moveFragileD = 0;
+$moveFragileH = 0;
+$mpMoveW = $row["minusPlusW"];
+$mpChange = $row["mpChange"];
+$play = $row["play"];
