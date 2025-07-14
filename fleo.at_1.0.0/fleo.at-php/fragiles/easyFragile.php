@@ -123,7 +123,7 @@ while ($goBaby) {
     usleep(1000000);
     $iteration++;
 
-    if ($iteration > 49 || $data["program"] !== $meIam) {
+    if ($data["program"] !== $meIam) { $goBaby = 0; $fleo_pdo->exec("UPDATE `$room` SET `go` = 0 WHERE `whatIsThis` = '$id';"); } else if ($iteration > 49) {
         $fleo_pdo->exec("UPDATE `$room` SET `go` = 0 WHERE `whatIsThis` = '$id';");
         exec('php ' . $fleoPathAbs . '/fleo.at_1.0.0/fleo.at-php/fragiles/easyFragile.php 1 ' . $id . ' ' . $room . ' > /dev/null &');
         $goBaby = 0;
