@@ -11,6 +11,10 @@ if (isset($argc) && $argc > 1) {
     $room = "room-" . $_POST["room"];
     // echo "hello.", PHP_EOL;
 }
+if (isset($_POST["stop"]) && $_POST["stop"] == 2) {
+    $stop = 2;
+}
+
 
 // 🔗 Load dependencies
 require('../../../fleo.at_1.0.0-config/connection.php');
@@ -39,19 +43,26 @@ $sandbox->blacklistFunc([
 
 // 🤖 Initialize robot
 $meIam = random_int(1000000, 2000000);
-$fleo_pdo->exec("UPDATE `$room` SET `program` = '$meIam', `isRobot` = 4, `go` = 1, `play` = 2, `seek` = 0 WHERE `whatIsThis` = '$id';");
+if ($stop !== 2) { $fleo_pdo->exec("UPDATE `$room` SET `program` = '$meIam', `isRobot` = 4, `go` = 1, `play` = 2, `seek` = 0 WHERE `whatIsThis` = '$id';"); } else { $fleo_pdo->exec("UPDATE `$room` SET `program` = '$meIam', `isRobot` = 4, `go` = 0, `play` = 2, `seek` = 0 WHERE `id` = '$id';"); }
 
 // 🔄 Loop setup
 $iteration = 0;
 $goBaby = 1;
+if ($stop === 2) { $goBaby = 0; }
+
+$m = 0;
+$n = 0;
 
 // ⏬ Initial robotData fetch
+if ($stop !== 2) { 
 $query = $fleo_pdo->prepare("SELECT `robotData`, `go` FROM `$room` WHERE `whatIsThis` = :id");
 $query->execute(['id' => $id]);
 $row = $query->fetch();
-
 $robotCode = html_entity_decode(htmlspecialchars_decode($row["robotData"]));
 $goBaby = ($row["go"] === 1) ? 1 : 0;
+} 
+
+if ($stop === 2) { $goBaby = 0; }
 
 // 🚀 Execution loop
 while ($goBaby) {
@@ -73,7 +84,9 @@ while ($goBaby) {
         'mpMoveW'       => $data["minusPlusW"],
         'mpChange'      => $data["mpChange"],
         'play'          => $data["play"],
-        'id'            => $id
+        'id'            => $id,
+        'm'            => $m,
+        'n'            => $n
     ];
 
     // 🔐 Inject into sandbox
@@ -121,9 +134,9 @@ while ($goBaby) {
     ]);
 
     usleep(1000000);
-    $iteration++;
+    $iteration++; $m++; $n++;
 
-    if ($data["program"] !== $meIam) { $goBaby = 0; $fleo_pdo->exec("UPDATE `$room` SET `go` = 0 WHERE `whatIsThis` = '$id';"); } else if ($iteration > 49) {
+    if ($data["program"] !== $meIam) { $goBaby = 0; $fleo_pdo->exec("UPDATE `$room` SET `go` = 0 WHERE `whatIsThis` = '$id';"); exit(); } else if ($iteration > 49) {
         $fleo_pdo->exec("UPDATE `$room` SET `go` = 0 WHERE `whatIsThis` = '$id';");
         exec('php ' . $fleoPathAbs . '/fleo.at_1.0.0/fleo.at-php/fragiles/easyFragile.php 1 ' . $id . ' ' . $room . ' > /dev/null &');
         $goBaby = 0;

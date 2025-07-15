@@ -12,7 +12,7 @@ if (isset($_POST['buildname'])) { $buildname = ($_POST["buildname"]); } else { $
 if (isset($_POST['buildhtml'])) { $buildhtml = ($_POST["buildhtml"]); } else { $buildhtml = 'no html'; }
 if (isset($_POST['buildjavascript'])) { $buildjavascript = $_POST["buildjavascript"]; } else { $buildjavascript = ''; }
 if (isset($_POST['buildphp'])) { 
-  if ($_POST['buildphp'] == "php not requested") {
+if (str_contains($_POST['buildphp'], 'php not requested')) {
     $phpNotRequested = 1;
   } else {
     $phpNotRequested = 0;

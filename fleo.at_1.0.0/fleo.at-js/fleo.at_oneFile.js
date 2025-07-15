@@ -2213,7 +2213,8 @@ function roomChange(newRoom) {
 
 var keys = 1;
 var chatKeysOn = 0;
-editTrick = 0;
+var editTrick = 0;
+var stopTrick = 0;
 $(document).keydown(function (event) {
 
     if (spacebarText == 0) {
@@ -2295,10 +2296,20 @@ $(document).keydown(function (event) {
             event.preventDefault();
             editTrick = 1;
         }
+        if (event.which == 83) { // S + click
+            event.preventDefault();
+            stopTrick = 1;
+            console.log("stop trick active");
+        }
         $(".tree").mouseover(function () {
             if (editTrick == 1) {
                 editTrick = 0;
                 $(this).dblclick();
+            }
+            if (stopTrick == 1) {
+                stopTrick = 0;
+                $.post("/fleo.at-php/fragiles/easyFragile.php", { doing: 0, room: myRoom, fragile: $(this).parent(".move").data("attr"), stop: 2 });
+                console.log("stop trick worked");
             }
         })
     }
