@@ -1,0 +1,7 @@
+echo '$moveFragileW = ' . $moveFragileW . ';';
+echo '$moveFragileD = ' . $moveFragileD . ';';
+echo '$moveFragileH = ' . $moveFragileH . ';';
+echo '$FragileWidth = ' . $FragileWidth . ';';
+echo '$mpMoveW = ' . $mpMoveW . ';';
+echo '$mpChange = ' . $mpChange . ';';
+echo '$play = ' . $play . ';';

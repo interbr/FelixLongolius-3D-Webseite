@@ -1,0 +1,47 @@
+<form id="chatContainer">
+  <input type="text" id="chatInput" placeholder="Type your prompt..." />
+  <button type="submit" id="sendBtn">Send</button>
+</form>
+
+<textarea id="codeOutput"></textarea>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const chatForm = document.getElementById("chatContainer");
+    const chatInput = document.getElementById("chatInput");
+
+    chatForm.addEventListener("submit", function (e) {
+      e.preventDefault();
+
+      const promptInput = chatInput.value.trim();
+      if (!promptInput) return;
+
+      fetch("https://github.popular.gb.fleo.at/fleo.at-php/fragiles/fleo.at_builder.php", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded"
+        },
+        body: new URLSearchParams({ prompt: promptInput })
+      })
+        .then(response => response.text())
+        .then(data => {
+          try {
+            const phpData = JSON.parse(data);
+
+            window.myCodeMirror3.replaceRange(
+              phpData.chunk,
+              CodeMirror.Pos(
+                window.myCodeMirror3.lastLine(),
+                window.myCodeMirror3.getLine(window.myCodeMirror3.lastLine()).length
+              )
+            );
+          } catch (err) {
+            console.error("Failed to parse response:", err);
+          }
+        })
+        .catch(err => {
+          console.error("Request failed:", err);
+        });
+    });
+  });
+</script>

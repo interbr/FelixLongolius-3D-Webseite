@@ -32,6 +32,8 @@ socketServer.origins(function(origin, callback) {
     'https://kitchen.fleo.at',
     'https://fleo.at',
     'https://popular.gb.fleo.at',
+    'https://funny-bunnies.fleo.at',
+    'https://bold-panini.fleo.at',
         '*'
     ].includes(origin)) {
         return callback('origin not allowed', false);
@@ -85,7 +87,7 @@ var rtc = easyrtc.listen(app, socketServer, null, function(err, rtcRef) {
     });
 });
 
-// Listen on port 8080
-webServer.listen(8080, function () {
-    console.log('listening on http://localhost:8080');
+// Listen on port 9002
+webServer.listen(9002, function () {
+    console.log('listening on http://localhost:9002');
 });

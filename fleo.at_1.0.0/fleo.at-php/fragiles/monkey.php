@@ -127,4 +127,4 @@ if ($row["program"] == $meIam) {
     
     echo "done?", PHP_EOL;
     }
-    die();
+    exit("monkey.php exit");

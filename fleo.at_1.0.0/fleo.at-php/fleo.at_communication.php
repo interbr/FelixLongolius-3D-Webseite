@@ -1,62 +1,83 @@
 <?php
 session_write_close();
 ignore_user_abort(true);
+
 header('Content-Type: multipart/x-mixed-replace;boundary=--fleoats');
 header('Cache-Control: private, no-cache, no-store, max-age=0');
 header('Connection: close');
+
 require('../../fleo.at_1.0.0-config/connection.php');
+
+$rate = 1;
+$playRate = 250000;
+$results_old_hash = '';
+$emptyCount = 0;
+
 if (isset($_GET['video'])) {
-$RfleoNum = $_GET['video'];
-if (isset($_GET['viewer'])) { $viewer = $_GET['viewer']; } else { $viewer = "notSet"; $rate = 2; }
-// $sql = $fleo_pdo->prepare("SELECT lettersOrVideo, defleos, defleosA FROM (SELECT * FROM thefleos WHERE `fleoNum`='$RfleoNum' ORDER BY bingoingy DESC LIMIT 1) sub ORDER BY bingoingy ASC");
-$sql = $fleo_pdo->prepare("SELECT defleos, defleosA FROM thefleos WHERE `fleoNum`='$RfleoNum'");
-$sql->execute();
-$results = $sql->fetchAll(PDO::FETCH_OBJ);
-foreach ($results as $result) { if ($viewer !== "notSet") { if(isset($result->defleosA)) { $audience = json_decode($result->defleosA); $rate = $audience->$viewer; } else { $rate = 2; } } else { $rate = 2; } }
+    $RfleoNum = $_GET['video'];
+    $viewer = $_GET['viewer'] ?? 'notSet';
+    $rateGet = $_GET['rate'] ?? 'notSet';
 
-$results_old = 0;
+    $rateMap = ['rate0' => 0, 'rate1' => 1, 'rate2' => 2, 'rate3' => 3, 'rate4' => 4];
+    $useDynamicRate = !array_key_exists($rateGet, $rateMap);
 
-$countBasic = 0;
+    $sql = $fleo_pdo->prepare("SELECT defleos, defleosA FROM thefleos WHERE `fleoNum` = :fleoNum");
+    $sql->bindParam(':fleoNum', $RfleoNum, PDO::PARAM_STR);
 
-while (1) {
-	$sql->execute();
-	$results = $sql->fetchAll(PDO::FETCH_OBJ);
-	if ($results !== $results_old) {
-	foreach ($results as $result) {
-	echo "--fleoats\r\n";
-	echo "Content-Type: image/jpeg \r\n";
-	echo "\r\n";
-	echo imagejpeg(imagecreatefromstring(base64_decode($result->defleos)));
-	echo "\r\n";
-	if ($viewer !== "notSet") { if(isset($result->defleosA)) { $audience = json_decode($result->defleosA); $rate = $audience->$viewer; } else { $rate = 2; } } else { $rate = 2; }
-  if ($rate == 0) { $playRate = 1000000; }
-  if ($rate == 1) { $playRate = 500000; }
-  if ($rate == 2) { $playRate = 250000; }
-  if ($rate == 3) { $playRate = 125000; }
-  if ($rate == 4) { $playRate = 125000; }
-	}
-	$results_old = $results;
-	}
-	while (ob_get_level() > 0) {
-	ob_end_flush();
-	}
-	flush();
+    while (true) {
+        $sql->execute();
+        $results = $sql->fetchAll(PDO::FETCH_OBJ);
 
-  if (connection_aborted()) {
-		/* try {
-			$dbhandle_pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-			$write_setOnline_query = "UPDATE `thefleos` SET `online`=2 WHERE `number`='$self';";
-			$dbhandle_pdo->exec($write_setOnline_query);
-				//$dbhandle_pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-				//$fleoboyngINSquery = "DELETE FROM `thefleos` WHERE fleoNum='$self';";
-				//$dbhandle_pdo->exec($fleoboyngINSquery);
-			header('X-Content-Type-Options: nosniff');
-		  } catch(PDOException $e) {
-			echo "<br>" . $e->getMessage();
-		  } */
-		break;
-		}
-		
-  usleep($playRate);
-}
+        if (!$results) {
+            $emptyCount++;
+            if ($emptyCount > 20) break; // Optional: exit after 20 empty pulls
+        } else {
+            $emptyCount = 0;
+        }
+
+        // Serialize to detect meaningful changes
+        $results_hash = md5(json_encode($results));
+
+        if ($results_hash !== $results_old_hash) {
+            foreach ($results as $result) {
+                echo "--fleoats\r\n";
+                echo "Content-Type: image/jpeg\r\n\r\n";
+                imagejpeg(imagecreatefromstring(base64_decode($result->defleos)), null, 92);
+                echo "\r\n";
+
+                // Unabhängig von Änderungen neu berechnen
+                if ($useDynamicRate && !empty($result->defleosA)) {
+                    $audience = json_decode($result->defleosA);
+                    if (json_last_error() === JSON_ERROR_NONE && isset($audience->$viewer)) {
+                        $rate = $audience->$viewer;
+                    } else {
+                        $rate = 2;
+                    }
+                } elseif (isset($rateMap[$rateGet])) {
+                    $rate = $rateMap[$rateGet];
+                } else {
+                    $rate = 2;
+                }
+
+                switch ($rate) {
+                    case 0: $playRate = 1000000; break;
+                    case 1: $playRate = 500000; break;
+                    case 2: $playRate = 250000; break;
+                    case 3: $playRate = 125000; break;
+                    case 4: $playRate = 62500; break;
+                    default: $playRate = 250000;
+                }
+
+            }
+
+            $results_old_hash = $results_hash;
+        }
+
+        while (ob_get_level() > 0) ob_end_flush();
+        flush();
+
+        if (connection_aborted()) break;
+
+        usleep($playRate);
+    }
 }

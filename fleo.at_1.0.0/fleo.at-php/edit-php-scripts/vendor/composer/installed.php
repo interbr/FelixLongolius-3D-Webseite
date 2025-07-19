@@ -1,0 +1,56 @@
+<?php return array(
+    'root' => array(
+        'name' => '__root__',
+        'pretty_version' => 'dev-main',
+        'version' => 'dev-main',
+        'reference' => '0e150352f7968292adfc247e48fb80e6d0f05116',
+        'type' => 'library',
+        'install_path' => __DIR__ . '/../../',
+        'aliases' => array(),
+        'dev' => true,
+    ),
+    'versions' => array(
+        '__root__' => array(
+            'pretty_version' => 'dev-main',
+            'version' => 'dev-main',
+            'reference' => '0e150352f7968292adfc247e48fb80e6d0f05116',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../../',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
+        'corveda/php-sandbox' => array(
+            'pretty_version' => 'v3.1',
+            'version' => '3.1.0.0',
+            'reference' => '0e14807f2172abfd8dd49fae7750a227d7309fe9',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../corveda/php-sandbox',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
+        'fieryprophet/php-sandbox' => array(
+            'dev_requirement' => false,
+            'replaced' => array(
+                0 => '*',
+            ),
+        ),
+        'nikic/php-parser' => array(
+            'pretty_version' => 'v5.5.0',
+            'version' => '5.5.0.0',
+            'reference' => 'ae59794362fe85e051a58ad36b289443f57be7a9',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../nikic/php-parser',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
+        'simpletools/functionparser' => array(
+            'pretty_version' => '1.0.1',
+            'version' => '1.0.1.0',
+            'reference' => '70be7b13ede36befcbc76bc796740650ecaa14b9',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../simpletools/functionparser',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
+    ),
+);

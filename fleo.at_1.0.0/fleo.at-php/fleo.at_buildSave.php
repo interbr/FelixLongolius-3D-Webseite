@@ -1,16 +1,23 @@
 <?php
-use PHPMailer\PHPMailer\PHPMailer;
+/* use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 use PHPMailer\PHPMailer\SMTP;
   
 require '../../fleo.at_1.0.0-config/Exception.php';
 require '../../fleo.at_1.0.0-config/PHPMailer.php';
-require '../../fleo.at_1.0.0-config/SMTP.php';
+require '../../fleo.at_1.0.0-config/SMTP.php'; */
 if (isset($_POST['buildimage'])) { $buildimage = ($_POST["buildimage"]); } else { $buildimage = ''; }
 if (isset($_POST['monsterID'])) { $monster = ($_POST["monsterID"]); } else { $monster = 'no name'; }
 if (isset($_POST['buildname'])) { $buildname = ($_POST["buildname"]); } else { $buildname = 'no name'; }
 if (isset($_POST['buildhtml'])) { $buildhtml = ($_POST["buildhtml"]); } else { $buildhtml = 'no html'; }
 if (isset($_POST['buildjavascript'])) { $buildjavascript = $_POST["buildjavascript"]; } else { $buildjavascript = ''; }
+if (isset($_POST['buildphp'])) { 
+if (str_contains($_POST['buildphp'], 'php not requested')) {
+    $phpNotRequested = 1;
+  } else {
+    $phpNotRequested = 0;
+  }
+  $buildphp = $_POST["buildphp"]; } else { $buildphp = ''; }
 if (isset($_POST['buildfloor'])) { $buildfloor = $_POST["buildfloor"]; } else { $buildfloor = '0'; }
 if (isset($_POST['buildwidth'])) { $buildwidth = $_POST["buildwidth"]; } else { $buildwidth = '500'; }
 if (isset($_POST['buildheight'])) { $buildheight = $_POST["buildheight"]; } else { $buildheight = '0'; }
@@ -24,12 +31,16 @@ $fleoip = $_SERVER['REMOTE_ADDR'];
 
 $sendhtml=$buildhtml;
 $sendjavascript=$buildjavascript;
+$sendphp=$buildphp;
 
 $buildhtml=addslashes($buildhtml);
 $buildhtml=htmlspecialchars($buildhtml);
 
 $buildjavascript=addslashes($buildjavascript);
 $buildjavascript=htmlspecialchars($buildjavascript); 
+
+$buildphp=addslashes($buildphp);
+$buildphp=htmlspecialchars($buildphp); 
 
 require('../../fleo.at_1.0.0-config/connection.php');
 $get_user = $fleo_pdo->query("SELECT isAdmin FROM `present` WHERE `number` = '$buildauthor' ORDER BY id ASC LIMIT 1");
@@ -42,7 +53,34 @@ foreach ($get_user_datas as $get_user_data) {
     if ($buildfloor) { $buildobject .= 'floor'; };
     $buildobject .= '" style="';
     
-
+if ($phpNotRequested !== 1) {
+$fleo_pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+  if ($isOnline == 1 || $isOnline == 2) {
+    try {
+      if ($isAdmin > 0) {
+  $save_build_query = "UPDATE `$room` SET `onOff`='1',`color`='',`coordsW`='$buildcoords',`coordsH`='$buildheight',`coordsD`='$builddoords',`thisID`='',`object`='$buildobject',`name`='$buildhtml',`width`='$buildwidth',`script`='$buildjavascript',`robotData`='$buildphp',`scriptOn`=1,`heikel`=1,`whatIsThis`='$buildname',`floor`='$buildfloor',`ip`=CONCAT(`ip`, ', $fleoip'),`isOnline`='$isOnline',`isRobot`='$isRobot',`tick`=tick+1,`tick2`=tick+2 WHERE id='$monster';"; 
+      } else { if ($isOnline == 1) { $isOnline = 2; }
+  $save_build_query = "UPDATE `$room` SET `onOff`='1',`color`='',`coordsW`='$buildcoords',`coordsH`='$buildheight',`coordsD`='$builddoords',`thisID`='',`object`='$buildobject',`name`='$buildhtml',`width`='$buildwidth',`script`='$buildjavascript',`robotData`='$buildphp',`scriptOn`=1,`heikel`=1,`whatIsThis`='$buildname',`floor`='$buildfloor',`ip`=CONCAT(`ip`, ', $fleoip'),`isOnline`='$isOnline',`isRobot`='$isRobot',`tick`=tick+1,`tick2`=tick+2 WHERE id='$monster';"; } //
+  $fleo_pdo->exec($save_build_query);
+  } catch (PDOException $e) {
+    echo "<br>" . $e->getMessage();
+  }
+} else if ($isOnline == 3) {
+    try {
+    $save_build_query = "UPDATE `$room` SET `tick`=-1 WHERE id='$monster';";
+    $fleo_pdo->exec($save_build_query);
+     } catch (PDOException $e) {
+    echo "<br>" . $e->getMessage();
+  }
+  sleep(5);
+  try {
+  $save_build_query = "UPDATE `$room` SET `onOff`='1',`color`='',`coordsW`='$buildcoords',`coordsH`='$buildheight',`coordsD`='$builddoords',`thisID`='',`object`='$buildobject',`name`='$buildhtml',`width`='$buildwidth',`script`='$buildjavascript',`robotData`='$buildphp',`scriptOn`=1,`heikel`=1,`whatIsThis`='$buildname',`floor`='$buildfloor',`ip`=CONCAT(`ip`, ', $fleoip'),`isOnline`='$isOnline',`isRobot`='$isRobot',`tick`=-1 WHERE id='$monster';";
+  $fleo_pdo->exec($save_build_query);
+   } catch (PDOException $e) {
+  echo "<br>" . $e->getMessage();
+}
+}
+} else {
   $fleo_pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
   if ($isOnline == 1 || $isOnline == 2) {
     try {
@@ -68,8 +106,8 @@ foreach ($get_user_datas as $get_user_data) {
    } catch (PDOException $e) {
   echo "<br>" . $e->getMessage();
 }
-}
-
+}}
+/*
   $subject = $sitename . " " . $buildname . " // in " . $room . " saved";			
   $msg = date('Y/m/d H:i:s', time());
 
@@ -111,4 +149,5 @@ For questions or suggestions, please feel free to write to felix@popular.gb.fleo
   } else {
     echo "Saved! To be moderated.";
   }
+    */
 ?>

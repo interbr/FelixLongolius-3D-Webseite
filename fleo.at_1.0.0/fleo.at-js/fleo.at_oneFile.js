@@ -134,6 +134,12 @@ var buildJavascriptOpen = 0;
 
 var pingWhereAmIInterval;
 
+var worldNews, worldNews2, isChangeW, isChangeD, isChangeH, isChangeS, world2Generate = "", scriptAudioStationText, lettercoins, newLettercoins;
+var oldDirectionMoveW = [];
+var world2GeneratePortion = [];
+var world2GeneratePortionCount = 0;
+var world2GeneratePortionCountUp = 0;
+
 if ($.cookie('spacenumber')) {
     localStorage.setItem('spacenumber', $.cookie('spacenumber'));
     Cookies.set('spacenumber', 'empty', {
@@ -180,6 +186,28 @@ medals[0] = '<div class="medal medal0 medalAdmin" medalcode="0" style="width:26p
 medals[1] = '<div class="medal medal1 medalVisitor" medalcode="1" style="width:30px;height:30px;border-radius:15px;background:blue;font-size:30px;line-height:32px;text-align:center;" title="Visitor">V</div>';
 medals[2] = '<div class="medal medal2 medalWorker" medalcode="2" style="width:30px;height:30px;border-radius:15px;background:red;font-size:30px;line-height:32px;text-align:center;color:yellow;" title="Bauarbeiter">B</div>';
 medals[3] = '<div class="medal medal3 medalChef" medalcode="3" style="width:30px;height:30px;border-radius:15px;background:beige;font-size:30px;line-height:32px;text-align:center;color:blue;" title="Chef">C</div>';
+
+var changeManager = (function () {
+var changeListeners = [];
+
+return {
+    add: (fn) => changeListeners.push(fn),
+    trigger: (e) => {
+    changeListeners.forEach(fn => fn(worldNews2));
+    },
+};
+})();
+
+var moveManager = (function () {
+var moveListeners = [];
+
+return {
+    add: (fn) => moveListeners.push(fn),
+    trigger: (e) => {
+    moveListeners.forEach(fn => fn(worldNews2));
+    },
+};
+})();
 
 toastr.options = {
     "closeButton": true,
@@ -735,6 +763,11 @@ function eee(fff, ggg, scaleNow, item) {
         if (fff < 3000) { fff = Math.round(fff / 100) * 100; }
         else { fff = Math.round(fff / 500) * 500; }
     }
+    $(item).toggleClass("scale" + scaleNow).toggleClass("scale" + fff);
+    $(item).attr("distance", fff);
+}
+
+function ggg(fff, ggg, scaleNow, item) {
     $(item).toggleClass("scale" + scaleNow).toggleClass("scale" + fff);
     $(item).attr("distance", fff);
 }
@@ -1909,7 +1942,7 @@ function move(coordsTr, doordsTr, duration, height) {
     $(".move > .tree").animate({
         "left": "-=" + parseInt(historyCoords - coordsTr)
     }, {
-        queue: true,
+        queue: false,
         duration: duration,
         complete: function () {}
     });
@@ -2185,7 +2218,8 @@ function roomChange(newRoom) {
 
 var keys = 1;
 var chatKeysOn = 0;
-editTrick = 0;
+var editTrick = 0;
+var stopTrick = 0;
 $(document).keydown(function (event) {
 
     if (spacebarText == 0) {
@@ -2267,10 +2301,18 @@ $(document).keydown(function (event) {
             event.preventDefault();
             editTrick = 1;
         }
+        if (event.which == 83) { // S + click
+            event.preventDefault();
+            stopTrick = 1;
+        }
         $(".tree").mouseover(function () {
             if (editTrick == 1) {
                 editTrick = 0;
                 $(this).dblclick();
+            }
+            if (stopTrick == 1) {
+                stopTrick = 0;
+                $.post("/fleo.at-php/fragiles/easyFragile.php", { doing: 0, room: myRoom, fragile: $(this).parent(".move").data("attr"), stop: 2 });
             }
         })
     }
@@ -3529,9 +3571,9 @@ var currentlyInput = 1,
 let sMMssMTmp, historyCoordsTmp;
 var checkIntervalSuperSteer;
 if (Device_Type() !== "Mobile" && Device_Type() !== "Tablet") {
-    var updateTimeSuperSteer = 250;
+    var updateTimeSuperSteer = 200;
 } else {
-    var updateTimeSuperSteer = 250;
+    var updateTimeSuperSteer = 200;
 }
 
 const updatePosition = (currentX, currentY) => {
@@ -3560,19 +3602,18 @@ const updatePosition = (currentX, currentY) => {
     if (will == "b") {
         if (ws.readyState === WebSocket.OPEN) {
             // $("#flash").addClass("ffff");
-            hiCo = historyCoords - deltaXStore;
-            sMMs = sMMssM - (deltaYStore * -1);
+            hiCo = Math.round(historyCoords - deltaXStore);
+            sMMs = Math.round(sMMssM - (deltaYStore * -1));
             sMMssMTmp = sMMs;
             historyCoordsTmp = hiCo;
             wentZ -= (sMMs - sMMssM);
             moveMeTrainsMMssM = (sMMs - sMMssM);
-            for (aaa = 0; aaa < iii.length; aaa++) {
-                that1 = iii.item(aaa);
-                scaleNow = parseInt($(that1).attr("distance"));
-                scaleNowNumber = scaleNow;
-                scaleNowNumber += moveMeTrainsMMssM;
-                eee(scaleNowNumber, aaa, scaleNow, that1);
-            }
+            $(iii).each(function(index, element) {
+                let scaleNow = parseInt($(element).attr("distance"));
+                let scaleNowNumber = scaleNow + moveMeTrainsMMssM;
+                $(element).toggleClass("scale" + scaleNow).toggleClass("scale" + scaleNowNumber);
+                $(element).attr("distance", scaleNowNumber);
+            });
 
             $("#waldf").css("bottom", Math.round(relationToBackground / -8) * thisAllScale - 140 + "px");
             $("#haeuserf").css("bottom", Math.round(relationToBackground / -8) * thisAllScale - 140 + "px");
@@ -3645,19 +3686,18 @@ const updatePosition = (currentX, currentY) => {
     } else {
         if (ws.readyState === WebSocket.OPEN) {
             // $("#flash").addClass("ffff");
-            hiCo = (historyCoords + deltaXStore);
-            sMMs = (sMMssM + deltaYStore);
+            hiCo = Math.round(historyCoords + deltaXStore);
+            sMMs = Math.round(sMMssM + deltaYStore);
             sMMssMTmp = sMMs;
             historyCoordsTmp = hiCo;
             went += (sMMs - sMMssM);
             moveMeTrainsMMssM = (sMMs - sMMssM);
-            for (aaa = 0; aaa < iii.length; aaa++) {
-                that1 = iii.item(aaa);
-                scaleNow = parseInt($(that1).attr("distance"));
-                scaleNowNumber = scaleNow;
-                scaleNowNumber += moveMeTrainsMMssM;
-                eee(scaleNowNumber, aaa, scaleNow, that1);
-            }
+            $(iii).each(function(index, element) {
+                let scaleNow = parseInt($(element).attr("distance"));
+                let scaleNowNumber = scaleNow + moveMeTrainsMMssM;
+                $(element).toggleClass("scale" + scaleNow).toggleClass("scale" + scaleNowNumber);
+                $(element).attr("distance", scaleNowNumber);
+            });
 
             $("#waldf").css("bottom", Math.round(relationToBackground / -8) * thisAllScale - 140 + "px");
             $("#haeuserf").css("bottom", Math.round(relationToBackground / -8) * thisAllScale - 140 + "px");
@@ -3847,7 +3887,7 @@ const startDrag = (e) => {
     };
     let superSteeringWheelInterval = setInterval(function () {
         updatePosition(currentXStore, currentYStore);
-    }, 100);
+    }, 200);
     const endHandler = () => {
 
         clearInterval(superSteeringWheelInterval);
@@ -4027,12 +4067,6 @@ var truckLetCoords;
 var truckLetDoords;
 
 function connectWorld() {
-    var worldNews, worldNews2, isChangeW, isChangeD, isChangeH, isChangeS, world2Generate = "",
-        scriptAudioStationText, lettercoins, newLettercoins;
-    var oldDirectionMoveW = [];
-    var world2GeneratePortion = [];
-    var world2GeneratePortionCount = 0;
-    var world2GeneratePortionCountUp = 0;
 
     if (Device_Type() !== "Mobile" && Device_Type() !== "Tablet") {
         worldSrc = new EventSource('https://' + mainDomain + '/fleo.at-php/world.php?doing=0&spacenumber=' + (myNumber[0] + myNumber[2]).replace("#", ""));
@@ -4265,6 +4299,9 @@ function connectWorld() {
                 }
                 oldDirectionMoveW[worldNews2.id] == "x";
             }
+
+            window.changeManager.trigger(e);
+            
             /* $('[data-attr=' + worldNews2.id + ']').animate({
                 "left": turn + "px"
             }, 0); */
@@ -4391,10 +4428,10 @@ function connectWorld() {
                     }
                     if (isChangeD == 1) {
 
-                            $('[data-attr=' + worldNews2.id + ']').closest(".move").css("transition", "bottom 1.0s linear 0s, transform 1.0s linear 0s, margin-bottom 1.0s linear 0s");
-
+                        $('[data-attr=' + worldNews2.id + ']').closest(".move").css("transition", "bottom 1.0s linear 0s, transform 1.0s linear 0s, margin-bottom 1.0s linear 0s");
                         $('[data-attr=' + worldNews2.id + ']').closest(".move").toggleClass("scale" + fragileDoordsOld).toggleClass("scale" + fragileDoordsGo);
                         $('[data-attr=' + worldNews2.id + ']').attr("distance", fragileDoordsGo);
+
                     }
                     if (isChangeS == 1) {
                         $('[data-attr=' + worldNews2.id + ']').find(".tree").animate({
@@ -4419,6 +4456,9 @@ function connectWorld() {
                         }
                     }
                 }
+
+                window.moveManager.trigger(e);
+
             }
         });
     }

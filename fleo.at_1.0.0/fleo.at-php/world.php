@@ -39,7 +39,7 @@ $serverTime = time();
 
 $messageID = 1;
 
-echo "us.in.fleo.at world", PHP_EOL;
+echo $sitename . " world", PHP_EOL;
 echo PHP_EOL;
 
 $allFragiles = array();
@@ -177,7 +177,7 @@ while (1) {
                     if (intval($get_fragiles_data->tick2) - intval($get_fragiles_data->tick) == 2 && ${'tick' . $get_fragiles_data->whatIsThis} < $get_fragiles_data->tick) {                      
                     ${'tick' . $get_fragiles_data->whatIsThis} = $get_fragiles_data->tick;
 
-                    if ($get_fragiles_data->isRobot == 0 || $get_fragiles_data->isRobot == 8 || $get_fragiles_data->isRobot == 2 || $get_fragiles_data->isRobot == 7) {
+                    if ($get_fragiles_data->isRobot == 0 || $get_fragiles_data->isRobot == 2 || $get_fragiles_data->isRobot == 4 || $get_fragiles_data->isRobot == 7 || $get_fragiles_data->isRobot == 8) {
                     $messageChange = $get_fragiles_data;
                     echo 'id: ' . $messageID . '', PHP_EOL;
                     echo 'event: change', PHP_EOL;

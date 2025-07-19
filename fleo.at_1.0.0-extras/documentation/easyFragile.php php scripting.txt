@@ -1,0 +1,41 @@
+You would analyse easyFragile.php in fleo.at-php/fragiles.
+You would see, these variables are passed to the loop:
+
+$sandboxVars = [
+        'FragileW'      => $data["coordsW"],
+        'FragileD'      => $data["coordsD"],
+        'FragileH'      => $data["coordsH"],
+        'FragileWidth'  => $data["width"],
+        'moveFragileW'  => 0,
+        'moveFragileD'  => 0,
+        'moveFragileH'  => 0,
+        'mpMoveW'       => $data["minusPlusW"],
+        'mpChange'      => $data["mpChange"],
+        'play'          => $data["play"],
+        'id'            => $id,
+        'm'            => $m,
+        'n'            => $n
+    ];
+
+the loop, in which the restricted php code from the edit-php menu is injected.
+
+You can output these:
+
+    $update->execute([
+        ':moveFragileW' => (int) $sandboxVars['moveFragileW'],
+        ':moveFragileD' => (int) $sandboxVars['moveFragileD'],
+        ':moveFragileH' => (int) $sandboxVars['moveFragileH'],
+        ':FragileWidth' => (int) $sandboxVars['FragileWidth'],
+        ':mpMoveW'      => (int) $sandboxVars['mpMoveW'],
+        ':mpChange'     => (int) $sandboxVars['mpChange'],
+        ':play'         => (int) $sandboxVars['play'],
+        ':id'           => $id
+    ]);
+
+and you would do this with for instance this script:
+
+$moveFragileW = -300;
+if ($FragileW > 0) { $goBaby = 0; }
+echo '$moveFragileW = ' . $moveFragileW . ';';
+
+You would echo each variable-pair at the bottom of your robot-php-code, why I will create a php-snippet for this.

@@ -28,9 +28,9 @@ if (is_dir($directory)) {
     }
 }
 
-if ($whatSnippets == "html") { $codeMirrorNumber = 1; } else if ($whatSnippets == "javascript") { $codeMirrorNumber = 2;}
+if ($whatSnippets == "html") { $codeMirrorNumber = 1; } else if ($whatSnippets == "javascript") { $codeMirrorNumber = 2;} else if ($whatSnippets == "php") { $codeMirrorNumber = 3;}
 
 // Output the concatenated content
-$concatenatedContent .= '<script>$(".'.$whatSnippets.'SnippetName").click(function() { console.log($(this).siblings(".'.$whatSnippets.'Snippet").html()); myCodeMirror'.$codeMirrorNumber.'.replaceSelection($(this).siblings(".'.$whatSnippets.'Snippet").html()); });</script>';
+$concatenatedContent .= '<script>$(".'.$whatSnippets.'SnippetName").click(function() { console.log($(this).siblings(".'.$whatSnippets.'Snippet").html()); window.myCodeMirror'.$codeMirrorNumber.'.replaceSelection($(this).siblings(".'.$whatSnippets.'Snippet").html()); });</script>';
 echo $concatenatedContent;
 ?>

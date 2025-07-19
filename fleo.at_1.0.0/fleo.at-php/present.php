@@ -1,19 +1,46 @@
 <?php
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
-use PHPMailer\PHPMailer\SMTP;
-  
-require '../../fleo.at_1.0.0-config/Exception.php';
-require '../../fleo.at_1.0.0-config/PHPMailer.php';
-require '../../fleo.at_1.0.0-config/SMTP.php';
+
+require_once '/var/www/funny-bunnies.fleo.at/FelixLongolius-3D-Webseite/fleo.at_1.0.0-config/PHPMailer.php';
+require_once '/var/www/funny-bunnies.fleo.at/FelixLongolius-3D-Webseite/fleo.at_1.0.0-config/SMTP.php';
+require_once '/var/www/funny-bunnies.fleo.at/FelixLongolius-3D-Webseite/fleo.at_1.0.0-config/SMTP.php';
+require_once('/var/www/funny-bunnies.fleo.at/FelixLongolius-3D-Webseite/fleo.at_1.0.0-config/connection.php');
+
+function sendNotificationMail($subject, $body) {
+    $mail = new PHPMailer(true);
+$mail->SMTPDebug = 2;
+$mail->Debugoutput = 'error_log';
+    try {
+        $mail->isSMTP();
+        $mail->Host = 'smtp.gmail.com'; // change to your SMTP host
+        $mail->SMTPAuth = true;
+        $mail->Username = $mailusername; 
+        $mail->Password = $mailpassword;
+        $mail->SMTPSecure = 'tls';
+        $mail->Port = 587;
+
+        $mail->setFrom('email-store@interlectual.org', 'fleo.at');
+        $mail->addAddress('felix@longolius.net');
+
+        $mail->Subject = $subject;
+        $mail->Body    = $body;
+        $mail->isHTML(false);
+
+        $mail->send();
+        error_log('Mail sent successfully: ' . $subject);
+    } catch (Exception $e) {
+        error_log('Mailer Error: ' . $mail->ErrorInfo);
+    }
+}
+
 
 date_default_timezone_set('Europe/Berlin');
 
-require('../../fleo.at_1.0.0-config/connection.php');
 $fleoip = $_SERVER['REMOTE_ADDR'];
 $domain = $_SERVER['HTTP_REFERER'];
 
-require('../../fleo.at_1.0.0-extras/worldmap/autoload.php');
+require('../../fleo.at_1.0.0-extras/worldmap/vendor/autoload.php');
 use GeoIp2\Database\Reader;
 $reader = new Reader("../../fleo.at_1.0.0-extras/worldmap/GeoLite2-City.mmdb");
 
@@ -80,7 +107,7 @@ if (isset($_POST['doing'])) {
         $subject = $sitename . " " . $number . " // Login on " .$domain;			
         $msg = date('Y/m/d H:i:s', time());
       
-        $mail = new PHPMailer();
+        /* $mail = new PHPMailer();
         $mail->SMTPDebug = 0; 
         $mail->isSMTP(); 
         $mail->Host = $mailhost; 
@@ -92,8 +119,8 @@ if (isset($_POST['doing'])) {
         $mail->SetFrom($mailfromline);
         $mail->AddAddress($mailrecipient);
         $mail->Subject = $subject;
-        $mail->IsHTML(false);
-$mail->Body = '
+        $mail->IsHTML(false); */
+$mailBody = '
 NAME: ' .  $name . ' with NUMBER: ' . $number . '
 Coords: ' . $startW . ' || Doords: ' . $startD / 3 . '
 Domain: ' . $domain . ' || IP: ' . $fleoip . ' (' . gethostbyaddr($fleoip) . ') 
@@ -107,10 +134,7 @@ Felix Longolius
   
 For questions regarding this system or suggestions, please feel free to write to felix@nachbarschaftsdemokratiebildschirm.de .';
         
-        //Send the message, check for errors
-        if(!$mail->Send()) {
-        } else {
-        } 
+// mail('felix@longolius.net', $subject, $mailBody, 'From: f@fleo.at');
 //      }
 }
 if ($_POST['doing'] == 6) {
@@ -142,7 +166,7 @@ if ($_POST['doing'] == 6) {
   $subject = $sitename . " " . $name . " // Name change on " .$domain;		
   $msg = date('Y/m/d H:i:s', time());
 
-  $mail = new PHPMailer();
+  /* $mail = new PHPMailer();
   $mail->SMTPDebug = 0; 
   $mail->isSMTP(); 
   $mail->Host = $mailhost; 
@@ -154,9 +178,9 @@ if ($_POST['doing'] == 6) {
   $mail->SetFrom($mailfromline);
   $mail->AddAddress($mailrecipient);
   $mail->Subject = $subject;
-  $mail->IsHTML(false);
+  $mail->IsHTML(false); */
   
-$mail->Body = '
+$mailBody = '
 NAME: ' .  $name . ' with NUMBER: ' . $number . '
 Coords: ' . $startW . ' || Doords: ' . $startD / 3 . '
 Domain: ' . $domain . ' || IP: ' . $fleoip . ' (' . gethostbyaddr($fleoip) . ') 
@@ -170,10 +194,8 @@ Felix Longolius
 
 For questions regarding this system or suggestions, please feel free to write to felix@nachbarschaftsdemokratiebildschirm.de .';
   
-  //Send the message, check for errors
-         if(!$mail->Send()) {
-        } else {
-        } 
+// mail('felix@longolius.net', $subject, $mailBody, 'From: f@fleo.at');
+
 //        }
 }
 if ($_POST['doing'] == 7) {
@@ -213,20 +235,7 @@ if ($_POST['doing'] == 7) {
             $subject = $sitename . " " . $name . " // Revoir on " .$domain;		
             $msg = date('Y/m/d H:i:s', time());
           
-            $mail = new PHPMailer();
-            $mail->SMTPDebug = 0; 
-            $mail->isSMTP(); 
-            $mail->Host = $mailhost; 
-            $mail->SMTPAuth = true; 
-            $mail->Username = $mailusername; 
-            $mail->Password = $mailpassword;
-            $mail->SMTPSecure = 'ssl';
-            $mail->Port = 465; 
-            $mail->SetFrom($mailfromline);
-            $mail->AddAddress($mailrecipient);
-            $mail->Subject = $subject;
-            $mail->IsHTML(false);
-$mail->Body = '
+$mailBody  = '
 NAME: ' .  $name . ' with NUMBER: ' . $number . '
 Coords: ' . $startW . ' || Doords: ' . $startD / 3 . '
 Domain: ' . $domain . ' || IP: ' . $fleoip . ' (' . gethostbyaddr($fleoip) . ') 
@@ -239,11 +248,14 @@ TIME: ' . $msg . '
 Felix Longolius
   
 For questions regarding this system or suggestions, please feel free to write to felix@nachbarschaftsdemokratiebildschirm.de .';
-            
-            //Send the message, check for errors
-        if(!$mail->Send()) {
-        } else {
-        } 
+// sendNotificationMail($subject, $mailBody);
+
+$headers  = "From: Felix Longolius <f@fleo.at>\r\n";
+$headers .= "Reply-To: f@fleo.at\r\n";
+$headers .= "Return-Path: f@fleo.at\r\n"; // For bounce handling
+$headers .= "X-Mailer: PHP/" . phpversion() . "\r\n";
+
+mail("felix@longolius.net", $subject, $mailBody, $headers);
 //          }
 }
 /* if ($_POST['doing'] == 8) {

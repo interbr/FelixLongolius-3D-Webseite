@@ -1,4 +1,7 @@
 <?php
+header("Cache-Control: no-cache");
+header("Content-Type: text/event-stream");
+header("X-Accel-Buffering: no");
 if (isset($_GET["client"])) {
     $creator = $_GET["client"];
 
@@ -15,6 +18,41 @@ if (isset($_GET["monster"])) {
     $get_user->execute();
     $get_user_datas = $get_user->fetchAll(PDO::FETCH_OBJ);
 foreach ($get_monster_datas as $get_monster_data) {
+	if (isset($_GET["requestEditPhp"])) {
+			echo "Output php to edit and store in database", PHP_EOL;
+			echo PHP_EOL;
+
+			$robotData = $get_monster_data->robotData;
+			$robotData = html_entity_decode(htmlspecialchars_decode($robotData));
+			$length = strlen($robotData);
+			$step = 15;
+
+			for ($i = 0; $i < $length; $i += $step) {
+				$chunk = substr($robotData, $i, $step);
+				echo 'id: ' . $i . '', PHP_EOL;
+                echo 'event: editphpdripple', PHP_EOL;
+                echo 'data: ' . json_encode(array("chunk"=>"{$chunk}")), PHP_EOL;
+			    echo PHP_EOL;	
+				@ob_flush();
+				flush();
+				usleep(250000);
+			}
+				echo 'id: ' . $i + 1, PHP_EOL;
+                echo 'event: editphpdrippledone', PHP_EOL;
+                echo 'data: ' . json_encode(array("steps"=>"$i")), PHP_EOL;
+			    echo PHP_EOL;	
+				@ob_flush();
+				flush();
+
+
+
+
+			exit("data served");
+		}
+
+
+
+
     $monsterName = $get_monster_data->whatIsThis;
     $ame = $get_monster_data->name;
     $isID = $get_monster_data->thisID;
@@ -39,7 +77,7 @@ foreach ($get_user_datas as $get_user_data) {
 .CodeMirror {
     resize: vertical;
 }
-#getHtmlSnippets, #getJavascriptSnippets {
+#getHtmlSnippets, #getJavascriptSnippets, #getphp2codeEditor, #getPhpSnippets, #getPhpBuilder, #cancelReceivePhp {
 	width: calc(100% - 10px);
 	height: 20px;
 	border: 1px solid black;
@@ -47,10 +85,10 @@ foreach ($get_user_datas as $get_user_data) {
 	margin: 0 0 10px 0;
 	cursor: pointer;
 }
-#htmlBuildFormDiv, #javascriptBuildFormDiv {
+#htmlBuildFormDiv, #javascriptBuildFormDiv, #phpBuildFormDiv {
 	width: 100%;
 }
-#getHtmlSnippets:hover, #getJavascriptSnippets:hover {
+#getHtmlSnippets:hover, #getJavascriptSnippets:hover, #getphp2codeEditor:hover, #getPhpSnippets:hover, #getPhpBuilder:hover, #cancelReceivePhp:hover {
 	background-color: #ccc;
 }
 .snippetsOpen {
@@ -59,7 +97,7 @@ foreach ($get_user_datas as $get_user_data) {
 .snippetsClosed {
 	background-color: none;
 }
-#htmlSnippets, #javascriptSnippets {
+#htmlSnippets, #javascriptSnippets, #phpSnippets {
 	display: none;
 	width: calc(100% - 10px);
 	min-height: 100px;
@@ -67,7 +105,7 @@ foreach ($get_user_datas as $get_user_data) {
 	padding: 4px;
 	margin: 10px 0 10px 0;
 }
-.htmlSnippetName, .javascriptSnippetName {
+.htmlSnippetName, .javascriptSnippetName, .phpSnippetName {
 	cursor: pointer;
 	border: 1px solid black;
 	padding: 4px;
@@ -76,9 +114,83 @@ foreach ($get_user_datas as $get_user_data) {
 	margin: 0 8px 8px 0;
 	display: inline-block;
 }
-.htmlSnippetName:hover, .javascriptSnippetName:hover {
+.htmlSnippetName:hover, .javascriptSnippetName:hover, .phpSnippetName:hover {
 	background: #ccc;
+  }
+.response-block {
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  padding: 10px;
+  margin-bottom: 15px;
 }
+
+.code-box {
+  display: block;
+  background: #272822;
+  color: #f8f8f2;
+  padding: 10px;
+  font-family: monospace;
+  white-space: pre-wrap;
+  overflow-x: auto;
+}
+
+.paste-btn {
+  margin-top: 8px;
+  display: inline-block;
+  padding: 6px 12px;
+}
+#codeOutput {
+  padding: 20px;
+  background: #f5f5f5;
+  border-radius: 12px;
+  max-height: 600px;
+  overflow-y: auto;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.chat-bubble {
+  margin: 10px 0;
+  padding: 15px;
+  border-radius: 15px;
+  max-width: 80%;
+  word-wrap: break-word;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.user-bubble {
+  background: #d1e7dd;
+  align-self: flex-end;
+  text-align: right;
+}
+
+.assistant-bubble {
+  background: #fff;
+  border-left: 4px solid #0d6efd;
+}
+
+.code-box {
+  background: #f0f0f0;
+  color: black;
+  padding: 10px;
+  border-radius: 8px;
+  font-family: 'Courier New', monospace;
+  overflow-x: auto;
+}
+
+.paste-btn {
+  margin-top: 10px;
+  padding: 6px 12px;
+  background-color: #0d6efd;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.paste-btn:hover {
+  background-color: #0b5ed7;
+}
+
 </style>
 <script>
 		var url3 = "/fleo.at-js/edit/codemirror.js";
@@ -86,18 +198,19 @@ foreach ($get_user_datas as $get_user_data) {
 		var url4b = "/fleo.at-js/edit/javascript/javascript.js";
 		var url4c = "/fleo.at-js/edit/css/css.js";
 		var url4d = "/fleo.at-js/edit/htmlmixed/htmlmixed.js";
-		var url5 = "/fleo.at-js/edit/admin.js?20250304_21bCEWT";
-		$.getScript(url3, function(){$.getScript(url4a, function(){$.getScript(url4b, function(){$.getScript(url4c, function(){$.getScript(url4d, function(){$.getScript(url5);});});});});}); 
+		var url4e = "/fleo.at-js/edit/php/php.js";
+		var url4f = "/fleo.at-js/edit/clike/clike.js";
+		var url5 = "/fleo.at-js/edit/admin.js?20250712_04bCEST";
+		$.getScript(url3, function(){$.getScript(url4a, function(){$.getScript(url4b, function(){$.getScript(url4c, function(){$.getScript(url4d, function(){$.getScript(url4e, function(){$.getScript(url4f, function(){$.getScript(url5);});});});});});});}); 
 		spacebarText = 1;
 </script>
 <?php if ($isAdmin > 0) { echo '<span class="h2" id="deleteFragile" style="float:right;cursor:pointer;">Delete</span>'; } ?>
 <span class="h1">Edit an object</span>
 <br /><br />
 
-<form id="add-formBE" name="add-formBE" class="add-form">
+<form class="add-formBE" name="add-formBE" class="add-form">
 
 <p>You are changing:</p>
-
 <p><div class=""><label for="buildname" class="form">Name </label><input readonly type="text" class="form-control form" name="buildname" id="buildname" value="<?php echo $monsterName; ?>" style="width: 400px"></div></p>
 
 <p><div>
@@ -113,6 +226,21 @@ foreach ($get_user_datas as $get_user_data) {
 
 <p><div style="position:relative;width:100%;height:auto;"><div id="getJavascriptSnippets" class="snippetsClosed">get javascript snippets</div></div><div id="javascriptSnippets">javascript snippets</div><div id="javascriptBuildFormDiv" class=""><label for="buildjavascript" class="form">javascript</label><textarea type="textarea" class="form-control form buildcode" name="buildjavascript" id="buildjavascript">
 <?php echo html_entity_decode(htmlspecialchars_decode($script)); ?>
+</textarea></div></p>
+
+
+<div style="position:relative;width:100%;height:auto;"><div id="getphp2codeEditor" class="snippetsClosed">get php-functions server</div><div id="cancelReceivePhp" style="display:none">Cancel receive code</div></div>
+
+<p><div style="position:relative;width:100%;height:auto;"><div id="getPhpSnippets" class="snippetsClosed" style="display:none;">get php snippets</div><div id="getPhpBuilder" class="builderClosed" style="display:none;">get php builder</div></div><div style="display:none;" id="phpSnippets">php snippets</div>
+
+</form>
+
+<div style="display:none;" id="phpBuilder"><div id="chatContainer"><textarea type="textarea" id="chatInput">Type your prompt...</textarea><button id="sendBtn">Send</button></div><div id="codeOutput" style="width:calc(100% - 30px);max-height:300px;background:white;border:1px solid black;overflow-y:scroll;"></div></div>
+
+<form class="add-formBE">
+
+<div id="phpBuildFormDiv" style="display:none;"><label for="buildphp" class="form">php</label><textarea type="textarea" class="form-control form buildcode" name="buildphp" id="buildphp">
+php not requested
 </textarea></div></p>
 
 
@@ -153,16 +281,18 @@ echo '</select>', PHP_EOL;
 <div id="preview"></div>
 </div></div>
 
-
-
-	  
 <script type="text/javascript">
-$("#previewbtn").click(function(){
+$("#previewbtn").click(function(e){
+  e.preventDefault();
+window.myCodeMirror1.save();
+window.myCodeMirror2.save();
+window.myCodeMirror3.save();
+  let formData = $('.add-formBE').serialize();
 			$.ajax({
 				cache: false,
 				type:'POST',
 				url:'/fleo.at-php/fleo.at_buildPreview.php',
-				data: $('#add-formBE').serialize(),
+				data: formData,
 				success: function(preview) {
 				  toastr.success('Trying to make a preview ...');
 				  if ($("#buildpreview").length) { $("#buildpreview").html(preview); } else {
@@ -182,23 +312,25 @@ $("#deleteFragile").click(function(){
 	$(".savebtn").click();
 });
 	
-$(".savebtn").click(function(){
+$(".savebtn").click(function(e){
+  e.preventDefault();
 $("#buildpreview").remove();
-$('#add-formBE').submit(function(e) { 
 $("#thisBox").hide();
+window.myCodeMirror1.save();
+window.myCodeMirror2.save();
+window.myCodeMirror3.save();
+let formData = $('.add-formBE').serialize();
 spacebarText = 0;
-e.preventDefault();	
 			$.ajax({
 				cache: false,
 				type:'POST',
 				url:'/fleo.at-php/fleo.at_buildSave.php',
-				data: $(this).serialize(),
+				data: formData,
 				success: function(data) {
 				  toastr.success('Saved ...');
 				}
 			});
 return false;
-});
 });
 
 $("#cancelbtn").click(function(){	
@@ -208,6 +340,9 @@ $("#cancelbtn").click(function(){
 	spacebarText = 0;
 	buildHtmlOpen = 0;
 	buildJavascriptOpen = 0;
+	if (typeof phpSrc !== "undefined" && phpSrc instanceof EventSource) {
+	phpSrc.close();
+	}
 });
 
 $("#fullAgain").click(function(){	
@@ -215,6 +350,65 @@ $("#fullAgain").click(function(){
 	$("#thisBox").css("height", "80%");
 });
 
+function sendPrompt() {
+    const userPrompt = $("#chatInput").val().trim();
+    if (!userPrompt) return;
+
+    // Create user message bubble
+    const userBubble = $("<div>").addClass("chat-bubble user-bubble").text(userPrompt);
+    $("#codeOutput").append(userBubble);
+
+    $.ajax({
+      type: "POST",
+      url: "https://funny-bunnies.fleo.at/fleo.at-php/fragiles/fleo.at_builder.php",
+      data: { prompt: userPrompt },
+      success: function (response) {
+        console.log(response);
+        try {
+          const buildPhpData = JSON.parse(response);
+
+          // Create assistant message bubble
+          const assistantBubble = $("<div>").addClass("chat-bubble assistant-bubble");
+
+          // Code block
+          const codeBox = $("<pre><code>")
+            .text(buildPhpData.answer)
+            .addClass("code-box");
+
+          // Paste button
+          const pasteBtn = $("<button>")
+            .text("📋 Paste to CodeMirror")
+            .addClass("paste-btn")
+            .click(function () {
+              const doc = window.myCodeMirror3.getDoc();
+              const cursor = doc.getCursor();
+              doc.replaceRange(buildPhpData.answer, cursor);
+            });
+
+          assistantBubble.append(codeBox, pasteBtn);
+          $("#codeOutput").append(assistantBubble);
+        } catch (err) {
+          console.error("Failed to parse response:", err);
+        }
+      },
+      error: function (xhr, status, error) {
+        console.error("Prompt failed:", error);
+      }
+    });
+
+    $("#chatInput").val(""); // Clear input
+  }
+
+  // Button click
+  $("#sendBtn").click(sendPrompt);
+
+  // Enter key
+$("#chatInput").keypress(function (e) {
+  if (e.which === 13 && !e.shiftKey) {
+    e.preventDefault(); 
+    sendPrompt(); 
+  }
+});
 
 </script>
 
