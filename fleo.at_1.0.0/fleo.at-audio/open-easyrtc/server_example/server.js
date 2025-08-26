@@ -28,10 +28,8 @@ var socketServer = socketIo.listen(webServer, {"log level":1});
 
 socketServer.origins(function(origin, callback) {
     if (origin && ![
-    'https://audio.t-cup.space',
-    'https://kitchen.fleo.at',
-    'https://fleo.at',
-    'https://popular.gb.fleo.at',
+    'https://example.com',
+    'https://www.example.com',
         '*'
     ].includes(origin)) {
         return callback('origin not allowed', false);
@@ -41,8 +39,8 @@ socketServer.origins(function(origin, callback) {
 
 
 easyrtc.setOption("logLevel", "debug");
-// var myIceServers = [{"urls":"turn:nachbarschaftsdemokratiebildschirm.de:8443","username":"felix","credential":"getTogether"}];
-// easyrtc.setOption("appIceServers", myIceServers);
+var myIceServers = [{"urls":"turn:nachbarschaftsdemokratiebildschirm.de:8443","username":"felix","credential":"getTogether"}];
+easyrtc.setOption("appIceServers", myIceServers);
  
 easyrtc.setOption("roomDefaultEnable", true);
 easyrtc.setOption("appAutoCreateEnable", false);

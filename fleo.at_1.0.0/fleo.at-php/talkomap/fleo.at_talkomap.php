@@ -4,7 +4,14 @@ if ($_POST["doing"] == 1) {
   if (isset($_POST["room"])) {
   $room = "room-" . $_POST["room"];
   $content = $_POST["content"];
+  if (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+  // Split the header value by commas and take the first IP address
+  $ipAddresses = explode(',', $_SERVER['HTTP_X_FORWARDED_FOR']);
+  $fleoip = trim($ipAddresses[0]);
+} else {
+  // Fallback to the remote IP address if no X-Forwarded-For header is found
   $fleoip = $_SERVER['REMOTE_ADDR'];
+}
   $OPENAI_API_KEY = $openAiKey;
   $headers = [
     'Content-Type: application/json', 
@@ -34,7 +41,14 @@ else if ($_POST["doing"] == 2) {
   if (isset($_POST["room"])) {
   $room = "room-" . $_POST["room"];
   $content = $_POST["content"];
+  if (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+  // Split the header value by commas and take the first IP address
+  $ipAddresses = explode(',', $_SERVER['HTTP_X_FORWARDED_FOR']);
+  $fleoip = trim($ipAddresses[0]);
+} else {
+  // Fallback to the remote IP address if no X-Forwarded-For header is found
   $fleoip = $_SERVER['REMOTE_ADDR'];
+}
   $OPENAI_API_KEY = $openAiKey;
   $headers = [
     'Content-Type: application/json', 
@@ -62,7 +76,14 @@ if ($response) {
   if (isset($_POST["room"])) {
   $room = "room-" . $_POST["room"];
   $content = $_POST["content"];
+  if (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+  // Split the header value by commas and take the first IP address
+  $ipAddresses = explode(',', $_SERVER['HTTP_X_FORWARDED_FOR']);
+  $fleoip = trim($ipAddresses[0]);
+} else {
+  // Fallback to the remote IP address if no X-Forwarded-For header is found
   $fleoip = $_SERVER['REMOTE_ADDR'];
+}
   $OPENAI_API_KEY = $openAiKey;
   $headers = [
     'Content-Type: application/json', 
@@ -91,7 +112,14 @@ if ($response) {
   if (isset($_POST["room"])) {
   $room = "room-" . $_POST["room"];
   $content = $_POST["content"];
+  if (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+  // Split the header value by commas and take the first IP address
+  $ipAddresses = explode(',', $_SERVER['HTTP_X_FORWARDED_FOR']);
+  $fleoip = trim($ipAddresses[0]);
+} else {
+  // Fallback to the remote IP address if no X-Forwarded-For header is found
   $fleoip = $_SERVER['REMOTE_ADDR'];
+}
   $OPENAI_API_KEY = $openAiKey;
   $headers = [
     'Content-Type: application/json', 

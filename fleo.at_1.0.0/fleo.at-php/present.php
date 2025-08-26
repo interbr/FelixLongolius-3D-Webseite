@@ -10,7 +10,14 @@ require '../../fleo.at_1.0.0-config/SMTP.php';
 date_default_timezone_set('Europe/Berlin');
 
 require('../../fleo.at_1.0.0-config/connection.php');
-$fleoip = $_SERVER['REMOTE_ADDR'];
+if (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+  // Split the header value by commas and take the first IP address
+  $ipAddresses = explode(',', $_SERVER['HTTP_X_FORWARDED_FOR']);
+  $fleoip = trim($ipAddresses[0]);
+} else {
+  // Fallback to the remote IP address if no X-Forwarded-For header is found
+  $fleoip = $_SERVER['REMOTE_ADDR'];
+}
 $domain = $_SERVER['HTTP_REFERER'];
 
 require('../../fleo.at_1.0.0-extras/worldmap/autoload.php');
@@ -246,7 +253,7 @@ For questions regarding this system or suggestions, please feel free to write to
         } 
 //          }
 }
-if ($_POST['doing'] == 8) {
+/* if ($_POST['doing'] == 8) {
 
   try {
     $get_user_color = $fleo_pdo->prepare("SELECT color FROM `present` WHERE `number` = '$number' AND `name` = '$name' ORDER BY id DESC LIMIT 1;");
@@ -269,7 +276,7 @@ if ($_POST['doing'] == 8) {
   } catch (PDOException $e) {
     echo "<br>" . $e->getMessage();
   }
-}
+} */
 
 if ($_POST['doing'] == 9) {
   $startColor = htmlspecialchars($_POST['color'], ENT_QUOTES);

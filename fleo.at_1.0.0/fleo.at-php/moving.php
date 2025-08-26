@@ -1,6 +1,13 @@
 <?php
 require('../../fleo.at_1.0.0-config/connection.php');
-$fleoip = $_SERVER['REMOTE_ADDR'];
+if (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+  // Split the header value by commas and take the first IP address
+  $ipAddresses = explode(',', $_SERVER['HTTP_X_FORWARDED_FOR']);
+  $fleoip = trim($ipAddresses[0]);
+} else {
+  // Fallback to the remote IP address if no X-Forwarded-For header is found
+  $fleoip = $_SERVER['REMOTE_ADDR'];
+}
 if (isset($_POST['doing'])) {
   if ($_POST['doing'] == 5) {
     $result = 1;

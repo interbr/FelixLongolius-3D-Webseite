@@ -16,7 +16,14 @@ require_once('../../fleo.at_1.0.0-config/connection.php');
 if ($_POST["doing"] == 1) {
   if (isset($_POST["room"])) {
   $room = "room-" . $_POST["room"];
+  if (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+  // Split the header value by commas and take the first IP address
+  $ipAddresses = explode(',', $_SERVER['HTTP_X_FORWARDED_FOR']);
+  $fleoip = trim($ipAddresses[0]);
+} else {
+  // Fallback to the remote IP address if no X-Forwarded-For header is found
   $fleoip = $_SERVER['REMOTE_ADDR'];
+}
     if ($_POST["save"] == 1) {
         $change = $_POST["offset"];
         $changeW = $_POST["leftRight"];
@@ -148,7 +155,7 @@ For questions or suggestions, please feel free to write to felix@t-cup.space .';
 
         ////////////////////////////
         ////////////////////////////
-        $valid_extensions = array('jpeg', 'jpg', 'png', 'tiff'); // valid extensions
+        $valid_extensions = array('jpeg', 'jpg', 'JPG', 'JPEG', 'png', 'PNG', 'tiff', 'TIFF'); // valid extensions
         $video_extensions = array('mp4', 'h264', 'avi', 'mkv', 'mpeg', 'mpg', 'mov', 'm4v', 'flv', '3gp', 'wmv', 'vob');
         $audio_extensions = array('mp3', 'aac', 'ac3', 'wav', 'wma', 'ogg', 'flac');
         $threeDModel = array('glb');
@@ -175,7 +182,7 @@ For questions or suggestions, please feel free to write to felix@t-cup.space .';
 
         $newFileNameBuild = md5($imageSaveTime . $fileName);
         $newFileName = $newFileNameBuild . '.' . $fileExtension;
-        $allowedfileExtensions = array('jpeg', 'jpg', 'png', 'gif', 'mp4', 'h264', 'avi', 'mkv', 'mpeg', 'mpg', 'mov', 'm4v', 'flv', '3gp', 'wmv', 'vob', 'mp3', 'aac', 'ac3', 'wav', 'wma', 'ogg', 'flac', 'pdf','glb');
+        $allowedfileExtensions = array('jpeg', 'jpg', 'JPG', 'JPEG', 'png', 'PNG', 'gif', 'GIF', 'mp4', 'mp4', 'h264', 'avi', 'avi', 'mkv', 'mpeg', 'MPEG', 'mpg', 'MPG', 'mov', 'MOV', 'm4v', 'flv', '3gp', 'wmv', 'WMV', 'vob', 'mp3', 'MP3', 'aac', 'ac3', 'wav', 'wma', 'ogg', 'flac', 'pdf', 'PDF', 'glb');
         if (in_array($fileExtension, $allowedfileExtensions)) {
           $dest_path = $savePath . $newFileName;
           if(move_uploaded_file($_FILES['userImage']['tmp_name'], $dest_path))

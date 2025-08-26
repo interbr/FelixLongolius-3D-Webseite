@@ -135,11 +135,11 @@ html {
 #bgbgsterne {
     z-index: 30;
     bottom: 0;
-    position: fixed;
-    /* background-image: url("/fleo.at-medien/layout/sternenhimmel.jpg");
+    position: absolute;
+    background-image: url("/fleo.at-medien/layout/holodeckbackground.png");
     background-repeat: repeat;
     background-position: center bottom;
-    background-attachment: local; */
+    background-attachment: local; 
 }
 
 #bgbgbsterne {
@@ -446,7 +446,7 @@ audio:focus {
 }
 
 #clicksChatCont p>span {
-    background: #eeff003f;
+    background: hsla(64, 100%, 50%, 0.247);
     padding: 3px 5px;
     font-weight: 200;
     display: block;
@@ -454,7 +454,7 @@ audio:focus {
     color: #fff;
 }
 #clicksChatCont p>span>a {
-    background: #eeff003f;
+    background: hsla(64, 100%, 50%, 0.247);
     padding: 3px 5px;
     font-weight: 200;
     display: block;
@@ -551,12 +551,11 @@ video {
 }
 
 #bgbgsterne {
-    position:fixed;
+    position:absolute;
     left:0;
-    top:0;
-    min-width:100%;
-    min-height:100%;
-    width: auto;
+    bottom:0;
+    width: 100%;
+    height: 100%;
     z-index:-1;
 }
 

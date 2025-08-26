@@ -5,7 +5,14 @@ if ($_POST["doing"] == 1) {
   $room = "room-" . $_POST["room"];
   $content=addslashes($_POST["content"]);
   $content=htmlspecialchars($content);
+  if (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+  // Split the header value by commas and take the first IP address
+  $ipAddresses = explode(',', $_SERVER['HTTP_X_FORWARDED_FOR']);
+  $fleoip = trim($ipAddresses[0]);
+} else {
+  // Fallback to the remote IP address if no X-Forwarded-For header is found
   $fleoip = $_SERVER['REMOTE_ADDR'];
+}
   $fleo_pdo->exec("UPDATE `$room` SET `audioStationText`='$content', `robotData`='', `tick` = tick+1, `tick2`=tick+1, `ip`=concat(`ip`, ', $fleoip') WHERE `whatIsThis`='1672879342grafikpn140054396767.png.webp'");
       }
     }
@@ -14,7 +21,14 @@ if ($_POST["doing"] == 1) {
       $room = "room-" . $_POST["room"];
       $content=addslashes($_POST["content"]);
       $content=htmlspecialchars($content);
-      $fleoip = $_SERVER['REMOTE_ADDR'];
+      if (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+  // Split the header value by commas and take the first IP address
+  $ipAddresses = explode(',', $_SERVER['HTTP_X_FORWARDED_FOR']);
+  $fleoip = trim($ipAddresses[0]);
+} else {
+  // Fallback to the remote IP address if no X-Forwarded-For header is found
+  $fleoip = $_SERVER['REMOTE_ADDR'];
+}
       $fleo_pdo->exec("UPDATE `$room` SET `audioStationText`='$content', `robotData`=2, `tick` = tick+1, `tick2`=tick+1, `ip`=concat(`ip`, ', $fleoip') WHERE `whatIsThis`='1672879342grafikpn140054396767.png.webp'");
           }
         }

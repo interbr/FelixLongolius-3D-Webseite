@@ -8,6 +8,7 @@ if (isset($_POST['doing'])) {
     if ($_POST['doing'] == 2) {
         $newRoom = htmlspecialchars($_POST['room'], ENT_QUOTES);
         $roomCreate = "room-" . $newRoom;
+        $itemConnectionsCreate = $roomCreate . "-itemConnections";
         if($fleo_pdo->query("SHOW TABLES LIKE '$roomCreate'")->rowCount() == 0) {
             $checkAdmin = $fleo_pdo->prepare("SELECT `isAdmin` FROM `present` WHERE `number`='$number'");
             $checkAdmin->execute();
@@ -48,6 +49,17 @@ if (isset($_POST['doing'])) {
  `isOnline` int(1) DEFAULT NULL,
  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1645 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci")->execute();
+$fleo_pdo->prepare("CREATE TABLE `$itemConnectionsCreate` (
+`countRow` int(10) NOT NULL AUTO_INCREMENT,
+`id` int(6) DEFAULT NULL,
+`active` int(1) DEFAULT NULL,
+`connectionTo` int(6) DEFAULT NULL,
+`leftXStart` int(5) DEFAULT NULL,
+`topYStart` int(5) DEFAULT NULL,
+`leftXEnd` int(5) DEFAULT NULL,
+`topYEnd` int(5) DEFAULT NULL,
+PRIMARY KEY (`countRow`)
+) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci")->execute();
         }
         sleep(3);
         $fleo_pdo->prepare("UPDATE present SET tabula=2, room='$newRoom' WHERE `number`='$number'")->execute();

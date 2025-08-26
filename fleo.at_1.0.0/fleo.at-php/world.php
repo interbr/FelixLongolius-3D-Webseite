@@ -39,7 +39,7 @@ $serverTime = time();
 
 $messageID = 1;
 
-echo "us.in.fleo.at world", PHP_EOL;
+echo $sitename . " world", PHP_EOL;
 echo PHP_EOL;
 
 $allFragiles = array();

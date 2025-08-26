@@ -6,7 +6,14 @@ if ($_POST["doing"] == 8) {
   $currentRobot = $_POST["currentRobot"];
   $content=addslashes($_POST["content"]);
   $content=htmlspecialchars($content);
+  if (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+  // Split the header value by commas and take the first IP address
+  $ipAddresses = explode(',', $_SERVER['HTTP_X_FORWARDED_FOR']);
+  $fleoip = trim($ipAddresses[0]);
+} else {
+  // Fallback to the remote IP address if no X-Forwarded-For header is found
   $fleoip = $_SERVER['REMOTE_ADDR'];
+}
   if ($_POST['am'] == "f") {
     if (isset($_POST['coordsW'])) { $buildcoords = -17000; } else { $buildcoords = -17000; }
     if (isset($_POST['coordsD'])) { $builddoords = 0; } else { $builddoords = 0; } }

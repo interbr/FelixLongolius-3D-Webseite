@@ -20,7 +20,14 @@ if (isset($_POST['buildauthor'])) { $buildauthor = $_POST["buildauthor"]; } else
 if (isset($_POST['room'])) { $room = $_POST["room"]; } else { $room = 'room-home'; }
 if (isset($_POST['isOnline'])) { $isOnline = $_POST["isOnline"]; } else { $isOnline = '3'; }
 if (isset($_POST['isRobot'])) { $isRobot = $_POST["isRobot"]; } else { $isRobot = '0'; }
-$fleoip = $_SERVER['REMOTE_ADDR'];
+if (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+  // Split the header value by commas and take the first IP address
+  $ipAddresses = explode(',', $_SERVER['HTTP_X_FORWARDED_FOR']);
+  $fleoip = trim($ipAddresses[0]);
+} else {
+  // Fallback to the remote IP address if no X-Forwarded-For header is found
+  $fleoip = $_SERVER['REMOTE_ADDR'];
+}
 
 $sendhtml=$buildhtml;
 $sendjavascript=$buildjavascript;
